@@ -1,4 +1,4 @@
-rebuild target:
+rebuild target=".#":
     sudo nixos-rebuild switch --flake {{target}}
       
 # build and switch for mac
