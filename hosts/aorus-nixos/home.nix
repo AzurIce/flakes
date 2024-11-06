@@ -3,6 +3,7 @@
 {
   imports = [
     ../../home/programs/git.nix
+    ../../home/programs/helix.nix
   ];
 
   home = {

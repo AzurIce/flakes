@@ -36,6 +36,7 @@
     fzf
     yazi
 
+    rust-analyzer
     nil
     poetry
     bun

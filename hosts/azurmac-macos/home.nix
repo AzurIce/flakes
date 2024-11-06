@@ -4,6 +4,7 @@ inputs@{ user, config, pkgs, ... }:
   imports = [
     ../../home/programs/git.nix
     ../../home/programs/alacritty.nix
+    ../../home/programs/helix.nix
 
     ../../modules/fonts.nix
     ../../modules/programs/nvim.nix

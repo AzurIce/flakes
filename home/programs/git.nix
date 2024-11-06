@@ -23,6 +23,8 @@ inputs@{ pkgs, system, mac, ... }:
       ".DS_Store"
     ];
 
+    lfs.enable = true;
+
     delta.enable = true;
   };
 }
