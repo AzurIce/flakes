@@ -91,30 +91,28 @@ inputs@{ config, lib, pkgs, ... }:
       isNormalUser = true;
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
-        neovim
-        helix
         # firefox
         inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
 
-        git
         alacritty
 
         rust-analyzer
         nil
         nixpkgs-fmt
-
-        btop
-        just
       ];
     };
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
+  environment.systemPackages = with pkgs; [
+    git
+    neovim
+    helix
+
+    btop
+    just
+  ];
 
   # Impermanence with sops-nix to may cause bad things to happen
   # see: https://github.com/nix-community/impermanence/issues/202
