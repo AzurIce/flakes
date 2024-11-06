@@ -23,10 +23,12 @@
     host-inputs = inputs // { user = "azurice"; };
   in {
 
-    nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos host-inputs // {
-      system = "x86_64-linux";
-      mac = false;
-    };
+    nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos (
+      host-inputs // {
+        system = "x86_64-linux";
+        mac = false;
+      }
+    );
 
     darwinConfigurations.azurmac-macos = import ./hosts/azurmac-macos (
       host-inputs // {
