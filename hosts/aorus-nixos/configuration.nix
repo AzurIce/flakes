@@ -8,7 +8,6 @@ inputs@{ config, lib, pkgs, ... }:
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/core.nix
     ];
 
   # Use the systemd-boot EFI boot loader.

@@ -5,6 +5,8 @@ nixpkgs.lib.nixosSystem {
   specialArgs = inputs;
   modules = [
     ./configuration.nix
+    ../../modules/core.nix
+    ../../modules/wm/hyprland.nix
     # impermanence.nixosModules.impermanence
     sops-nix.nixosModules.sops
     home-manager.nixosModules.home-manager {
