@@ -17,6 +17,10 @@
     };
     
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    firefox = {
+      url = "github:nix-community/flake-firefox-nightly";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, ... }: let
