@@ -10,13 +10,30 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs = inputs@{ self, nixpkgs, ... }: let
     host-inputs = inputs // { user = "azurice"; };
   in {
 
-    nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos host-inputs;
+    nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos host-inputs // {
+      system = "x86_64-linux";
+      mac = false;
+    };
+
+    darwinConfigurations.azurmac-macos = import ./hosts/azurmac-macos (
+      host-inputs // {
+        system = "aarch64-darwin";
+        mac = true;
+      }
+    );
 
   };
 }

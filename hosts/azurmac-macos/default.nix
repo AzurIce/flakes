@@ -1,13 +1,15 @@
-inputs@{ user, nixpkgs, sops-nix, home-manager, ... }:
+inputs@{ user, nixpkgs, home-manager, nix-darwin, ... }:
 
-nixpkgs.lib.nixosSystem {
+nix-darwin.lib.darwinSystem {
   system = inputs.system;
   specialArgs = inputs;
   modules = [
-    ./configuration.nix
-    # impermanence.nixosModules.impermanence
-    sops-nix.nixosModules.sops
-    home-manager.nixosModules.home-manager {
+    ./nix-core.nix
+    ./system.nix
+    ./apps.nix
+    ./host-users.nix
+    # sops-nix.nixosModules.sops
+    home-manager.darwinModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.extraSpecialArgs = inputs;
