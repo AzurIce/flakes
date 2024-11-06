@@ -98,6 +98,10 @@
         git
         alacritty
 
+        rust-analyzer
+        nil
+        nixpkgs-fmt
+
         btop
         just
       ];

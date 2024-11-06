@@ -23,8 +23,6 @@
     # vim
     helix
     alacritty
-    nixpkgs-fmt
-    # rnix-lsp
     android-tools
     # jdk8
     # oraclejdk8
@@ -38,6 +36,7 @@
 
     rust-analyzer
     nil
+    nixpkgs-fmt
     poetry
     bun
     nodejs_22
