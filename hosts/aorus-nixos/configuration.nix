@@ -92,12 +92,6 @@ inputs@{ config, lib, pkgs, ... }:
       packages = with pkgs; [
         # firefox
         inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-
-        alacritty
-
-        rust-analyzer
-        nil
-        nixpkgs-fmt
       ];
     };
   };
