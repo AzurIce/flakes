@@ -42,6 +42,7 @@ inputs@{ user, config, pkgs, ... }:
     yabai -m rule --add app="^微信$" manage=off
     yabai -m rule --add app="^网易云音乐$" manage=off
     yabai -m rule --add app="^系统设置$" manage=off
+    yabai -m rule --add app="^evt-app$" manage=off
   '';
 
   programs.zsh = {
