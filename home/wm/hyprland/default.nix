@@ -1,6 +1,18 @@
 inputs@{ pkgs, mac, ... }:
 
 {
+  imports = [
+    inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
+  ];
+
+  programs.hyprcursor-phinger.enable = true;
+  home.pointerCursor = {
+    name = "phinger-cursors-dark";
+    package = pkgs.phinger-cursors;
+    size = 24;
+    gtk.enable = true;
+  };
+
   home.packages = with pkgs; [
     eww
     jq
@@ -29,6 +41,10 @@ inputs@{ pkgs, mac, ... }:
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
 
     settings = {
+      env = [
+        "HYPRCURSOR_THEME,phinger-cursors-dark-hyprcursor"
+        "HYPRCURSOR_size,24"
+      ];
       input = {
         touchpad.natural_scroll = true;
         sensitivity = 0.5;
@@ -97,7 +113,7 @@ inputs@{ pkgs, mac, ... }:
         focus_on_activate = true;
       };
       cursor = {
-        enable_hyprcursor = false;
+        enable_hyprcursor = true;
       };
       bind =
         (
