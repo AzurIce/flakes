@@ -17,16 +17,24 @@
     };
     
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    firefox = {
+      url = "github:nix-community/flake-firefox-nightly";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
   };
 
   outputs = inputs@{ self, nixpkgs, ... }: let
     host-inputs = inputs // { user = "azurice"; };
   in {
 
-    nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos host-inputs // {
-      system = "x86_64-linux";
-      mac = false;
-    };
+    nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos (
+      host-inputs // {
+        system = "x86_64-linux";
+        mac = false;
+      }
+    );
 
     darwinConfigurations.azurmac-macos = import ./hosts/azurmac-macos (
       host-inputs // {

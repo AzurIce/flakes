@@ -2,13 +2,12 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+inputs@{ config, lib, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/core.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -91,29 +90,22 @@
       isNormalUser = true;
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
-        neovim
-        helix
-        firefox
-
-        git
-        alacritty
-
-        rust-analyzer
-        nil
-        nixpkgs-fmt
-
-        btop
-        just
+        # firefox
+        inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
       ];
     };
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
+  environment.systemPackages = with pkgs; [
+    git
+    neovim
+    helix
+
+    btop
+    just
+  ];
 
   # Impermanence with sops-nix to may cause bad things to happen
   # see: https://github.com/nix-community/impermanence/issues/202

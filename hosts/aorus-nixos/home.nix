@@ -2,8 +2,13 @@
 
 {
   imports = [
+    ../../home/wm/hyprland
+    ../../home/programs/eww
+    ../../home/programs/kitty.nix
+
     ../../home/programs/git.nix
     ../../home/programs/helix.nix
+    ../../home/programs/waybar
   ];
 
   home = {
