@@ -27,6 +27,7 @@
     # jdk8
     # oraclejdk8
     btop
+    # vivaldi
 
     just
     nushell
@@ -53,6 +54,8 @@
     lua51Packages.luarocks
     lua51Packages.lua
     jdk21
+    aerospace
+    ice-bar
 
     localsend
     sing-box
@@ -79,62 +82,62 @@
     nushell
   ];
 
-  services.yabai = {
-    enable = true;
-    enableScriptingAddition = true;
-    # config = {
-    #   layout = "bsp";
-    #   window_gap = 20;
-    # };
-    # extraConfig = ''
-    #   yabai -m rule --add app='System Preferences' manage=off
-    # '';
-  };
+  # services.yabai = {
+  #   enable = true;
+  #   enableScriptingAddition = true;
+  #   # config = {
+  #   #   layout = "bsp";
+  #   #   window_gap = 20;
+  #   # };
+  #   # extraConfig = ''
+  #   #   yabai -m rule --add app='System Preferences' manage=off
+  #   # '';
+  # };
 
-  services.skhd = {
-    enable = true;
-    skhdConfig = ''
-      alt - return : alacritty
-      alt - q : yabai -m window --close
+  # services.skhd = {
+  #   enable = true;
+  #   skhdConfig = ''
+  #     alt - return : alacritty
+  #     alt - q : yabai -m window --close
 
-      alt - 1 : yabai -m space --focus 1
-      alt - 2 : yabai -m space --focus 2
-      alt - 3 : yabai -m space --focus 3
-      alt - 4 : yabai -m space --focus 4
-      alt - 5 : yabai -m space --focus 5
+  #     alt - 1 : yabai -m space --focus 1
+  #     alt - 2 : yabai -m space --focus 2
+  #     alt - 3 : yabai -m space --focus 3
+  #     alt - 4 : yabai -m space --focus 4
+  #     alt - 5 : yabai -m space --focus 5
 
-      shift + alt - 1 : yabai -m window --space 1; yabai -m space --focus 1
-      shift + alt - 2 : yabai -m window --space 2; yabai -m space --focus 2
-      shift + alt - 3 : yabai -m window --space 3; yabai -m space --focus 3
-      shift + alt - 4 : yabai -m window --space 4; yabai -m space --focus 4
+  #     shift + alt - 1 : yabai -m window --space 1; yabai -m space --focus 1
+  #     shift + alt - 2 : yabai -m window --space 2; yabai -m space --focus 2
+  #     shift + alt - 3 : yabai -m window --space 3; yabai -m space --focus 3
+  #     shift + alt - 4 : yabai -m window --space 4; yabai -m space --focus 4
 
-      alt - h : yabai -m window --focus west
-      alt - j : yabai -m window --focus south
-      alt - k : yabai -m window --focus north
-      alt - l : yabai -m window --focus east
+  #     alt - h : yabai -m window --focus west
+  #     alt - j : yabai -m window --focus south
+  #     alt - k : yabai -m window --focus north
+  #     alt - l : yabai -m window --focus east
 
-      alt + shift - h : yabai -m window west --resize right:-20:0 2> /dev/null || /opt/homebrew/bin/yabai -m window --resize right:-20:0
-      alt + shift - l : yabai -m window east --resize left:20:0 2> /dev/null || /opt/homebrew/bin/yabai -m window --resize left:20:0
+  #     alt + shift - h : yabai -m window west --resize right:-20:0 2> /dev/null || /opt/homebrew/bin/yabai -m window --resize right:-20:0
+  #     alt + shift - l : yabai -m window east --resize left:20:0 2> /dev/null || /opt/homebrew/bin/yabai -m window --resize left:20:0
 
-      alt + shift - space : yabai -m window --toggle float
-      alt + shift - t : yabai -m window --toggle topmost
+  #     alt + shift - space : yabai -m window --toggle float
+  #     alt + shift - t : yabai -m window --toggle topmost
 
-      alt - b : yabai -m space --layout bsp
-      alt - m : yabai -m space --layout stack
+  #     alt - b : yabai -m space --layout bsp
+  #     alt - m : yabai -m space --layout stack
 
-      # Rotate windows clockwise and anticlockwise
-      alt - r         : yabai -m space --rotate 270
-      shift + alt - r : yabai -m space --rotate 90
+  #     # Rotate windows clockwise and anticlockwise
+  #     alt - r         : yabai -m space --rotate 270
+  #     shift + alt - r : yabai -m space --rotate 90
 
-      # Rotate on X and Y Axis
-      shift + alt - x : yabai -m space --mirror x-axis
-      shift + alt - y : yabai -m space --mirror y-axis
+  #     # Rotate on X and Y Axis
+  #     shift + alt - x : yabai -m space --mirror x-axis
+  #     shift + alt - y : yabai -m space --mirror y-axis
 
-      # Make window native fullscreen
-      alt - f         : yabai -m window --toggle zoom-fullscreen
-      # shift + alt - f : yabai -m window --toggle native-fullscreen
-    '';
-  };
+  #     # Make window native fullscreen
+  #     alt - f         : yabai -m window --toggle zoom-fullscreen
+  #     # shift + alt - f : yabai -m window --toggle native-fullscreen
+  #   '';
+  # };
 
   # TODO To make this work, homebrew need to be installed manually, see https://brew.sh
   #
