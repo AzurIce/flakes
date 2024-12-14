@@ -51,11 +51,10 @@ inputs@{ config, lib, pkgs, ... }:
   fonts = {
     packages = with pkgs; [
       jetbrains-mono
-      nerdfonts
       noto-fonts-emoji
       lxgw-wenkai
       wqy_microhei
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      nerd-fonts.jetbrains-mono
     ];
     fontconfig.hinting.autohint = true;
   };
@@ -81,12 +80,14 @@ inputs@{ config, lib, pkgs, ... }:
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
   users.users = {
-    root.hashedPasswordFile = config.sops.secrets.hashedPassword.path;
+    # root.hashedPasswordFile = config.sops.secrets.hashedPassword.path;
     # root.hashedPassword = "$y$j9T$gvNzucUE/k0tdgRMxiXyL.$hW/nKUAKUVcsmVSf8jbTejBGgerVIDKqtAh06iZKow3";
+    root.initialHashedPassword = "$6$HM4TikzxLKI4PR/P$S0YPKXXMIAHHYt52Grew/Gmb0laFw7Rvq1NiyToDweDcy78KtDLWQ5X80LlIdYA./rvKvfxgBBLHH8yocP6UG/";
 
     azurice = {
-      hashedPasswordFile = config.sops.secrets.hashedPassword.path;
+      # hashedPasswordFile = config.sops.secrets.hashedPassword.path;
       # hashedPassword = "$y$j9T$gvNzucUE/k0tdgRMxiXyL.$hW/nKUAKUVcsmVSf8jbTejBGgerVIDKqtAh06iZKow3";
+      initialHashedPassword = "$6$HM4TikzxLKI4PR/P$S0YPKXXMIAHHYt52Grew/Gmb0laFw7Rvq1NiyToDweDcy78KtDLWQ5X80LlIdYA./rvKvfxgBBLHH8yocP6UG/";
       isNormalUser = true;
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
@@ -185,7 +186,7 @@ inputs@{ config, lib, pkgs, ... }:
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
 }
 

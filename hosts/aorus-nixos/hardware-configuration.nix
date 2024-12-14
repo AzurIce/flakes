@@ -13,108 +13,151 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
-      fsType = "btrfs";
-      options = [ "subvol=@root" ];
-    };
-
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    mkdir /btrfs_tmp
-    mount /dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada /btrfs_tmp
-    if [[ -e /btrfs_tmp/@root ]]; then
-        mkdir -p /btrfs_tmp/old_roots
-        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-    fi
-
-    delete_subvolume_recursively() {
-        IFS=$'\n'
-        for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-            delete_subvolume_recursively "/btrfs_tmp/$i"
-        done
-        btrfs subvolume delete "$1"
-    }
-
-    for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-        delete_subvolume_recursively "$i"
-    done
-
-    btrfs subvolume create /btrfs_tmp/@root
-    umount /btrfs_tmp
-  '';
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
-      fsType = "btrfs";
-      options = [ "subvol=@home" ];
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
-      fsType = "btrfs";
-      options = [ "subvol=@nix" ];
-    };
-
-  fileSystems."/persistent" =
-    { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
-      neededForBoot = true;
-      fsType = "btrfs";
-      options = [ "subvol=@persistent" ];
-    };
-
-  fileSystems."/var/log" = 
-    { device = "/persistent/var/log";
-      neededForBoot = true;
-      fsType = "none";
-      options = [ "bind" ];
-    };
-  fileSystems."/var/lib/sops-nix" = 
-    { device = "/persistent/lib/sops-nix";
-      neededForBoot = true;
-      fsType = "none";
-      options = [ "bind" ];
-    };
-  fileSystems."/var/lib/nixos" = 
-    { device = "/persistent/var/lib/nixos";
-      neededForBoot = true;
-      fsType = "none";
-      options = [ "bind" ];
-    };
-  fileSystems."/var/lib/bluetooth" = 
-    { device = "/persistent/var/lib/bluetooth";
-      neededForBoot = true;
-      fsType = "none";
-      options = [ "bind" ];
-    };
-  fileSystems."/var/lib/systemd/coredump" = 
-    { device = "/persistent/var/lib/systemd/coredump";
-      neededForBoot = true;
-      fsType = "none";
-      options = [ "bind" ];
-    };
-  fileSystems."/etc/NetworkManager/system-connections" = 
-    { device = "/persistent/NetworkManager/system-connections";
-      neededForBoot = true;
-      fsType = "none";
-      options = [ "bind" ];
-    };
-  fileSystems."/etc/ssh" = 
-    { device = "/persistent/etc/ssh";
-      neededForBoot = true;
-      fsType = "none";
-      options = [ "bind" ];
+    { device = "none";
+      fsType = "tmpfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/03DD-603A";
+    { device = "/dev/disk/by-uuid/A57D-C07F";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/48d3c17c-7456-4caf-8bfd-c46f08f3bb2d";
+      neededForBoot = true;
+      fsType = "btrfs";
+      options = [ "subvol=@nix" ];
+    };
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/48d3c17c-7456-4caf-8bfd-c46f08f3bb2d";
+      fsType = "btrfs";
+      options = [ "subvol=@home" ];
+    };
+
+  fileSystems."/etc/nixos" =
+    { device = "/nix/persist/etc/nixos";
+      neededForBoot = true;
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
+  fileSystems."/var/log" =
+    { device = "/nix/persist/var/log";
+      neededForBoot = true;
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/a311ed6e-28cf-4662-8045-d9555b66df0c"; }
+    [ { device = "/dev/disk/by-uuid/f10e5780-1551-48d2-b904-16703b1c50b0"; }
     ];
+
+  # fileSystems."/" =
+  #   { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
+  #     fsType = "btrfs";
+  #     options = [ "subvol=@root" ];
+  #   };
+
+  # boot.initrd.postDeviceCommands = lib.mkAfter ''
+  #   mkdir /btrfs_tmp
+  #   mount /dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada /btrfs_tmp
+  #   if [[ -e /btrfs_tmp/@root ]]; then
+  #       mkdir -p /btrfs_tmp/old_roots
+  #       timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
+  #       mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+  #   fi
+
+  #   delete_subvolume_recursively() {
+  #       IFS=$'\n'
+  #       for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
+  #           delete_subvolume_recursively "/btrfs_tmp/$i"
+  #       done
+  #       btrfs subvolume delete "$1"
+  #   }
+
+  #   for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
+  #       delete_subvolume_recursively "$i"
+  #   done
+
+  #   btrfs subvolume create /btrfs_tmp/@root
+  #   umount /btrfs_tmp
+  # '';
+
+  # fileSystems."/home" =
+  #   { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
+  #     fsType = "btrfs";
+  #     options = [ "subvol=@home" ];
+  #   };
+
+  # fileSystems."/nix" =
+  #   { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
+  #     fsType = "btrfs";
+  #     options = [ "subvol=@nix" ];
+  #   };
+
+  # fileSystems."/persistent" =
+  #   { device = "/dev/disk/by-uuid/18d30de2-9251-4984-8948-c0163d24eada";
+  #     neededForBoot = true;
+  #     fsType = "btrfs";
+  #     options = [ "subvol=@persistent" ];
+  #   };
+
+  # fileSystems."/var/log" = 
+  #   { device = "/persistent/var/log";
+  #     neededForBoot = true;
+  #     fsType = "none";
+  #     options = [ "bind" ];
+  #   };
+  # fileSystems."/var/lib/sops-nix" = 
+  #   { device = "/persistent/lib/sops-nix";
+  #     neededForBoot = true;
+  #     fsType = "none";
+  #     options = [ "bind" ];
+  #   };
+  # fileSystems."/var/lib/nixos" = 
+  #   { device = "/persistent/var/lib/nixos";
+  #     neededForBoot = true;
+  #     fsType = "none";
+  #     options = [ "bind" ];
+  #   };
+  # fileSystems."/var/lib/bluetooth" = 
+  #   { device = "/persistent/var/lib/bluetooth";
+  #     neededForBoot = true;
+  #     fsType = "none";
+  #     options = [ "bind" ];
+  #   };
+  # fileSystems."/var/lib/systemd/coredump" = 
+  #   { device = "/persistent/var/lib/systemd/coredump";
+  #     neededForBoot = true;
+  #     fsType = "none";
+  #     options = [ "bind" ];
+  #   };
+  # fileSystems."/etc/NetworkManager/system-connections" = 
+  #   { device = "/persistent/NetworkManager/system-connections";
+  #     neededForBoot = true;
+  #     fsType = "none";
+  #     options = [ "bind" ];
+  #   };
+  # fileSystems."/etc/ssh" = 
+  #   { device = "/persistent/etc/ssh";
+  #     neededForBoot = true;
+  #     fsType = "none";
+  #     options = [ "bind" ];
+  #   };
+
+  # fileSystems."/boot" =
+  #   { device = "/dev/disk/by-uuid/03DD-603A";
+  #     fsType = "vfat";
+  #     options = [ "fmask=0022" "dmask=0022" ];
+  #   };
+
+  # swapDevices =
+  #   [ { device = "/dev/disk/by-uuid/a311ed6e-28cf-4662-8045-d9555b66df0c"; }
+  #   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
