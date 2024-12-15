@@ -32,10 +32,6 @@ in
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-
-  # fileSystems = {
-
-
   fileSystems = {
     "/boot" =
       {
@@ -83,49 +79,6 @@ in
     btrfs subvolume create /btrfs_tmp/@root
     umount /btrfs_tmp
   '';
-
-  # fileSystems."/var/log" = 
-  #   { device = "/persistent/var/log";
-  #     neededForBoot = true;
-  #     fsType = "none";
-  #     options = [ "bind" ];
-  #   };
-  # fileSystems."/var/lib/sops-nix" = 
-  #   { device = "/persistent/lib/sops-nix";
-  #     neededForBoot = true;
-  #     fsType = "none";
-  #     options = [ "bind" ];
-  #   };
-  # fileSystems."/var/lib/nixos" = 
-  #   { device = "/persistent/var/lib/nixos";
-  #     neededForBoot = true;
-  #     fsType = "none";
-  #     options = [ "bind" ];
-  #   };
-  # fileSystems."/var/lib/bluetooth" = 
-  #   { device = "/persistent/var/lib/bluetooth";
-  #     neededForBoot = true;
-  #     fsType = "none";
-  #     options = [ "bind" ];
-  #   };
-  # fileSystems."/var/lib/systemd/coredump" = 
-  #   { device = "/persistent/var/lib/systemd/coredump";
-  #     neededForBoot = true;
-  #     fsType = "none";
-  #     options = [ "bind" ];
-  #   };
-  # fileSystems."/etc/NetworkManager/system-connections" = 
-  #   { device = "/persistent/NetworkManager/system-connections";
-  #     neededForBoot = true;
-  #     fsType = "none";
-  #     options = [ "bind" ];
-  #   };
-  # fileSystems."/etc/ssh" = 
-  #   { device = "/persistent/etc/ssh";
-  #     neededForBoot = true;
-  #     fsType = "none";
-  #     options = [ "bind" ];
-  #   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
