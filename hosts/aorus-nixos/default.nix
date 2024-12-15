@@ -6,6 +6,7 @@ nixpkgs.lib.nixosSystem {
   modules = [
     ./configuration.nix
     ../../modules/core.nix
+    ../../modules/gaming
     ../../modules/wm/hyprland.nix
     # impermanence.nixosModules.impermanence
     sops-nix.nixosModules.sops

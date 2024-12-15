@@ -31,6 +31,7 @@ in
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "ntfs" ];
 
   fileSystems = {
     "/boot" =
@@ -44,6 +45,11 @@ in
     "/nix" = btrSubvolFs "@nix";
     "/home" = btrSubvolFs "@home";
     "/persist" = (btrSubvolFs "@persist") // { neededForBoot = true; };
+    # "/gaming" = {
+    #   device = "/dev/nvme0n1p5";
+    #   fsType = "ntfs";
+    #   options = [ "rw" "uid=1000" "gid=100" "user" "exec" "umask=000" ];
+    # };
   } // builtins.listToAttrs [
     (persistBind "/" "/var/log")
     (persistBind "/etc" "/ssh/ssh_host_ed25519_key")
