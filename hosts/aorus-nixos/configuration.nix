@@ -80,19 +80,17 @@ inputs@{ config, lib, pkgs, ... }:
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
   users.users = {
-    # root.hashedPasswordFile = config.sops.secrets.hashedPassword.path;
-    # root.hashedPassword = "$y$j9T$gvNzucUE/k0tdgRMxiXyL.$hW/nKUAKUVcsmVSf8jbTejBGgerVIDKqtAh06iZKow3";
-    root.initialHashedPassword = "$6$HM4TikzxLKI4PR/P$S0YPKXXMIAHHYt52Grew/Gmb0laFw7Rvq1NiyToDweDcy78KtDLWQ5X80LlIdYA./rvKvfxgBBLHH8yocP6UG/";
+    root.hashedPasswordFile = config.sops.secrets.hashedPassword.path;
 
     azurice = {
-      # hashedPasswordFile = config.sops.secrets.hashedPassword.path;
-      # hashedPassword = "$y$j9T$gvNzucUE/k0tdgRMxiXyL.$hW/nKUAKUVcsmVSf8jbTejBGgerVIDKqtAh06iZKow3";
-      initialHashedPassword = "$6$HM4TikzxLKI4PR/P$S0YPKXXMIAHHYt52Grew/Gmb0laFw7Rvq1NiyToDweDcy78KtDLWQ5X80LlIdYA./rvKvfxgBBLHH8yocP6UG/";
+      hashedPasswordFile = config.sops.secrets.hashedPassword.path;
       isNormalUser = true;
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
         # firefox
         inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+        clash-nyanpasu
+        vivaldi
       ];
     };
   };
@@ -108,6 +106,15 @@ inputs@{ config, lib, pkgs, ... }:
     just
   ];
 
+  environment.etc = {
+    # setting ssh file at this point is also not early enough for sops to load, so just use bind mount instead
+    # see hardware-configuration.nix
+    # "ssh/ssh_host_ed25519_key".source = "/persist/etc/ssh/ssh_host_ed25519_key";
+    # "ssh/ssh_host_ed25519_key.pub".source = "/persist/etc/ssh/ssh_host_ed25519_key.pub";
+    # "ssh/ssh_host_rsa_key".source = "/persist/etc/ssh/ssh_host_rsa_key";
+    # "ssh/ssh_host_rsa_key.pub".source = "/persist/etc/ssh/ssh_host_rsa_key.pub";
+    machine-id.source = "/persist/etc/machine-id";
+  };
   # Impermanence with sops-nix to may cause bad things to happen
   # see: https://github.com/nix-community/impermanence/issues/202
   # environment.persistence."/persistent" = {
@@ -123,7 +130,7 @@ inputs@{ config, lib, pkgs, ... }:
   #     "/etc/ssh"
   #   ];
   #   files = [
-  #     # "/etc/machine-id"
+  #     "/etc/machine-id"
   #   ];
   #   users.azurice = {
   #     directories = [

@@ -1,6 +1,6 @@
 keys:
-  - &admin age13sdd3dsa2yhm6emenlnz0zyerswwa72w0e4lxny6xk2rnxacn9xs0gfnf9
-  - &aorus_nixos age1l3xewx6hfj3wsjy880nfp2jt3dszgghqu0gqkw7yaqx9hyjpmujsm3dr7w
+  - &admin age1mau3zgns2as905ctc466pk8r837l92jcwyl3vr87w5rte4pcwfcqvunnwl
+  - &aorus_nixos age1r5j0kglpqzr60nnf3nk9dsuecp5jrjdgsx0gpy5dz4nx8455j3vqpsrsfu
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
