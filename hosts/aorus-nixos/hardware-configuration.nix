@@ -32,6 +32,7 @@ in
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
 
   fileSystems = {
     "/boot" =

@@ -24,7 +24,8 @@ inputs@{ config, lib, pkgs, ... }:
 
   # Configure network proxy if necessary
   networking.proxy = {
-    default = "socks5h://192.168.2.10:7890";
+    # default = "socks5h://192.168.2.10:7890";
+    default = "socks5h://127.0.0.1:7890";
     # allProxy = "http://192.168.2.10:7890";
   };
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -41,7 +42,7 @@ inputs@{ config, lib, pkgs, ... }:
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  programs.niri.enable = true;
+  # programs.niri.enable = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = true;
@@ -89,10 +90,23 @@ inputs@{ config, lib, pkgs, ... }:
       packages = with pkgs; [
         # firefox
         inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
-        clash-nyanpasu
         vivaldi
+        wlx-overlay-s
+        wechat-uos
       ];
     };
+  };
+
+  programs.localsend = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  programs.clash-verge = {
+    # package = pkgs.clash-nyanpasu;
+    package = pkgs.clash-verge-rev;
+    enable = true;
+    # autoStart = true;
   };
 
   # List packages installed in system profile. To search, run:

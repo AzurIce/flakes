@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/273673e839189c26130d48993d849a84199523e6";
     # impermanence.url = "github:nix-community/impermanence";
     sops-nix.url = "github:Mic92/sops-nix";
 
@@ -16,6 +17,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     firefox = {
       url = "github:nix-community/flake-firefox-nightly";
