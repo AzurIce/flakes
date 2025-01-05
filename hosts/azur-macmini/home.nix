@@ -74,6 +74,16 @@ inputs@{ user, config, pkgs, ... }:
       enableZshIntegration = true;
   };
 
+  
+  programs.aria2 = {
+    enable = true;
+    settings = {
+      enable-rpc = true;
+      rpc-listen-port = 6800;
+      bt-tracker = "udp://tracker.opentrackr.org:1337/announce,udp://open.demonii.com:1337/announce,http://open.tracker.cl:1337/announce,udp://open.stealth.si:80/announce,udp://explodie.org:6969/announce,udp://tracker.torrent.eu.org:451/announce,udp://tracker.ololosh.space:6969/announce,udp://isk.richardsw.club:6969/announce,udp://exodus.desync.com:6969/announce,http://www.torrentsnipe.info:2701/announce,http://tracker.xiaoduola.xyz:6969/announce,http://tracker.sbsub.com:2710/announce,http://tracker.moxing.party:6969/announce,http://tracker.lintk.me:2710/announce,http://tracker.ipv6tracker.org:80/announce,http://tracker.dmcomic.org:2710/announce,http://shubt.net:2710/announce,http://servandroidkino.ru:80/announce,http://seeders-paradise.org:80/announce,http://home.yxgz.club:6969/announce";
+    };
+  };
+
   # programs.starship = {
   #   enable = true;
   #   # 自定义配置

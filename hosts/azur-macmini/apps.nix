@@ -56,6 +56,8 @@
     jdk21
     aerospace
     ice-bar
+    arc-browser
+    aria2
 
     localsend
     sing-box
@@ -81,6 +83,12 @@
     zsh
     nushell
   ];
+
+  launchd.user.agents.aria2 = {
+    serviceConfig.ProgramArguments = [ "${pkgs.aria2}/bin/aria2c" ];
+    serviceConfig.RunAtLoad = true;
+    serviceConfig.KeepAlive = true;
+  };
 
   # services.yabai = {
   #   enable = true;
@@ -165,6 +173,7 @@
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
+      "orbstack"
       # "qq"
       # "wechat"
       # "typora"

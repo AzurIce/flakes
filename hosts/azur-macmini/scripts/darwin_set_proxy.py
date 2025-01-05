@@ -14,7 +14,7 @@ from pathlib import Path
 NIX_DAEMON_PLIST = Path("/Library/LaunchDaemons/org.nixos.nix-daemon.plist")
 NIX_DAEMON_NAME = "org.nixos.nix-daemon"
 # http proxy provided by clash or other proxy tools
-HTTP_PROXY = "http://127.0.0.1:7890"       
+HTTP_PROXY = "http://192.168.2.52:7890"       
 
 pl = plistlib.loads(NIX_DAEMON_PLIST.read_bytes())
 
@@ -32,7 +32,7 @@ pl["EnvironmentVariables"].pop("all_proxy", None)
 #pl["EnvironmentVariables"]["ALL_PROXY"] = "sock5://localhost:7890"
 pl["EnvironmentVariables"]["http_proxy"] = HTTP_PROXY
 pl["EnvironmentVariables"]["https_proxy"] = HTTP_PROXY
-pl["EnvironmentVariables"]["all_proxy"] = "sock5://localhost:7890"
+pl["EnvironmentVariables"]["all_proxy"] = "sock5://192.168.2.52:7890"
 
 os.chmod(NIX_DAEMON_PLIST, 0o644)
 NIX_DAEMON_PLIST.write_bytes(plistlib.dumps(pl))
