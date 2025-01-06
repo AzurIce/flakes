@@ -1,4 +1,4 @@
-inputs@{ user, nixpkgs, home-manager, nix-darwin, ... }:
+inputs@{ user, sops-nix, home-manager, nix-darwin, ... }:
 
 nix-darwin.lib.darwinSystem {
   system = inputs.system;
@@ -8,7 +8,8 @@ nix-darwin.lib.darwinSystem {
     ./system.nix
     ./apps.nix
     ./host-users.nix
-    # sops-nix.nixosModules.sops
+    ../../modules/core.nix
+    sops-nix.darwinModules.sops
     home-manager.darwinModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
