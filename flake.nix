@@ -48,5 +48,12 @@
       }
     );
 
+    darwinConfigurations.azur-macmini = import ./hosts/azur-macmini (
+      host-inputs // {
+        system = "aarch64-darwin";
+        mac = true;
+      }
+    );
+
   };
 }

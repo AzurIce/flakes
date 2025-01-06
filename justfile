@@ -2,8 +2,8 @@ rebuild target=".#":
     sudo nixos-rebuild switch --flake {{target}}
       
 # build and switch for mac
-mac:
-  darwin-rebuild switch --flake .#azurmac-macos
+darwin target=".#":
+  darwin-rebuild switch --flake {{target}}
   just proxy
 
 # set proxy for mac

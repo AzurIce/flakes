@@ -1,9 +1,11 @@
 keys:
+  - &macmini age1he6f43ef4t6ruy3u9ytlv6h4gh2cp8zt3d993t2h9jfj04yag4ls27ffuw
   - &admin age1mau3zgns2as905ctc466pk8r837l92jcwyl3vr87w5rte4pcwfcqvunnwl
   - &aorus_nixos age1r5j0kglpqzr60nnf3nk9dsuecp5jrjdgsx0gpy5dz4nx8455j3vqpsrsfu
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
+        - *macmini
         - *admin
         - *aorus_nixos

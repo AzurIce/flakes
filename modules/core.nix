@@ -12,6 +12,4 @@
       neededForUsers = true;
     };
   };
-
-  services.openssh.enable = true;
 }
