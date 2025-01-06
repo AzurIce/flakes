@@ -2,7 +2,7 @@
 { ... } @ args:
 
 let
-  hostname = "AzurMac";
+  hostname = "azurmac-macos";
   username = "azurice";
 in
 {

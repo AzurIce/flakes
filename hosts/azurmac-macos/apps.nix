@@ -28,6 +28,7 @@
     # oraclejdk8
     btop
     # vivaldi
+    arc-browser
 
     just
     nushell
@@ -167,7 +168,7 @@
     casks = [
       "qq"
       "wechat"
-      "typora"
+      # "typora"
       #"todesk"
       "github"
       # "karabiner-elements"
