@@ -7,8 +7,8 @@ inputs@{ pkgs, system, mac, ... }:
     userName = "AzurIce";
     extraConfig = {
       # core.excludesFile = "~/.config/git/ignore";
-      # http.proxy = "http://127.0.0.1:7890";
-      # https.proxy = "https://127.0.0.1:7890";
+      http.proxy = "http://127.0.0.1:7890";
+      https.proxy = "https://127.0.0.1:7890";
       safe.directory = "*";
       credential = {
         credentialStore = if mac && system == "aarch64-darwin" then
