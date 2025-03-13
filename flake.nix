@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    chat.url = "github:YXHXianYu/chat";
     # nixpkgs.url = "github:nixos/nixpkgs/273673e839189c26130d48993d849a84199523e6";
     # impermanence.url = "github:nix-community/impermanence";
     sops-nix.url = "github:Mic92/sops-nix";
@@ -30,7 +31,7 @@
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }: let
+  outputs = inputs@{ self, ... }: let
     host-inputs = inputs // { user = "azurice"; };
   in {
 

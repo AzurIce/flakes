@@ -1,4 +1,4 @@
-inputs@{ user, config, pkgs, ... }:
+inputs@{ user, config, pkgs, chat, ... }:
 
 {
   imports = [
@@ -20,31 +20,36 @@ inputs@{ user, config, pkgs, ... }:
     homeDirectory = "/Users/${user}";
     packages = with pkgs; [
       btop
+      sketchybar
     ];
   };
 
-  # home.file.".yabairc".text = ''
-  #   # layout
-  #   yabai -m config layout bsp
+  # home.file.".config/sketchybar".source = ../../home/wm/sketchybar;
+  home.file.".barik-config.toml".source = ../../home/wm/.barik-config.toml;
 
-  #   # paddings and gaps
-  #   yabai -m config top_padding    4
-  #   yabai -m config bottom_padding 4
-  #   yabai -m config left_padding   4
-  #   yabai -m config right_padding  4
-  #   yabai -m config window_gap     8
 
-  #   # rules
-  #   yabai -m rule --add app="^Karabiner-Elements$" manage=off
-  #   yabai -m rule --add app="^Clash Nyanpasu$" manage=off
-  #   yabai -m rule --add app="^访达$" manage=off
-  #   yabai -m rule --add app="^GitHub Desktop$" manage=off
-  #   yabai -m rule --add app="^微信$" manage=off
-  #   yabai -m rule --add app="^网易云音乐$" manage=off
-  #   yabai -m rule --add app="^系统设置$" manage=off
-  #   yabai -m rule --add app="^evt-app$" manage=off
-  # '';
-  home.file.".aerospace.toml".source = ./aerospace.toml;
+  home.file.".yabairc".text = ''
+    # layout
+    yabai -m config layout bsp
+
+    # paddings and gaps
+    yabai -m config top_padding    8
+    yabai -m config bottom_padding 4
+    yabai -m config left_padding   4
+    yabai -m config right_padding  4
+    yabai -m config window_gap     8
+
+    # rules
+    yabai -m rule --add app="^Karabiner-Elements$" manage=off
+    yabai -m rule --add app="^Clash Nyanpasu$" manage=off
+    yabai -m rule --add app="^访达$" manage=off
+    yabai -m rule --add app="^GitHub Desktop$" manage=off
+    yabai -m rule --add app="^微信$" manage=off
+    yabai -m rule --add app="^网易云音乐$" manage=off
+    yabai -m rule --add app="^系统设置$" manage=off
+    yabai -m rule --add app="^evt-app$" manage=off
+  '';
+  # home.file.".aerospace.toml".source = ./aerospace.toml;
 
   programs.zsh = {
     enable = true;
@@ -69,9 +74,9 @@ inputs@{ user, config, pkgs, ... }:
   };
 
   programs.direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      enableZshIntegration = true;
+    enable = true;
+    nix-direnv.enable = true;
+    enableZshIntegration = true;
   };
 
   # programs.starship = {
