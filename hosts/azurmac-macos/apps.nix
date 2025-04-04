@@ -1,8 +1,6 @@
 { pkgs, system, chat, ... }: {
 
-  imports = [
-    ../../modules/programs/typora
-  ];
+  imports = [];
 
   ##########################################################################
   #
@@ -164,7 +162,7 @@
       "qq"
       "barik"
       "wechat"
-      # "typora"
+      "typora"
       # "todesk"
       "github"
       # "karabiner-elements"

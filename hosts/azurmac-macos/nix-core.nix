@@ -21,7 +21,7 @@
   # services.nix-daemon.enable = true;
 
   # nix.package = pkgs.nix;
-  nix.package = pkgs.nixVersions.git;
+  nix.package = pkgs.nixVersions.latest;
   programs.nix-index.enable = true;
 
   nix.gc = {

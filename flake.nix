@@ -8,6 +8,11 @@
     # impermanence.url = "github:nix-community/impermanence";
     sops-nix.url = "github:Mic92/sops-nix";
 
+    eza = {
+      url = "github:eza-community/eza";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

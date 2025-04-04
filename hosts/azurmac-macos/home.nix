@@ -21,6 +21,7 @@ inputs@{ user, config, pkgs, chat, ... }:
     packages = with pkgs; [
       btop
       sketchybar
+      eza
     ];
   };
 
@@ -56,6 +57,10 @@ inputs@{ user, config, pkgs, chat, ... }:
     autosuggestion.enable = true;
     initExtra = ''
       export PATH=$PATH:/Users/azurice/.cargo/bin
+      alias ls="eza"
+      alias ll="eza -l"
+      alias la="eza -a"
+      alias lla="eza -la"
     '';
     oh-my-zsh = {
       enable = true;
