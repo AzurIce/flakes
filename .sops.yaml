@@ -1,4 +1,5 @@
 keys:
+  - &azurblade age1lflc9368khx0pflwd4hdadwap44ysuuc8aw8mxf04zhhmmwqf9nqg9dt5t
   - &macmini age1he6f43ef4t6ruy3u9ytlv6h4gh2cp8zt3d993t2h9jfj04yag4ls27ffuw
   - &macbookpro age16ahj6xx6pdsa8zfkh7ezfafy3nc64m29dn4zv063js7y0vns0ppsfrjnfs
   - &admin age1mau3zgns2as905ctc466pk8r837l92jcwyl3vr87w5rte4pcwfcqvunnwl
@@ -7,6 +8,7 @@ creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
+        - *azurblade
         - *macmini
         - *macbookpro
         - *admin
