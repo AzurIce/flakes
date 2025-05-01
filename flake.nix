@@ -47,6 +47,13 @@
       }
     );
 
+    nixosConfigurations.azurblade = import ./hosts/azurblade (
+      host-inputs // {
+        system = "x86_64-linux";
+        mac = false;
+      }
+    );
+
     darwinConfigurations.azurmac-macos = import ./hosts/azurmac-macos (
       host-inputs // {
         system = "aarch64-darwin";
