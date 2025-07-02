@@ -25,6 +25,7 @@
     btop
     arc-browser
 
+    eza
     just
     nushell
     ffmpeg

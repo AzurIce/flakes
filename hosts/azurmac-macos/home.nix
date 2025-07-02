@@ -55,7 +55,7 @@ inputs@{ user, config, pkgs, chat, ... }:
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
-    initExtra = ''
+    initContent = ''
       export PATH=$PATH:/Users/azurice/.cargo/bin
       alias ls="eza"
       alias ll="eza -l"
