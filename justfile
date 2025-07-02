@@ -3,7 +3,7 @@ rebuild target=".#":
       
 # build and switch for mac
 darwin target=".#":
-  darwin-rebuild switch --flake {{target}}
+  sudo darwin-rebuild switch --flake {{target}}
   just proxy
 
 # set proxy for mac
