@@ -1,7 +1,7 @@
 { pkgs, system, ... }: {
 
   imports = [
-    ../../modules/programs/typora
+    # ../../modules/programs/typora
   ];
 
   ##########################################################################
@@ -56,7 +56,7 @@
     jdk21
     aerospace
     ice-bar
-    arc-browser
+    # arc-browser
     aria2
 
     localsend
