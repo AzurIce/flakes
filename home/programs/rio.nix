@@ -1,6 +1,54 @@
 inputs@{ pkgs, user, ... }:
 
 {
+  home.file.".config/rio/themes/catppuccin-mocha.toml".text = ''
+  [colors]
+
+# Normal
+foreground       = '#cdd6f4'
+background       = '#1e1e2e'
+black            = '#45475a'
+blue             = '#89b4fa'
+cursor           = '#f5e0dc'
+cyan             = '#94e2d5'
+green            = '#a6e3a1'
+magenta          = '#f5c2e7'
+red              = '#f38ba8'
+white            = '#bac2de'
+yellow           = '#f9e2af'
+
+# UI colors
+tabs             = '#1e1e2e'
+tabs-foreground  = '#cdd6f4'
+tabs-active      = '#b4befe'
+tabs-active-highlight  = '#b4befe'
+tabs-active-foreground = '#11111b'
+selection-foreground   = '#1e1e2e'
+selection-background   = '#f5e0dc'
+
+# Dim colors
+dim-black        = '#45475a'
+dim-blue         = '#89b4fa'
+dim-cyan         = '#94e2d5'
+dim-foreground   = '#cdd6f4'
+dim-green        = '#a6e3a1'
+dim-magenta      = '#f5c2e7'
+dim-red          = '#f38ba8'
+dim-white        = '#bac2de'
+dim-yellow       = '#f9e2af'
+
+# Light colors
+light-black      = '#585b70'
+light-blue       = '#89b4fa'
+light-cyan       = '#94e2d5'
+light-foreground = '#cdd6f4'
+light-green      = '#a6e3a1'
+light-magenta    = '#f5c2e7'
+light-red        = '#f38ba8'
+light-white      = '#a6adc8'
+light-yellow     = '#f9e2af'
+  '';
+  
   programs.rio = {
     enable = true;
     settings = {
@@ -15,50 +63,7 @@ inputs@{ pkgs, user, ... }:
         opacity = 0.8;
         blur = true;
       };
-      colors = {
-        foreground = "#cad3f5";
-        background = "#24273a";
-        black = "#494d64";
-        blue = "#8aadf4";
-        cursor = "#f4dbd6";
-        cyan = "#8bd5ca";
-        green = "#a6da95";
-        magenta = "#f5bde6";
-        red = "#ed8796";
-        white = "#b8c0e0";
-        yellow = "#eed49f";
-
-        # UI colors
-        tabs = "#24273a";
-        tabs-foreground = "#cad3f5";
-        tabs-active = "#b7bdf8";
-        tabs-active-highlight = "#b7bdf8";
-        tabs-active-foreground = "#181926";
-        selection-foreground = "#24273a";
-        selection-background = "#f4dbd6";
-
-        # Dim colors
-        dim-black = "#494d64";
-        dim-blue = "#8aadf4";
-        dim-cyan = "#8bd5ca";
-        dim-foreground = "#cad3f5";
-        dim-green = "#a6da95";
-        dim-magenta = "#f5bde6";
-        dim-red = "#ed8796";
-        dim-white = "#b8c0e0";
-        dim-yellow = "#eed49f";
-
-        # Light colors
-        light-black = "#5b6078";
-        light-blue = "#8aadf4";
-        light-cyan = "#8bd5ca";
-        light-foreground = "#cad3f5";
-        light-green = "#a6da95";
-        light-magenta = "#f5bde6";
-        light-red = "#ed8796";
-        light-white = "#a5adcb";
-        light-yellow = "#eed49f";
-      };
+      theme = "catppuccin-mocha";
     };
   };
 }
