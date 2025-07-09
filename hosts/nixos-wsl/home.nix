@@ -29,7 +29,7 @@
       https.proxy = "https://127.0.0.1:7890";
       safe.directory = "*";
       credential = {
-        credentialStore = "secretservice";
+        credentialStore = "cache";
         helper = "/mnt/c/Program\ Files\ \(x86\)/Git\ Credential\ Manager/git-credential-manager.exe";
       };
     };
