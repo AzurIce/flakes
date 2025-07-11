@@ -30,7 +30,6 @@
     nushell
     ffmpeg
     fzf
-    yazi
 
     rust-analyzer
     nil
@@ -72,7 +71,7 @@
     all_proxy = "socks5://127.0.0.1:7890";
   };
 
-  programs.zsh.enable = true;
+  # programs.zsh.enable = true;
   environment.shells = with pkgs; [
     zsh
     nushell

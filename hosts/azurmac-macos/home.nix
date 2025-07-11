@@ -5,6 +5,9 @@ inputs@{ user, config, pkgs, chat, ... }:
     ../../home/programs/git.nix
     ../../home/programs/alacritty.nix
     ../../home/programs/helix.nix
+    ../../home/programs/yazi.nix
+    ../../home/programs/zellij.nix
+    ../../home/programs/zsh.nix
 
     ../../modules/fonts.nix
     ../../modules/programs/nvim.nix
