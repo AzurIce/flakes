@@ -169,9 +169,9 @@ inputs@{ pkgs, nixvim, ... }:
         installCargo = false;
         installRustc = false;
       };
-      crates-nvim = {
+      crates = {
         enable = true;
-        extraOptions.lsp = {
+        settings.lsp = {
           enabled = true;
           actions = true;
           completion = true;
