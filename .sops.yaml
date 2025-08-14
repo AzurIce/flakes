@@ -4,7 +4,7 @@ keys:
   - &macbookpro age16ahj6xx6pdsa8zfkh7ezfafy3nc64m29dn4zv063js7y0vns0ppsfrjnfs
   - &admin age1mau3zgns2as905ctc466pk8r837l92jcwyl3vr87w5rte4pcwfcqvunnwl
   - &admin_azurblade age1ncqpx03pxy5wuqzgqhe5xkyv2fx23r66q7tz8dx78un6a2pde9ssds7sqh
-  - &aorus_nixos age1r5j0kglpqzr60nnf3nk9dsuecp5jrjdgsx0gpy5dz4nx8455j3vqpsrsfu
+  - &aorus_nixos age1d5mswlth93a23h8224tsuhyahazcrstz9xu26nvh85765mk8kytstvdqsv
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
