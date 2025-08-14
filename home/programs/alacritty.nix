@@ -7,11 +7,14 @@ inputs@{ pkgs, user, ... }:
       font = {
         size = 16.0;
         normal = {
-            family = "JetBrainsMono Nerd Font";
-            style = "Regular";
+          family = "JetBrainsMono Nerd Font";
+          style = "Regular";
         };
       };
-      window.opacity = 0.8;
+      window = {
+        opacity = 0.8;
+        option_as_alt = "Both";
+      };
     };
   };
 }

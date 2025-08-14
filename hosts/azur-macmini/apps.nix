@@ -1,7 +1,7 @@
 { pkgs, system, ... }: {
 
   imports = [
-    ../../modules/programs/typora
+    # ../../modules/programs/typora
   ];
 
   ##########################################################################
@@ -18,6 +18,7 @@
   #
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   environment.systemPackages = with pkgs; [
+    eza
     git
     # git-lfs
     # vim
@@ -56,7 +57,7 @@
     jdk21
     aerospace
     ice-bar
-    arc-browser
+    # arc-browser
     aria2
 
     localsend

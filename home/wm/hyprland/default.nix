@@ -44,6 +44,8 @@ inputs@{ pkgs, mac, ... }:
       env = [
         "HYPRCURSOR_THEME,phinger-cursors-dark-hyprcursor"
         "HYPRCURSOR_size,24"
+        "LIBVA_DRIVER_NAME,nvidia"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
       ];
       input = {
         touchpad.natural_scroll = true;

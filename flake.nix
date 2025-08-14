@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     chat.url = "github:YXHXianYu/chat";
     # nixpkgs.url = "github:nixos/nixpkgs/273673e839189c26130d48993d849a84199523e6";
     # impermanence.url = "github:nix-community/impermanence";
@@ -41,6 +42,20 @@
   in {
 
     nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos (
+      host-inputs // {
+        system = "x86_64-linux";
+        mac = false;
+      }
+    );
+
+    nixosConfigurations.nixos-wsl = import ./hosts/nixos-wsl (
+      host-inputs // {
+        system = "x86_64-linux";
+        mac = false;
+      }
+    );
+
+    nixosConfigurations.azurblade = import ./hosts/azurblade (
       host-inputs // {
         system = "x86_64-linux";
         mac = false;

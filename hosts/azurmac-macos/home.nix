@@ -5,6 +5,9 @@ inputs@{ user, config, pkgs, chat, ... }:
     ../../home/programs/git.nix
     ../../home/programs/alacritty.nix
     ../../home/programs/helix.nix
+    ../../home/programs/yazi.nix
+    ../../home/programs/zellij.nix
+    ../../home/programs/zsh.nix
 
     ../../modules/fonts.nix
     ../../modules/programs/nvim.nix
@@ -51,32 +54,6 @@ inputs@{ user, config, pkgs, chat, ... }:
     yabai -m rule --add app="^evt-app$" manage=off
   '';
   # home.file.".aerospace.toml".source = ./aerospace.toml;
-
-  programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    initExtra = ''
-      export PATH=$PATH:/Users/azurice/.cargo/bin
-      alias ls="eza"
-      alias ll="eza -l"
-      alias la="eza -a"
-      alias lla="eza -la"
-    '';
-    oh-my-zsh = {
-      enable = true;
-      theme = "robbyrussell";
-      plugins = [
-        "git"
-        "ag"
-        "aliases"
-        # "colored-man-page"
-        "colorize"
-        "copypath"
-        "direnv"
-        # "zsh-autosuggestions"
-      ];
-    };
-  };
 
   programs.direnv = {
     enable = true;

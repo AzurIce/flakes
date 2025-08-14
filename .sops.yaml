@@ -1,13 +1,17 @@
 keys:
-  - &macmini age1he6f43ef4t6ruy3u9ytlv6h4gh2cp8zt3d993t2h9jfj04yag4ls27ffuw
+  - &azurblade age1lflc9368khx0pflwd4hdadwap44ysuuc8aw8mxf04zhhmmwqf9nqg9dt5t
+  - &macmini age1hl44qr8uyy7h8ja6er6mynp3a5ylqewz877r3u2fuxa69c2kcfcsq55hha
   - &macbookpro age16ahj6xx6pdsa8zfkh7ezfafy3nc64m29dn4zv063js7y0vns0ppsfrjnfs
   - &admin age1mau3zgns2as905ctc466pk8r837l92jcwyl3vr87w5rte4pcwfcqvunnwl
+  - &admin_azurblade age1ncqpx03pxy5wuqzgqhe5xkyv2fx23r66q7tz8dx78un6a2pde9ssds7sqh
   - &aorus_nixos age1r5j0kglpqzr60nnf3nk9dsuecp5jrjdgsx0gpy5dz4nx8455j3vqpsrsfu
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
+        - *azurblade
         - *macmini
         - *macbookpro
         - *admin
+        - *admin_azurblade
         - *aorus_nixos
