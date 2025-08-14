@@ -8,6 +8,7 @@ inputs@{ user, config, pkgs, chat, ... }:
     ../../home/programs/yazi.nix
     ../../home/programs/zellij.nix
     ../../home/programs/zsh.nix
+    ../../home/programs/rio.nix
 
     ../../modules/fonts.nix
     ../../modules/programs/nvim.nix
