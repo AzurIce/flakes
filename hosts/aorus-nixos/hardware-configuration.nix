@@ -4,7 +4,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  uuid = "48d3c17c-7456-4caf-8bfd-c46f08f3bb2d";
+  uuid = "22edbf0b-9105-4fb5-a378-905825f76f72";
   persistFs = path: {
     device = "/persist${path}";
     neededForBoot = true;
@@ -32,7 +32,7 @@ in
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
 
   fileSystems = {
     "/boot" =
@@ -53,22 +53,25 @@ in
     # };
   } // builtins.listToAttrs [
     (persistBind "/" "/var/log")
-    (persistBind "/etc" "/ssh/ssh_host_ed25519_key")
-    (persistBind "/etc" "/ssh/ssh_host_ed25519_key.pub")
-    (persistBind "/etc" "/ssh/ssh_host_rsa_key")
-    (persistBind "/etc" "/ssh/ssh_host_rsa_key.pub")
+    (persistBind "/" "/etc/nixos")
+    (persistBind "/etc/ssh" "/ssh")
+    # (persistBind "/etc" "/ssh/ssh_host_ed25519_key")
+    # (persistBind "/etc" "/ssh/ssh_host_ed25519_key.pub")
+    # (persistBind "/etc" "/ssh/ssh_host_rsa_key")
+    # (persistBind "/etc" "/ssh/ssh_host_rsa_key.pub")
   ];
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/f10e5780-1551-48d2-b904-16703b1c50b0"; }];
+    [{ device = "/dev/disk/by-uuid/cfebcefc-f250-4b15-ba48-eecdb3ef6d86"; }];
 
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     mkdir /btrfs_tmp
-    mount /dev/disk/by-uuid/48d3c17c-7456-4caf-8bfd-c46f08f3bb2d /btrfs_tmp
+    mount /dev/disk/by-uuid/22edbf0b-9105-4fb5-a378-905825f76f72 /btrfs_tmp
     if [[ -e /btrfs_tmp/@root ]]; then
         mkdir -p /btrfs_tmp/old_roots
-        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/@root)" "+%Y-%m-%-d_%H:%M:%S")
+        mv /btrfs_tmp/@root "/btrfs_tmp/old_roots/$timestamp"
+        btrfs subvolume delete /btrfs_tmp/@root
     fi
 
     delete_subvolume_recursively() {

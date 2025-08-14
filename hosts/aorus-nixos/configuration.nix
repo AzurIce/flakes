@@ -26,7 +26,7 @@ inputs@{ config, lib, pkgs, ... }:
   networking.proxy = {
     # default = "socks5h://192.168.2.10:7890";
     default = "socks5h://127.0.0.1:7890";
-    # allProxy = "http://192.168.2.10:7890";
+    # allProxy = "http://192.168.2.52:7890";
   };
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
@@ -42,11 +42,12 @@ inputs@{ config, lib, pkgs, ... }:
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
   # programs.niri.enable = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.graphics.enable = true;
   hardware.nvidia.open = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -93,7 +94,7 @@ inputs@{ config, lib, pkgs, ... }:
         # firefox
         inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
         vivaldi
-        wlx-overlay-s
+        # wlx-overlay-s
         wechat-uos
       ];
     };
@@ -162,10 +163,16 @@ inputs@{ config, lib, pkgs, ... }:
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-    settings.substituters = [
-      "https://hyprland.cachix.org"
-      "https://mirrors.bfsu.edu.cn/nix-channels/store"
-    ];
+    settings = {
+      substituters = [
+        "https://hyprland.cachix.org"
+        "https://mirrors.bfsu.edu.cn/nix-channels/store"
+      ];
+      trusted-substituters = [
+        "https://hyprland.cachix.org"
+      ];
+      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are

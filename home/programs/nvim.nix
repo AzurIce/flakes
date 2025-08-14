@@ -2,7 +2,7 @@ inputs@{ pkgs, nixvim, ... }:
 
 {
   imports = [
-    nixvim.homeManagerModules.nixvim
+    nixvim.homeModules.nixvim
   ];
 
   home.packages = with pkgs; [

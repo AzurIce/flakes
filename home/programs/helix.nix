@@ -2,7 +2,7 @@ inputs@{ pkgs, system, mac, ... }:
 
 {
   home.packages = with pkgs; [
-    rust-analyzer
+    # rust-analyzer
 
     nil
     nixpkgs-fmt
