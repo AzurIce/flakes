@@ -23,7 +23,7 @@
     alacritty
     android-tools
     btop
-    arc-browser
+    # arc-browser
 
     eza
     just
