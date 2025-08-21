@@ -5,5 +5,7 @@ inputs@{ pkgs, ... }:
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+  ] ++ [
+    (pkgs.callPackage ../packages/lxgw-bright.nix {})
   ];
 }
