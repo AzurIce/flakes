@@ -20,6 +20,7 @@
     git-lfs
     # vim
     helix
+    imhex
     alacritty
     android-tools
     btop
