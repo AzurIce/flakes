@@ -34,8 +34,19 @@ inputs@{ user, config, pkgs, chat, ... }:
 
 
   home.file.".yabairc".text = ''
+    yabai -m config focus_follows_mouse autofocus
+
+    yabai -m config mouse_modifier alt
+    yabai -m config mouse_action1 move
+    yabai -m config mouse_action2 resize
+
     # layout
     yabai -m config layout bsp
+
+    # visuals
+    yabai -m config window_opacity on
+    yabai -m config active_window_opacity 1.0
+    yabai -m config normal_window_opacity 0.9
 
     # paddings and gaps
     yabai -m config top_padding    8
@@ -50,9 +61,11 @@ inputs@{ user, config, pkgs, chat, ... }:
     yabai -m rule --add app="^访达$" manage=off
     yabai -m rule --add app="^GitHub Desktop$" manage=off
     yabai -m rule --add app="^微信$" manage=off
+    yabai -m rule --add app="^QQ$" manage=off
     yabai -m rule --add app="^网易云音乐$" manage=off
     yabai -m rule --add app="^系统设置$" manage=off
     yabai -m rule --add app="^evt-app$" manage=off
+    yabai -m rule --add app="^winit window$" manage=off
   '';
   # home.file.".aerospace.toml".source = ./aerospace.toml;
 

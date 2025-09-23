@@ -53,6 +53,8 @@
     localsend
     sing-box
     zotero
+    # clash-verge-rev
+    # clash-nyanpasu
   ]) ++ [
     chat.packages.${pkgs.system}.default
   ];
@@ -164,6 +166,7 @@
       "barik"
       "wechat"
       "typora"
+      "orbstack"
       # "todesk"
       "github"
       # "karabiner-elements"
