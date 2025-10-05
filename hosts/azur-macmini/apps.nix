@@ -84,6 +84,7 @@
     zsh
     nushell
   ];
+  services.openssh.enable = true;
 
   launchd.user.agents.aria2 = {
     serviceConfig.ProgramArguments = [ "${pkgs.aria2}/bin/aria2c" ];
