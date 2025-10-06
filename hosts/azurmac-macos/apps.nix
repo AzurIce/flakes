@@ -95,7 +95,7 @@
   services.skhd = {
     enable = true;
     skhdConfig = ''
-      alt - return : alacritty
+      alt - return : open -na ghostty
       alt - q : yabai -m window --close
 
       alt - 1 : yabai -m space --focus 1
