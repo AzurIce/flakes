@@ -1,4 +1,4 @@
-inputs@{ user, config, pkgs, chat, ... }:
+inputs@{ user, pkgs, config, chat, ... }:
 
 {
   imports = [
@@ -31,7 +31,6 @@ inputs@{ user, config, pkgs, chat, ... }:
 
   # home.file.".config/sketchybar".source = ../../home/wm/sketchybar;
   home.file.".barik-config.toml".source = ../../home/wm/.barik-config.toml;
-
 
   home.file.".yabairc".text = ''
     yabai -m config focus_follows_mouse autofocus
