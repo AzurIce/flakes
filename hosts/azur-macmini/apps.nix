@@ -181,6 +181,7 @@
       # "typora"
       #"todesk"
       "github"
+      "ghostty"
       # "karabiner-elements"
       # "sfm"
     ];

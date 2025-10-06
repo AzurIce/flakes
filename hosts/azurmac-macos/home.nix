@@ -14,7 +14,7 @@ inputs@{ user, config, pkgs, chat, ... }:
     ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix
-    ../../modules/programs/kitty.nix
+    # ../../modules/programs/kitty.nix
     #../../modules/programs/rime.nix
     # ../../modules/programs/obs-studio/home.nix
   ];
@@ -74,6 +74,22 @@ inputs@{ user, config, pkgs, chat, ... }:
     nix-direnv.enable = true;
     enableZshIntegration = true;
   };
+
+  # programs.ghostty = {
+  #   # enable = true;
+  #   settings = {
+  #     font-family = "JetBrains Mono";
+  #     font-size = 16;
+  #     background-opacity = 0.8;
+  #   };
+  # };
+
+  home.file.".config/ghostty/config".text = ''
+    font-family = JetBrainsMono Nerd Font
+    font-size = 16
+    background-opacity = 0.8
+    theme = catppuccin-mocha
+  '';
 
   # programs.starship = {
   #   enable = true;

@@ -53,6 +53,9 @@
     localsend
     sing-box
     zotero
+
+    claude-code
+    codex
     # clash-verge-rev
     # clash-nyanpasu
   ]) ++ [
@@ -167,6 +170,7 @@
       "wechat"
       "typora"
       "orbstack"
+      "ghostty"
       # "todesk"
       "github"
       # "karabiner-elements"
