@@ -5,6 +5,7 @@ inputs@{ user, config, pkgs, ... }:
     enable = true;
     autosuggestion.enable = true;
     initContent= ''
+      export TERM=xterm-256color
       export PATH=$PATH:/Users/azurice/.cargo/bin
 
       alias ls="eza"
