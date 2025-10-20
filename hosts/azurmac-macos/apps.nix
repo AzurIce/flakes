@@ -38,7 +38,7 @@
     nixpkgs-fmt
     bun
     nodePackages_latest.pnpm
-    typst
+    # typst
     pandoc
     python3
     raycast
@@ -56,11 +56,21 @@
 
     claude-code
     codex
+
+    clash-rs
     # clash-verge-rev
     # clash-nyanpasu
   ]) ++ [
     chat.packages.${pkgs.system}.default
   ];
+
+
+  # launchd.user.agents.clash = {
+  #   serviceConfig.ProgramArguments = [ "${pkgs.clash-rs}/bin/clash" ];
+  #   # serviceConfig.RunAtLoad = true;
+  #   # serviceConfig.KeepAlive = true;
+  # };
+  
 
   # services.postgresql = {
   #   enable = true;

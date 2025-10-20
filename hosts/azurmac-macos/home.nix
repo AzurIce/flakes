@@ -88,6 +88,7 @@ inputs@{ user, pkgs, config, chat, ... }:
     font-size = 16
     background-opacity = 0.8
     theme = catppuccin-mocha
+    quit-after-last-window-closed = true
   '';
 
   # programs.starship = {
