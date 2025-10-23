@@ -35,6 +35,7 @@
     };
     hyprland.url = "github:hyprwm/Hyprland";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
+    chromium-darwin.url = "github:lrworth/chromium-bin-flake";
   };
 
   outputs = inputs@{ self, ... }: let

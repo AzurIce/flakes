@@ -89,6 +89,7 @@ inputs@{ user, pkgs, config, chat, ... }:
     background-opacity = 0.8
     theme = catppuccin-mocha
     quit-after-last-window-closed = true
+    shell-integration-features = ssh-terminfo
   '';
 
   # programs.starship = {

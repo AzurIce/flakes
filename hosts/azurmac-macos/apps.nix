@@ -1,4 +1,4 @@
-{ pkgs, system, chat, ... }: {
+{ pkgs, system, chat, chromium-darwin, ... }: {
 
   imports = [];
 
@@ -46,7 +46,7 @@
     cargo
     lua51Packages.luarocks
     lua51Packages.lua
-    jdk21
+    jdk25
     aerospace
     ice-bar
 
@@ -62,6 +62,7 @@
     # clash-nyanpasu
   ]) ++ [
     chat.packages.${pkgs.system}.default
+    chromium-darwin.packages.${pkgs.system}.default
   ];
 
 
@@ -180,7 +181,8 @@
       "wechat"
       "typora"
       "orbstack"
-      "ghostty"
+      # "ghostty"
+      "ghostty@tip"
       # "todesk"
       "github"
       # "karabiner-elements"
