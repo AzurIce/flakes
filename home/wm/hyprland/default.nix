@@ -19,7 +19,7 @@ inputs@{ pkgs, mac, ... }:
     socat
 
     kitty
-    rofi-wayland
+    rofi
     wlogout
     hyprpaper
   ];

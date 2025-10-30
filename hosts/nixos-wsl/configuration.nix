@@ -23,7 +23,7 @@
 
   environment.systemPackages = with pkgs; [
     eza
-    git
+    # git
     helix
     btop
 

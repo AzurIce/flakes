@@ -8,7 +8,7 @@
     ../../home/programs/nvim.nix
 
     # ../../modules/programs/typora/home.nix
-    # ../../home/programs/git.nix
+    ../../home/programs/git.nix
     ../../home/programs/helix.nix
     # ../../home/programs/waybar
   ];

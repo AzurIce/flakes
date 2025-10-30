@@ -44,7 +44,7 @@ in
 
     "/" = btrSubvolFs "@root";
     "/nix" = btrSubvolFs "@nix";
-    "/home" = btrSubvolFs "@home";
+    "/home" = btrSubvolFs "@home" // { neededForBoot = true; }; # For ~/.age-key.txt to make sops-nix set password
     "/persist" = (btrSubvolFs "@persist") // { neededForBoot = true; };
     # "/gaming" = {
     #   device = "/dev/nvme0n1p5";
