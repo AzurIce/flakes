@@ -9,9 +9,10 @@ inputs@{ user, pkgs, config, chat, ... }:
     ../../home/programs/zellij.nix
     ../../home/programs/zsh.nix
     ../../home/programs/rio.nix
+    ../../home/programs/nvim.nix
 
     ../../modules/fonts.nix
-    ../../modules/programs/nvim.nix
+    # ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix
     # ../../modules/programs/kitty.nix
@@ -56,7 +57,7 @@ inputs@{ user, pkgs, config, chat, ... }:
 
     # rules
     yabai -m rule --add app="^Karabiner-Elements$" manage=off
-    yabai -m rule --add app="^Clash Nyanpasu$" manage=off
+    yabai -m rule --add app="^Clash.*$" manage=off
     yabai -m rule --add app="^访达$" manage=off
     yabai -m rule --add app="^GitHub Desktop$" manage=off
     yabai -m rule --add app="^微信$" manage=off
@@ -64,7 +65,9 @@ inputs@{ user, pkgs, config, chat, ... }:
     yabai -m rule --add app="^网易云音乐$" manage=off
     yabai -m rule --add app="^系统设置$" manage=off
     yabai -m rule --add app="^evt-app$" manage=off
+    yabai -m rule --add app="^evt-.*$" manage=off
     yabai -m rule --add app="^winit window$" manage=off
+    yabai -m rule --add app="^Epic Games.*$" manage=off
   '';
   # home.file.".aerospace.toml".source = ./aerospace.toml;
 

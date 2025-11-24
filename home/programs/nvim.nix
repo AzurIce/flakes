@@ -13,6 +13,7 @@ inputs@{ pkgs, nixvim, ... }:
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
     enable = true;
     # defaultEditor = true;
+
     colorscheme = "ayu";
     colorschemes.ayu = {
       enable = true;
@@ -63,6 +64,12 @@ inputs@{ pkgs, nixvim, ... }:
         key = "L";
         action = "$";
       }
+
+      {
+        key = "<C-Esc>";
+        action = "<C-\\><C-n>";
+        mode = "t";
+      }
     ];
     
     plugins = {
@@ -79,27 +86,33 @@ inputs@{ pkgs, nixvim, ... }:
 
       neo-tree = {
         enable = true;
-        addBlankLineAtTop = true;
-        sources = [ "filesystem" "buffers" "git_status" "document_symbols" ];
-        filesystem = {
-          bindToCwd = false;
-          followCurrentFile.enabled = true;
-          useLibuvFileWatcher = true;
-        };
-        sourceSelector = {
-          winbar = true;
-          statusline = false;
-        };
-        window = {
-          mappings = {
-            "<space>" = "none";
-            "<cr>" = {
-              command = "toggle_node";
-              config = { nowait = true; };
+        settings = {
+          add_blank_line_at_top= true;
+          sources = [ "filesystem" "buffers" "git_status" "document_symbols" ];
+          filesystem = {
+            bind_to_cwd= false;
+            follow_current_file.enabled = true;
+            use_libuv_file_watcher = true;
+          };
+          source_selector = {
+            winbar = true;
+            statusline = false;
+          };
+          window = {
+            mappings = {
+              "<space>" = "none";
+              "<cr>" = {
+                command = "toggle_node";
+                config = { nowait = true; };
+              };
+              "o" = "open";
             };
-            "o" = "open";
           };
         };
+      };
+
+      toggleterm = {
+        enable = true;
       };
 
       treesitter = {

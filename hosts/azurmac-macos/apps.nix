@@ -1,6 +1,8 @@
 { pkgs, system, chat, chromium-darwin, ... }: {
 
-  imports = [];
+  imports = [
+    # ../../modules/programs/nvim.nix
+  ];
 
   ##########################################################################
   #
