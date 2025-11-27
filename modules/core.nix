@@ -25,5 +25,7 @@
   programs.zsh.shellInit = ''
     export ANTHROPIC_BASE_URL="https://api.aicodemirror.com/api/claudecode"
     export ANTHROPIC_API_KEY="$(cat ${config.sops.secrets.aicodemirrorKey.path})"
+    export GOOGLE_GEMINI_BASE_URL="https://api.aicodemirror.com/api/gemini"
+    export GEMINI_API_KEY="$(cat ${config.sops.secrets.aicodemirrorKey.path})"
   '';
 }

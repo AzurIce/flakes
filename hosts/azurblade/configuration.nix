@@ -93,7 +93,7 @@ inputs@{ config, lib, pkgs, ... }:
       packages = with pkgs; [
         # firefox
         just
-        inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+        inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
         vivaldi
         # wlx-overlay-s
         wechat-uos

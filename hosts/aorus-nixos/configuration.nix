@@ -92,7 +92,7 @@ inputs@{ config, lib, pkgs, ... }:
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
         # firefox
-        inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin
+        inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
         vivaldi
         # wlx-overlay-s
         wechat-uos

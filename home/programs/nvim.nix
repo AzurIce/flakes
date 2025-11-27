@@ -10,7 +10,7 @@ inputs@{ pkgs, nixvim, ... }:
   ];
 
   programs.nixvim = {
-    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
     enable = true;
     # defaultEditor = true;
 

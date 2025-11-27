@@ -68,6 +68,7 @@ inputs@{ user, pkgs, config, chat, ... }:
     yabai -m rule --add app="^evt-.*$" manage=off
     yabai -m rule --add app="^winit window$" manage=off
     yabai -m rule --add app="^Epic Games.*$" manage=off
+    yabai -m rule --add title="^虚幻项目浏览器$" manage=off
   '';
   # home.file.".aerospace.toml".source = ./aerospace.toml;
 

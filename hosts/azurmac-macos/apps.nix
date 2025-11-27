@@ -60,11 +60,15 @@
     codex
 
     clash-rs
+    orbstack
+    gemini-cli
+    claude-code
+    codex
     # clash-verge-rev
     # clash-nyanpasu
   ]) ++ [
-    chat.packages.${pkgs.system}.default
-    chromium-darwin.packages.${pkgs.system}.default
+    chat.packages.${pkgs.stdenv.hostPlatform.system}.default
+    chromium-darwin.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
 
@@ -182,7 +186,7 @@
       "barik"
       "wechat"
       "typora"
-      "orbstack"
+      # "orbstack"
       # "ghostty"
       "ghostty@tip"
       # "todesk"

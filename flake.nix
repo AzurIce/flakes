@@ -2,7 +2,8 @@
   description = "My personal flakes";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url  = "github:numtide/flake-utils";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     chat.url = "github:YXHXianYu/chat";
     # nixpkgs.url = "github:nixos/nixpkgs/273673e839189c26130d48993d849a84199523e6";
@@ -15,7 +16,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -76,6 +77,13 @@
         mac = true;
       }
     );
-
-  };
+  } // inputs.flake-utils.lib.eachDefaultSystem (system: let 
+    pkgs = inputs.nixpkgs.legacyPackages.${system};
+  in {
+    devShells.default = pkgs.mkShell {
+      packages = with pkgs; [
+        sops
+      ];
+    };
+  });
 }
