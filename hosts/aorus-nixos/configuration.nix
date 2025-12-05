@@ -32,6 +32,14 @@ inputs@{ config, lib, pkgs, ... }:
 
   services.openssh.enable = true;
 
+  # i18n.inputMethod = {
+  #   enable = true;
+  #   type = "fcitx5";
+  #   fcitx5.addons = with pkgs; [
+  #     fcitx5-rime
+  #     fcitx5-gtk
+  #   ];
+  # };
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
   # console = {
@@ -55,7 +63,7 @@ inputs@{ config, lib, pkgs, ... }:
   fonts = {
     packages = with pkgs; [
       jetbrains-mono
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       lxgw-wenkai
       wqy_microhei
       nerd-fonts.jetbrains-mono

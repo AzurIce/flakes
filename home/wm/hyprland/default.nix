@@ -98,8 +98,8 @@ inputs@{ pkgs, mac, ... }:
       };
       gestures = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
-        workspace_swipe = true;
-        workspace_swipe_fingers = 3;
+        # workspace_swipe = true;
+        # workspace_swipe_fingers = 3;
         workspace_swipe_distance = 250;
         workspace_swipe_invert = true;
         workspace_swipe_min_speed_to_force = 15;
