@@ -159,9 +159,12 @@ inputs@{ pkgs, mac, ... }:
       exec-once = [
         "eww open topbar & hyprpaper & fcitx5 & clash-verge & syncthingtray --wait"
       ];
-      windowrulev2 = [
-        "float, class:org.fcitx."
-        "float, class:clash-verge"
+      workspace = [
+        "r[1-3], monitor:desc:Philips Consumer Electronics Company PHL 345M1CR UK02107000363"
+      ];
+      windowrule = [
+        "match:class org.fcitx., float on"
+        "match:class clash-verge, float on"
       ];
     } // {
       "$mod" = if mac then

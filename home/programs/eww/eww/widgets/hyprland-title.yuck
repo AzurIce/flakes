@@ -1,5 +1,8 @@
-(deflisten windows_title :initial "..." "sh ~/.config/eww/scripts/get-window-title")
+(deflisten window :initial "..." "sh ~/.config/eww/scripts/get-window-title")
 
 (defwidget title []
-    (label :text "${windows_title}")
+  (box
+    (label :text "${window}"
+    )
+  )
 )
