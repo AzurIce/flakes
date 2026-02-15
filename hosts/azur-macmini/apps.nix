@@ -1,4 +1,5 @@
-{ pkgs, system, ... }: {
+inputs@{ pkgs, system, ... }:
+{
 
   imports = [
     # ../../modules/programs/typora
@@ -17,52 +18,58 @@
   # But on macOS, it's less stable than homebrew.
   #
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
-  environment.systemPackages = with pkgs; [
-    eza
-    git
-    # git-lfs
-    # vim
-    helix
-    alacritty
-    # android-tools
-    # jdk8
-    # oraclejdk8
-    btop
-    # vivaldi
+  environment.systemPackages =
+    with pkgs;
+    [
+      eza
+      git
+      # git-lfs
+      # vim
+      helix
+      alacritty
+      # android-tools
+      # jdk8
+      # oraclejdk8
+      btop
+      # vivaldi
 
-    just
-    nushell
-    ffmpeg
-    fzf
-    yazi
+      just
+      nushell
+      ffmpeg
+      fzf
+      yazi
 
-    rust-analyzer
-    nil
-    nixpkgs-fmt
-    poetry
-    bun
-    nodejs_22
-    nodePackages_latest.pnpm
-    typst
-    sqlite
-    pandoc
-    python3
-    obsidian
-    iterm2
-    raycast
-    vscode
-    cargo
-    lua51Packages.luarocks
-    lua51Packages.lua
-    jdk21
-    aerospace
-    ice-bar
-    # arc-browser
-    aria2
+      ollama
+      rust-analyzer
+      # nil
+      nixd
+      nixpkgs-fmt
+      bun
+      nodejs_22
+      nodePackages_latest.pnpm
+      typst
+      sqlite
+      pandoc
+      python3
+      obsidian
+      iterm2
+      raycast
+      vscode
+      cargo
+      lua51Packages.luarocks
+      lua51Packages.lua
+      jdk21
+      aerospace
+      ice-bar
+      # arc-browser
+      aria2
 
-    localsend
-    sing-box
-  ];
+      localsend
+      sing-box
+    ]
+    ++ [
+      # inputs.moltis.packages.${pkgs.system}.default
+    ];
 
   # services.postgresql = {
   #   enable = true;
@@ -91,6 +98,12 @@
     serviceConfig.RunAtLoad = true;
     serviceConfig.KeepAlive = true;
   };
+
+  # launchd.user.agents.moltis = {
+  #   serviceConfig.ProgramArguments = [ "/opt/homebrew/bin/moltis" ];
+  #   serviceConfig.RunAtLoad = true;
+  #   serviceConfig.KeepAlive = true;
+  # };
 
   # services.yabai = {
   #   enable = true;
@@ -169,6 +182,7 @@
     # `brew install`
     # TODO Feel free to add your favorite apps here.
     brews = [
+      "moltis-org/tap/moltis"
       # "sing-box"
     ];
 
