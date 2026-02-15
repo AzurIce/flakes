@@ -1,4 +1,10 @@
-inputs@{ user, pkgs, config, chat, ... }:
+inputs@{
+  user,
+  pkgs,
+  config,
+  chat,
+  ...
+}:
 
 {
   imports = [
@@ -10,6 +16,7 @@ inputs@{ user, pkgs, config, chat, ... }:
     ../../home/programs/zsh.nix
     ../../home/programs/rio.nix
     ../../home/programs/nvim.nix
+    ../../home/programs/opencode.nix
 
     ../../modules/fonts.nix
     # ../../modules/programs/nvim.nix
@@ -18,7 +25,40 @@ inputs@{ user, pkgs, config, chat, ... }:
     # ../../modules/programs/kitty.nix
     #../../modules/programs/rime.nix
     # ../../modules/programs/obs-studio/home.nix
+    # inputs.paneru.homeModules.paneru
   ];
+
+  # services.paneru = {
+  #   enable = true;
+  #   # Equivalent to what you would put into `~/.paneru` (See Configuration options below).
+  #   settings = {
+  #     options = {
+  #       preset_column_widths = [
+  #         0.25
+  #         0.33
+  #         0.5
+  #         0.66
+  #         0.75
+  #       ];
+  #       swipe_gesture_fingers = 4;
+  #       animation_speed = 4000;
+  #     };
+  #     bindings = {
+  #       window_focus_west = "alt - h";
+  #       window_focus_east = "alt - l";
+  #       window_focus_north = "alt - k";
+  #       window_focus_south = "alt - j";
+  #       window_swap_west = "alt + shift - h";
+  #       window_swap_east = "alt + shift - l";
+  #       window_center = "alt - c";
+  #       window_resize = "alt - r";
+  #       window_fullwidth = "alt - f";
+  #       window_manage = "alt + shift - space";
+  #       window_stack = "alt - ]";
+  #       window_unstack = "alt + shift - ]";
+  #     };
+  #   };
+  # };
 
   home = {
     username = "${user}";
@@ -34,7 +74,7 @@ inputs@{ user, pkgs, config, chat, ... }:
   home.file.".barik-config.toml".source = ../../home/wm/.barik-config.toml;
 
   home.file.".yabairc".text = ''
-    yabai -m config focus_follows_mouse autofocus
+    # yabai -m config focus_follows_mouse autofocus
 
     yabai -m config mouse_modifier alt
     yabai -m config mouse_action1 move
@@ -64,6 +104,7 @@ inputs@{ user, pkgs, config, chat, ... }:
     yabai -m rule --add app="^QQ$" manage=off
     yabai -m rule --add app="^网易云音乐$" manage=off
     yabai -m rule --add app="^系统设置$" manage=off
+    yabai -m rule --add app="^磁盘工具$" manage=off
     yabai -m rule --add app="^evt-app$" manage=off
     yabai -m rule --add app="^evt-.*$" manage=off
     yabai -m rule --add app="^winit window$" manage=off

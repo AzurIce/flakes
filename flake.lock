@@ -1139,6 +1139,26 @@
         "type": "github"
       }
     },
+    "paneru": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770939321,
+        "narHash": "sha256-OVF0sxT7mgZroAhOjK3QZqtnzOFcxN3wnxgghSYGgNw=",
+        "owner": "karinushka",
+        "repo": "paneru",
+        "rev": "c0537d166144f0776eb1bf0539942bda218716d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "karinushka",
+        "repo": "paneru",
+        "type": "github"
+      }
+    },
     "powertest": {
       "inputs": {
         "flake-utils": [
@@ -1237,6 +1257,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_7",
         "nixvim": "nixvim",
+        "paneru": "paneru",
         "sops-nix": "sops-nix"
       }
     },

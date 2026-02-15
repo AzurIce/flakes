@@ -23,8 +23,13 @@
     '';
 
     defaults = {
-      menuExtraClock.Show24Hour = true;  # show 24 hour clock
-
+      menuExtraClock.Show24Hour = true; # show 24 hour clock
+      NSGlobalDomain = {
+        ApplePressAndHoldEnabled = false;
+        AppleShowAllExtensions = true;
+        AppleShowAllFiles = true;
+      };
+      
       # other macOS's defaults configuration.
       # ......
     };

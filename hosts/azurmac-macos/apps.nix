@@ -1,4 +1,11 @@
-{ pkgs, system, chat, chromium-darwin, ... }: {
+{
+  pkgs,
+  system,
+  chat,
+  chromium-darwin,
+  ...
+}:
+{
 
   imports = [
     # ../../modules/programs/nvim.nix
@@ -17,67 +24,70 @@
   # But on macOS, it's less stable than homebrew.
   #
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
-  environment.systemPackages = (with pkgs; [
-    git
-    git-lfs
-    # vim
-    helix
-    imhex
-    alacritty
-    android-tools
-    btop
-    # arc-browser
+  environment.systemPackages =
+    (with pkgs; [
+      git
+      git-lfs
+      # vim
+      helix
+      imhex
+      alacritty
+      android-tools
+      btop
+      # arc-browser
 
-    eza
-    just
-    nushell
-    ffmpeg
-    fzf
+      eza
+      just
+      nushell
+      ffmpeg
+      fzf
 
-    rust-analyzer
-    nil
-    nixfmt
-    nixpkgs-fmt
-    bun
-    nodePackages_latest.pnpm
-    # typst
-    pandoc
-    python3
-    raycast
-    # vscode
-    cargo
-    lua51Packages.luarocks
-    lua51Packages.lua
-    jdk25
-    aerospace
-    ice-bar
+      rust-analyzer
+      nixd
+      nixfmt
+      # nixpkgs-fmt
+      bun
+      nodePackages_latest.pnpm
+      # typst
+      pandoc
+      # python3
+      raycast
+      vscode
+      cargo
+      lua51Packages.luarocks
+      lua51Packages.lua
+      jdk25
+      aerospace
+      ice-bar
 
-    localsend
-    sing-box
-    zotero
+      localsend
+      sing-box
+      zotero
 
-    claude-code
-    codex
+      claude-code
+      codex
 
-    clash-rs
-    orbstack
-    gemini-cli
-    claude-code
-    codex
-    # clash-verge-rev
-    # clash-nyanpasu
-  ]) ++ [
-    chat.packages.${pkgs.stdenv.hostPlatform.system}.default
-    chromium-darwin.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ];
+      clash-rs
+      orbstack
 
+      # vibe coding
+      gemini-cli
+      claude-code
+      codex
+      opencode
+      # clash-verge-rev
+      # clash-nyanpasu
+    ])
+    ++ [
+      chat.packages.${pkgs.stdenv.hostPlatform.system}.default
+      chromium-darwin.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
 
   # launchd.user.agents.clash = {
   #   serviceConfig.ProgramArguments = [ "${pkgs.clash-rs}/bin/clash" ];
   #   # serviceConfig.RunAtLoad = true;
   #   # serviceConfig.KeepAlive = true;
   # };
-  
 
   # services.postgresql = {
   #   enable = true;

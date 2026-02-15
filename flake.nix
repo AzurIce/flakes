@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url  = "github:numtide/flake-utils";
+    flake-utils.url = "github:numtide/flake-utils";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     chat.url = "github:YXHXianYu/chat";
     # nixpkgs.url = "github:nixos/nixpkgs/273673e839189c26130d48993d849a84199523e6";
@@ -24,7 +24,7 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,53 +37,75 @@
     hyprland.url = "github:hyprwm/Hyprland";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     chromium-darwin.url = "github:lrworth/chromium-bin-flake";
+    # flake.nix
+    paneru = {
+      url = "github:karinushka/paneru";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, ... }: let
-    host-inputs = inputs // { user = "azurice"; };
-  in {
+  outputs =
+    inputs@{ self, ... }:
+    let
+      host-inputs = inputs // {
+        user = "azurice";
+      };
+    in
+    {
 
-    nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos (
-      host-inputs // {
-        system = "x86_64-linux";
-        mac = false;
+      nixosConfigurations.aorus-nixos = import ./hosts/aorus-nixos (
+        host-inputs
+        // {
+          system = "x86_64-linux";
+          mac = false;
+        }
+      );
+
+      nixosConfigurations.nixos-wsl = import ./hosts/nixos-wsl (
+        host-inputs
+        // {
+          system = "x86_64-linux";
+          mac = false;
+        }
+      );
+
+      nixosConfigurations.azurblade = import ./hosts/azurblade (
+        host-inputs
+        // {
+          system = "x86_64-linux";
+          mac = false;
+        }
+      );
+
+      darwinConfigurations.azurmac-macos = import ./hosts/azurmac-macos (
+        host-inputs
+        // {
+          system = "aarch64-darwin";
+          mac = true;
+        }
+      );
+
+      darwinConfigurations.azur-macmini = import ./hosts/azur-macmini (
+        host-inputs
+        // {
+          system = "aarch64-darwin";
+          mac = true;
+        }
+      );
+    }
+    // inputs.flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            sops
+            ssh-to-age
+            age
+          ];
+        };
       }
     );
-
-    nixosConfigurations.nixos-wsl = import ./hosts/nixos-wsl (
-      host-inputs // {
-        system = "x86_64-linux";
-        mac = false;
-      }
-    );
-
-    nixosConfigurations.azurblade = import ./hosts/azurblade (
-      host-inputs // {
-        system = "x86_64-linux";
-        mac = false;
-      }
-    );
-
-    darwinConfigurations.azurmac-macos = import ./hosts/azurmac-macos (
-      host-inputs // {
-        system = "aarch64-darwin";
-        mac = true;
-      }
-    );
-
-    darwinConfigurations.azur-macmini = import ./hosts/azur-macmini (
-      host-inputs // {
-        system = "aarch64-darwin";
-        mac = true;
-      }
-    );
-  } // inputs.flake-utils.lib.eachDefaultSystem (system: let 
-    pkgs = inputs.nixpkgs.legacyPackages.${system};
-  in {
-    devShells.default = pkgs.mkShell {
-      packages = with pkgs; [
-        sops
-      ];
-    };
-  });
 }
