@@ -6,7 +6,7 @@ inputs@{ pkgs, nixvim, ... }:
   ];
 
   home.packages = with pkgs; [
-    nixfmt-classic
+    nixfmt
   ];
 
   programs.nixvim = {

@@ -1,8 +1,7 @@
-{
-  system,
-  mac,
-  config,
-  ...
+{ system
+, mac
+, config
+, ...
 }:
 
 {
@@ -19,15 +18,23 @@
 
     age.generateKey = true;
 
-    secrets.hashedPassword = {
-      # path = "/home/azurice/password";
-      neededForUsers = true;
-    };
-    secrets.aicodemirrorKey = {
-      owner = "azurice";
-    };
-    secrets.minimaxKey = {
-      owner = "azurice";
+    secrets = {
+      hashedPassword = {
+        # path = "/home/azurice/password";
+        neededForUsers = true;
+      };
+      aicodemirrorKey = {
+        owner = "azurice";
+      };
+      minimaxKey = {
+        owner = "azurice";
+      };
+      siliconflowKey = {
+        owner = "azurice";
+      };
+      rightcodeKey= {
+        owner = "azurice";
+      };
     };
   };
 

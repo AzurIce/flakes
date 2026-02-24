@@ -5,7 +5,7 @@ inputs@{ pkgs, system, mac, ... }:
     # rust-analyzer
 
     nil
-    nixpkgs-fmt
+    nixfmt
   ];
 
   programs.helix = {
@@ -15,7 +15,7 @@ inputs@{ pkgs, system, mac, ... }:
     languages = {
       language = [
         { name = "rust"; }
-        { name = "nix"; formatter.command = "nixpkgs-fmt"; }
+        { name = "nix"; formatter.command = "nixfmt"; }
       ];
     };
 
