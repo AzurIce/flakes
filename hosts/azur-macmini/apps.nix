@@ -5,33 +5,14 @@ inputs@{ pkgs, system, ... }:
     # ../../modules/programs/typora
   ];
 
-  ##########################################################################
-  #
-  #  NOTE: Your can find all available options in:
-  #    https://daiderd.com/nix-darwin/manual/index.html
-  #
-  ##########################################################################
-
-  # Install packages from nix's official package repository.
-  #
-  # The packages installed here are available to all users, and are reproducible across machines, and are rollbackable.
-  # But on macOS, it's less stable than homebrew.
-  #
-  # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   environment.systemPackages =
     with pkgs;
     [
       eza
       git
-      # git-lfs
-      # vim
       helix
       alacritty
-      # android-tools
-      # jdk8
-      # oraclejdk8
       btop
-      # vivaldi
 
       just
       nushell
@@ -41,44 +22,67 @@ inputs@{ pkgs, system, ... }:
 
       ollama
       rust-analyzer
-      # nil
       nixd
       nixpkgs-fmt
       bun
-      nodejs_22
-      nodePackages_latest.pnpm
       typst
       sqlite
       pandoc
       python3
-      obsidian
-      iterm2
       raycast
       vscode
       cargo
       lua51Packages.luarocks
       lua51Packages.lua
       jdk21
-      aerospace
-      ice-bar
-      # arc-browser
       aria2
 
       localsend
       sing-box
+
+      # vibe coding
+      gemini-cli
+      claude-code
+      codex
+      opencode
     ]
     ++ [
       # inputs.moltis.packages.${pkgs.system}.default
     ];
 
-  # services.postgresql = {
-  #   enable = true;
-  #   ensureDatabases = [ "mydatabase" ];
-  #   authentication = pkgs.lib.mkOverride 10 ''
-  #     #type database  DBuser  auth-method
-  #     local all       all     trust
-  #   '';
-  # };
+  # PostgreSQL service with user-owned data directory
+  system.activationScripts.postgresql.text = ''
+    if [ ! -d "/Users/azurice/.local/share/postgresql" ]; then
+      mkdir -p "/Users/azurice/.local/share/postgresql"
+      mkdir -p "/Users/azurice/.local/state/postgresql"
+    fi
+  '';
+
+  services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_18;
+    dataDir = "/Users/azurice/.local/share/postgresql/18";
+    enableTCPIP = true;
+
+    settings = {
+      listen_addresses = "*"; # 监听所有网络接口
+      port = 5432;
+    };
+
+    authentication = pkgs.lib.mkOverride 10 ''
+      #type database  DBuser  auth-method  address
+      local all       all     trust                    # 本地连接信任
+      host  all       all     127.0.0.1/32    trust    # 本机 IPv4
+      host  all       all     ::1/128         trust    # 本机 IPv6
+      host  all       all     192.168.0.0/16  scram-sha-256  # 局域网需要密码
+      host  all       all     10.0.0.0/8      scram-sha-256  # 另一个常见局域网段
+    '';
+  };
+
+  launchd.user.agents.postgresql.serviceConfig = {
+    StandardErrorPath = "/Users/azurice/.local/state/postgresql/error.log";
+    StandardOutPath = "/Users/azurice/.local/state/postgresql/output.log";
+  };
 
   environment.variables = {
     http_proxy = "http://127.0.0.1:7890";

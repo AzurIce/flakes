@@ -64,9 +64,6 @@
       sing-box
       zotero
 
-      claude-code
-      codex
-
       clash-rs
       orbstack
 
