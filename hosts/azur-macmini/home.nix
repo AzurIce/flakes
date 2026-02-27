@@ -1,4 +1,9 @@
-inputs@{ user, config, pkgs, ... }:
+inputs@{
+  user,
+  config,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -8,6 +13,7 @@ inputs@{ user, config, pkgs, ... }:
     ../../home/programs/zellij.nix
     ../../home/programs/zsh.nix
     ../../home/programs/rio.nix
+    ../../home/programs/opencode.nix
 
     ../../modules/fonts.nix
     ../../modules/programs/nvim.nix
@@ -50,12 +56,11 @@ inputs@{ user, config, pkgs, ... }:
   # home.file.".aerospace.toml".source = ./aerospace.toml;
 
   programs.direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      enableZshIntegration = true;
+    enable = true;
+    nix-direnv.enable = true;
+    enableZshIntegration = true;
   };
 
-  
   programs.aria2 = {
     enable = true;
     settings = {

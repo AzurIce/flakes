@@ -7,7 +7,7 @@ inputs@{ pkgs, user, ... }:
       provider = {
         anthropic = {
           options = {
-            baseURL = "https://right.codes/claude-aws/v1";
+            baseURL = "https://right.codes/claude/v1";
             # baseURL = "https://api.claudecode.net.cn/api/claudecode";
           };
         };
