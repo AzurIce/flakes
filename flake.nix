@@ -97,8 +97,18 @@
       system:
       let
         pkgs = inputs.nixpkgs.legacyPackages.${system};
+        lib = inputs.nixpkgs.lib;
       in
       {
+        packages.cc-switch = import ./packages/cc-switch.nix {
+          inherit lib;
+          inherit (pkgs) stdenvNoCC fetchurl unzip;
+        };
+        packages.splitrail = import ./packages/splitrail.nix {
+          inherit lib;
+          inherit (pkgs) stdenvNoCC fetchurl unzip;
+        };
+
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             sops
