@@ -67,6 +67,8 @@ inputs@{
       btop
       sketchybar
       eza
+      inputs.self.packages.${pkgs.system}.cc-switch
+      inputs.self.packages.${pkgs.system}.splitrail
     ];
   };
 
