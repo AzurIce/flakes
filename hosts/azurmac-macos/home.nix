@@ -122,6 +122,10 @@ inputs@{
     enableZshIntegration = true;
   };
 
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+  };
   # programs.ghostty = {
   #   # enable = true;
   #   settings = {
