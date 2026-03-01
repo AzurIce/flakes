@@ -36,6 +36,9 @@
       rightcodeKey = {
         owner = "azurice";
       };
+      splitrailKey = {
+        owner = "azurice";
+      };
     };
   };
 

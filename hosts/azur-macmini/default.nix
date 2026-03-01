@@ -15,6 +15,9 @@ nix-darwin.lib.darwinSystem {
       home-manager.useUserPackages = true;
       home-manager.extraSpecialArgs = inputs;
       home-manager.users.${user} = import ./home.nix;
+      home-manager.sharedModules = [
+        inputs.sops-nix.homeManagerModules.sops
+      ];
     }
   ];
 }

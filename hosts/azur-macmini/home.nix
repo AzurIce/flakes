@@ -14,6 +14,7 @@ inputs@{
     ../../home/programs/zsh.nix
     ../../home/programs/rio.nix
     ../../home/programs/opencode.nix
+    ../../home/programs/splitrail.nix
 
     ../../modules/fonts.nix
     ../../modules/programs/nvim.nix
