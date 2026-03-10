@@ -2,13 +2,18 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-inputs@{ config, lib, pkgs, ... }:
+inputs@{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -17,7 +22,7 @@ inputs@{ config, lib, pkgs, ... }:
   networking.hostName = "aorus-nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
@@ -59,7 +64,6 @@ inputs@{ config, lib, pkgs, ... }:
   hardware.nvidia.open = true;
   nixpkgs.config.allowUnfree = true;
 
-  
   fonts = {
     packages = with pkgs; [
       jetbrains-mono
@@ -100,7 +104,7 @@ inputs@{ config, lib, pkgs, ... }:
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
         # firefox
-        inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
+        # inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
         vivaldi
         # wlx-overlay-s
         wechat-uos
@@ -166,7 +170,6 @@ inputs@{ config, lib, pkgs, ... }:
   #   };
   # };
 
-  
   nix = {
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -179,7 +182,7 @@ inputs@{ config, lib, pkgs, ... }:
       trusted-substituters = [
         "https://hyprland.cachix.org"
       ];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
     };
   };
 
@@ -227,4 +230,3 @@ inputs@{ config, lib, pkgs, ... }:
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-

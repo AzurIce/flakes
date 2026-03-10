@@ -30,10 +30,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    firefox = {
-      url = "github:nix-community/flake-firefox-nightly";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # firefox = {
+    #   url = "github:nix-community/flake-firefox-nightly";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     hyprland.url = "github:hyprwm/Hyprland";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     chromium-darwin.url = "github:lrworth/chromium-bin-flake";
