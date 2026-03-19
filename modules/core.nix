@@ -3,9 +3,72 @@
   mac,
   config,
   pkgs,
+  lib,
   ...
 }:
 
+let
+  aicodemirrorKey = config.sops.secrets.aicodemirrorKey.path;
+  foxcodeKey = config.sops.secrets.foxcodeKey.path;
+  zaiKey = config.sops.secrets.zaiKey.path;
+  rightcodeKey = config.sops.secrets.rightcodeKey.path;
+
+  # ANTHROPIC Provider Configurations
+  anthropicProviders = {
+    foxcode-aws = {
+      baseUrl = "https://code.newcli.com/claude/aws";
+      authTokenFile = foxcodeKey;
+      extraVars = { };
+    };
+    foxcode = {
+      baseUrl = "https://code.newcli.com/claude";
+      authTokenFile = foxcodeKey;
+      extraVars = { };
+    };
+    foxcode-super = {
+      baseUrl = "https://code.newcli.com/claude/super";
+      authTokenFile = foxcodeKey;
+      extraVars = { };
+    };
+    foxcode-ultra = {
+      baseUrl = "https://code.newcli.com/claude/ultra";
+      authTokenFile = foxcodeKey;
+      extraVars = { };
+    };
+    zai = {
+      baseUrl = "https://api.z.ai/api/anthropic";
+      authTokenFile = zaiKey;
+      extraVars = {
+        ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-Air";
+        ANTHROPIC_DEFAULT_SONNET_MODEL = "glm-4.7";
+        ANTHROPIC_DEFAULT_OPUS_MODEL = "glm-5";
+        ANTHROPIC_MODEL = "glm-5";
+      };
+    };
+    rightcode-aws = {
+      baseUrl = "https://right.codes/claude-aws";
+      authTokenFile = rightcodeKey;
+      extraVars = { };
+    };
+    rightcode-sale = {
+      baseUrl = "https://right.codes/claude-sale";
+      authTokenFile = rightcodeKey;
+      extraVars = { };
+    };
+    rightcode = {
+      baseUrl = "https://right.codes/claude-sale";
+      authTokenFile = rightcodeKey;
+      extraVars = { };
+    };
+    aicodemirror = {
+      baseUrl = "https://api.claudecode.net.cn/api/claudecode";
+      authTokenFile = aicodemirrorKey;
+      extraVars = { };
+    };
+  };
+
+  providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);
+in
 {
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
@@ -54,54 +117,7 @@
 
   programs.zsh.shellInit =
     let
-      aicodemirrorKey = config.sops.secrets.aicodemirrorKey.path;
-      foxcodeKey = config.sops.secrets.foxcodeKey.path;
-      zaiKey = config.sops.secrets.zaiKey.path;
-      rightcodeKey = config.sops.secrets.rightcodeKey.path;
-
-      # ANTHROPIC Provider Configurations
-      anthropicProviders = {
-        foxcode-aws = {
-          baseUrl = "https://code.newcli.com/claude/aws";
-          authTokenFile = foxcodeKey;
-          extraVars = { };
-        };
-        foxcode = {
-          baseUrl = "https://code.newcli.com/claude";
-          authTokenFile = foxcodeKey;
-          extraVars = { };
-        };
-        zai = {
-          baseUrl = "https://api.z.ai/api/anthropic";
-          authTokenFile = zaiKey;
-          extraVars = {
-            ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-Air";
-            ANTHROPIC_DEFAULT_SONNET_MODEL = "glm-4.7";
-            ANTHROPIC_DEFAULT_OPUS_MODEL = "glm-5";
-            ANTHROPIC_MODEL = "glm-5";
-          };
-        };
-        rightcode-aws = {
-          baseUrl = "https://right.codes/claude-aws";
-          authTokenFile = rightcodeKey;
-          extraVars = { };
-        };
-        rightcode-sale = {
-          baseUrl = "https://right.codes/claude-sale";
-          authTokenFile = rightcodeKey;
-          extraVars = { };
-        };
-        rightcode = {
-          baseUrl = "https://right.codes/claude-sale";
-          authTokenFile = rightcodeKey;
-          extraVars = { };
-        };
-        aicodemirror = {
-          baseUrl = "https://api.claudecode.net.cn/api/claudecode";
-          authTokenFile = aicodemirrorKey;
-          extraVars = { };
-        };
-      };
+      minimaxKey = config.sops.secrets.minimaxKey.path;
 
       # Generate shell function for a provider
       mkProviderFunction = name: cfg: ''
@@ -150,21 +166,6 @@
           esac
         }
       '';
-
-      minimaxKey = config.sops.secrets.minimaxKey.path;
-
-      lib = pkgs.lib;
-
-      # Generate zsh completion for cc-switch
-      providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);
-      ccSwitchCompletion = ''
-        _cc-switch() {
-          local -a providers
-          providers=(${providerNames})
-          _describe 'provider' providers
-        }
-        compdef _cc-switch cc-switch
-      '';
     in
     ''
       export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
@@ -182,9 +183,18 @@
 
       ${ccSwitchCommand}
 
-      ${ccSwitchCompletion}
-
       # Default: use foxcode-aws
       _cc_foxcode-aws
     '';
+
+  # Completion setup - runs after compinit is loaded
+  programs.zsh.interactiveShellInit = ''
+    # Completion for cc-switch
+    _cc-switch() {
+      local -a providers
+      providers=(${providerNames})
+      _describe 'provider' providers
+    }
+    compdef _cc-switch cc-switch
+  '';
 }
