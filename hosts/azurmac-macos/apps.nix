@@ -11,19 +11,6 @@
     # ../../modules/programs/nvim.nix
   ];
 
-  ##########################################################################
-  #
-  #  NOTE: Your can find all available options in:
-  #    https://daiderd.com/nix-darwin/manual/index.html
-  #
-  ##########################################################################
-
-  # Install packages from nix's official package repository.
-  #
-  # The packages installed here are available to all users, and are reproducible across machines, and are rollbackable.
-  # But on macOS, it's less stable than homebrew.
-  #
-  # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   environment.systemPackages =
     (with pkgs; [
       git
@@ -45,10 +32,8 @@
       rust-analyzer
       nixd
       nixfmt
-      # nixpkgs-fmt
       bun
-      nodePackages_latest.pnpm
-      # typst
+      typst
       pandoc
       # python3
       raycast
@@ -57,8 +42,6 @@
       lua51Packages.luarocks
       lua51Packages.lua
       jdk25
-      aerospace
-      ice-bar
 
       localsend
       sing-box
@@ -67,11 +50,6 @@
       clash-rs
       orbstack
 
-      # vibe coding
-      gemini-cli
-      claude-code
-      codex
-      opencode
       # clash-verge-rev
       # clash-nyanpasu
     ])
