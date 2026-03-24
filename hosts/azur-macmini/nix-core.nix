@@ -1,5 +1,5 @@
 
-{ pkgs, lib, ... }:
+{ pkgs, lib, nix-openclaw, ... }:
 
 {
   # enable flakes globally
@@ -16,6 +16,16 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Allow insecure openclaw package
+  nixpkgs.config.permittedInsecurePackages = [
+    "openclaw-2026.3.12"
+  ];
+
+  # Add nix-openclaw overlay
+  nixpkgs.overlays = [
+    nix-openclaw.overlays.default
+  ];
 
   # Auto upgrade nix package and the daemon service.
   # services.nix-daemon.enable = true;

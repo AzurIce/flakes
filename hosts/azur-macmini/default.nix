@@ -1,4 +1,4 @@
-inputs@{ user, sops-nix, home-manager, nix-darwin, ... }:
+inputs@{ user, sops-nix, home-manager, nix-darwin, nix-openclaw, ... }:
 
 nix-darwin.lib.darwinSystem {
   system = inputs.system;
@@ -17,6 +17,7 @@ nix-darwin.lib.darwinSystem {
       home-manager.users.${user} = import ./home.nix;
       home-manager.sharedModules = [
         inputs.sops-nix.homeManagerModules.sops
+        nix-openclaw.homeManagerModules.openclaw
       ];
     }
   ];

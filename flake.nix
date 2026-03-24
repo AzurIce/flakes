@@ -42,6 +42,8 @@
       url = "github:karinushka/paneru";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-openclaw.url = "github:openclaw/nix-openclaw";
   };
 
   outputs =

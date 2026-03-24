@@ -15,6 +15,7 @@ inputs@{
     ../../home/programs/rio.nix
 
     ../../home/ai
+    ../../home/openclaw
     ../../home/fonts.nix
     ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
