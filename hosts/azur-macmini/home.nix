@@ -13,10 +13,9 @@ inputs@{
     ../../home/programs/zellij.nix
     ../../home/programs/zsh.nix
     ../../home/programs/rio.nix
-    ../../home/programs/opencode.nix
-    ../../home/programs/splitrail.nix
 
-    ../../modules/fonts.nix
+    ../../home/ai
+    ../../home/fonts.nix
     ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix

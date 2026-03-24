@@ -39,12 +39,6 @@ inputs@{ pkgs, system, ... }:
 
       localsend
       sing-box
-
-      # vibe coding
-      gemini-cli
-      claude-code
-      codex
-      opencode
     ]
     ++ [
       # inputs.moltis.packages.${pkgs.system}.default
