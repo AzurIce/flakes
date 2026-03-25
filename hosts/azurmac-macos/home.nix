@@ -18,6 +18,7 @@ inputs@{
     ../../home/programs/nvim.nix
 
     ../../home/ai
+    # ../../home/openclaw
     ../../home/fonts.nix
     # ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
@@ -67,7 +68,6 @@ inputs@{
       btop
       sketchybar
       eza
-      inputs.self.packages.${pkgs.system}.cc-switch
       inputs.self.packages.${pkgs.system}.splitrail
     ];
   };

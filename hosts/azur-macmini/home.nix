@@ -30,7 +30,6 @@ inputs@{
     homeDirectory = "/Users/${user}";
     packages = with pkgs; [
       btop
-      inputs.self.packages.${pkgs.system}.cc-switch
       inputs.self.packages.${pkgs.system}.splitrail
     ];
   };

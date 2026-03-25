@@ -1,5 +1,9 @@
-
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  nix-openclaw,
+  ...
+}:
 
 {
   # enable flakes globally
@@ -11,11 +15,22 @@
     trusted-substituters = [
       "https://mirrors.ustc.edu.cn/nix-channels/store"
     ];
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "openclaw-2026.3.12"
+  # ];
+
+  # # Add nix-openclaw overlay
+  # nixpkgs.overlays = [
+  #   nix-openclaw.overlays.default
+  # ];
 
   # Auto upgrade nix package and the daemon service.
   # services.nix-daemon.enable = true;
