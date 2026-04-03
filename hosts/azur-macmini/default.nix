@@ -13,6 +13,7 @@ nix-darwin.lib.darwinSystem {
     home-manager.darwinModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
+      home-manager.backupFileExtension = "backup";
       home-manager.extraSpecialArgs = inputs;
       home-manager.users.${user} = import ./home.nix;
       home-manager.sharedModules = [

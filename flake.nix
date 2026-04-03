@@ -37,11 +37,12 @@
     hyprland.url = "github:hyprwm/Hyprland";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     chromium-darwin.url = "github:lrworth/chromium-bin-flake";
-    # flake.nix
     paneru = {
       url = "github:karinushka/paneru";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    claude-code.url = "github:sadjow/claude-code-nix";
+    cc-statusline.url = "github:AzurIce/cc-statusline";
   };
 
   outputs =
@@ -49,6 +50,7 @@
     let
       host-inputs = inputs // {
         user = "azurice";
+        overlays = [ inputs.claude-code.overlays.default ];
       };
     in
     {

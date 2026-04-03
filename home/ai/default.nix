@@ -1,8 +1,6 @@
-{
-  system,
+inputs@{
   config,
   pkgs,
-  mac,
   lib,
   ...
 }:
@@ -68,6 +66,8 @@ let
   };
 
   providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);
+
+  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
 in
 {
   imports = [
@@ -75,25 +75,27 @@ in
     ./splitrail.nix
   ];
 
-  home.packages = with pkgs; [
-    # vibe coding
-    gemini-cli
-    claude-code
-    codex
+  home.packages =
+    with pkgs;
+    [
+      # vibe coding
+      gemini-cli
+      claude-code
+      codex
 
-    rtk
-  ];
+      rtk
+    ]
+    ++ [
+      inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
+
+  home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.claude";
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     age = {
       sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-
-      keyFile =
-        if system == "aarch64-darwin" && mac == true then
-          "/Users/azurice/.age-key.txt"
-        else
-          "/home/azurice/.age-key.txt";
+      keyFile = "${config.home.homeDirectory}/.age-key.txt";
     };
 
     secrets = {
