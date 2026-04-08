@@ -39,6 +39,7 @@ inputs@{ pkgs, system, ... }:
 
       localsend
       sing-box
+      dust
     ]
     ++ [
       # inputs.moltis.packages.${pkgs.system}.default
