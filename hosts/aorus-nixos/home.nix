@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ../../home/programs/zsh.nix
+    ../../home/ai
     ../../home/wm/hyprland
     ../../home/programs/eww
     ../../home/programs/kitty.nix
@@ -29,6 +31,8 @@
 
     bash.enable = true; # see note on other shells below
   };
+
+  programs.zed-editor.enable = true;
 
   programs.home-manager.enable = true;
   manual.manpages.enable = false;
