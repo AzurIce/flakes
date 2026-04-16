@@ -23,6 +23,11 @@ let
       authTokenFile = foxcodeKey;
       extraVars = { };
     };
+    foxcode-turbo = {
+      baseUrl = "https://code.newcli.com/claude/turbo";
+      authTokenFile = foxcodeKey;
+      extraVars = { };
+    };
     foxcode-super = {
       baseUrl = "https://code.newcli.com/claude/super";
       authTokenFile = foxcodeKey;
@@ -82,6 +87,7 @@ in
       gemini-cli
       claude-code
       codex
+      pi-coding-agent
 
       rtk
     ]
@@ -90,6 +96,7 @@ in
     ];
 
   home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.claude";
+  home.file.".pi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.pi";
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
@@ -118,7 +125,7 @@ in
       mkProviderFunction = name: cfg: ''
         _cc_${name}() {
           export ANTHROPIC_BASE_URL="${cfg.baseUrl}"
-          export ANTHROPIC_AUTH_TOKEN="$(cat ${cfg.authTokenFile})"
+          export ANTHROPIC_API_KEY="$(cat ${cfg.authTokenFile})"
           ${lib.concatStringsSep "\n  " (lib.mapAttrsToList (k: v: "export ${k}=\"${v}\"") cfg.extraVars)}
           ${lib.optionalString (cfg.extraVars == { })
             "unset ANTHROPIC_DEFAULT_HAIKU_MODEL ANTHROPIC_DEFAULT_SONNET_MODEL ANTHROPIC_DEFAULT_OPUS_MODEL ANTHROPIC_MODEL 2>/dev/null"
@@ -177,16 +184,18 @@ in
 
       # Other API Keys
       export MINIMAX_API_KEY="$(cat ${minimaxKey})"
-      export GOOGLE_GEMINI_BASE_URL="https://api.claudecode.net.cn/api/gemini"
-      export GEMINI_API_KEY="$(cat ${aicodemirrorKey})"
-      export OPENAI_BASE_URL="https://api.claudecode.net.cn/api/codex/backend-api/codex"
-      export OPENAI_API_KEY="$(cat ${aicodemirrorKey})"
+      export GOOGLE_GEMINI_BASE_URL="https://code.newcli.com/gemini"
+      # export GOOGLE_GEMINI_BASE_URL="https://api.claudecode.net.cn/api/gemini"
+      export GEMINI_API_KEY="$(cat ${foxcodeKey})"
+      # export OPENAI_BASE_URL="https://api.claudecode.net.cn/api/codex/backend-api/codex"
+      export OPENAI_BASE_URL="hhttps://code.newcli.com/codex/v1"
+      export OPENAI_API_KEY="$(cat ${foxcodeKey})"
 
       ${providerFunctions}
 
       ${ccSwitchCommand}
 
-      # Default: use foxcode-aws
-      _cc_foxcode-aws
+      # Default: use foxcode-ultra
+      _cc_foxcode-ultra
     '';
 }
