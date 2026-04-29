@@ -1,15 +1,12 @@
 {
   pkgs,
   system,
-  chat,
   chromium-darwin,
   ...
 }:
 {
 
-  imports = [
-    # ../../modules/programs/nvim.nix
-  ];
+  imports = [ ];
 
   environment.systemPackages =
     (with pkgs; [
@@ -50,13 +47,15 @@
       clash-rs
       orbstack
 
+      # pkgs.android-studio-full
       # clash-verge-rev
       # clash-nyanpasu
     ])
     ++ [
-      chat.packages.${pkgs.stdenv.hostPlatform.system}.default
       chromium-darwin.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
+
+  # nixpkgs.config.android_sdk.accept_license = true;
 
   # launchd.user.agents.clash = {
   #   serviceConfig.ProgramArguments = [ "${pkgs.clash-rs}/bin/clash" ];

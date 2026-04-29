@@ -106,6 +106,7 @@ in
     };
 
     secrets = {
+      kimiCodeKey = { };
       aicodemirrorKey = { };
       minimaxKey = { };
       siliconflowKey = { };

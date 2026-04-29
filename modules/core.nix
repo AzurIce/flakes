@@ -5,10 +5,29 @@ inputs@{
 }:
 
 {
-  nixpkgs.overlays = [ inputs.claude-code.overlays.default ];
+  nixpkgs.overlays = [
+    inputs.claude-code.overlays.default
+    (
+      final: prev:
+      if prev.stdenv.isDarwin then
+        {
+          # Workaround for zsh sigsuspend autoconf probe failure under C23 on Darwin,
+          # which causes $(...) command substitutions to deadlock.
+          # See: https://github.com/NixOS/nixpkgs/issues/513543
+          zsh = prev.zsh.overrideAttrs (old: {
+            preConfigure = (old.preConfigure or "") + ''
+              export zsh_cv_sys_sigsuspend=yes
+            '';
+          });
+        }
+      else
+        { }
+    )
+  ];
 
   nix.settings = {
-    substituters = [
+    extra-substituters = [
+      "https://mirror.sjtu.edu.cn/nix-channels/store"
       "https://nix-community.cachix.org"
     ];
 

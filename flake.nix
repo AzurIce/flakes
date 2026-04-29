@@ -5,9 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    chat.url = "github:YXHXianYu/chat";
-    # nixpkgs.url = "github:nixos/nixpkgs/273673e839189c26130d48993d849a84199523e6";
-    # impermanence.url = "github:nix-community/impermanence";
     sops-nix.url = "github:Mic92/sops-nix";
 
     eza = {
@@ -25,10 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     # firefox = {
     #   url = "github:nix-community/flake-firefox-nightly";
