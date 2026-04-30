@@ -20,6 +20,7 @@ inputs@{
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix
     ../../modules/programs/kitty.nix
+    ../../modules/programs/caddy.nix
     #../../modules/programs/rime.nix
     # ../../modules/programs/obs-studio/home.nix
   ];
