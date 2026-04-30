@@ -4,7 +4,7 @@
   home.packages = [ pkgs.caddy ];
 
   xdg.configFile."caddy/Caddyfile".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/caddy/Caddyfile";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/flakes/.dotfiles/caddy/Caddyfile";
 
   launchd.agents.caddy = {
     enable = true;
