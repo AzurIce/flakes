@@ -68,6 +68,13 @@ let
       authTokenFile = aicodemirrorKey;
       extraVars = { };
     };
+    kimiCode = {
+      baseUrl = "https://api.kimi.com/coding/";
+      authTokenFile = config.sops.secrets.kimiCodeKey.path;
+      extraVars = {
+        ANTHROPIC_MODEL = "kimi-for-coding";
+      };
+    };
   };
 
   providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);

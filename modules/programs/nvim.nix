@@ -1,60 +1,56 @@
-inputs@{ pkgs, user, ... }:
+inputs@{ config, pkgs, user, ... }:
 
+let
+  rocksLuarocks = let
+    origWrapped = builtins.readFile "${pkgs.lua51Packages.luarocks}/bin/.luarocks-wrapped";
+    rustMlua = pkgs.lua51Packages.luarocks-build-rust-mlua;
+    modifiedWrapped = pkgs.lib.replaceStrings
+      [''package.path="'']
+      [''package.path="${rustMlua}/share/lua/5.1/?.lua;${rustMlua}/share/lua/5.1/?/init.lua;'']
+      origWrapped;
+    wrappedScript = pkgs.writeText "rocks-luarocks-wrapped" modifiedWrapped;
+  in pkgs.writeShellScriptBin "rocks-luarocks" ''
+    export PATH="${pkgs.gcc}/bin:${pkgs.cargo}/bin:$PATH"
+    exec ${pkgs.bash}/bin/sh ${wrappedScript} "$@"
+  '';
+
+  luarocksConfigStr = (pkgs.lib.generators.toLua { asBindings = false; } {
+    lua_version = "5.1";
+    rocks_trees = [
+      { name = "rocks.nvim"; root = "${config.home.homeDirectory}/.local/share/nvim/rocks"; }
+    ];
+    variables = {
+      CC = "${pkgs.gcc}/bin/gcc";
+    };
+  });
+in
 {
   programs.neovim = {
     package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
     enable = true;
-    # defaultEditor = true; # Set env EDITOR = nvim
     viAlias = true;
     vimAlias = true;
-#    extraLuaConfig = ''
-#    local rocks_config = {
-#        rocks_path = vim.fn.stdpath("data") .. "/rocks",
-#        luarocks_binary = "${pkgs.lua51Packages.luarocks}/bin/luarocks", 
-#    }
-
-#    vim.g.rocks_nvim = rocks_config
-
-#    local luarocks_path = {
-#        vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
-#        vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
-#    }
-#    package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
-
-#    local luarocks_cpath = {
-#        vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
-##        vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
-#    }
-#    package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
-
-#    if not vim.uv.fs_stat(rocks_config.rocks_path) then
-#      vim.system({
-#        rocks_config.luarocks_binary,
-#        "install",
-#        "--tree",
-#        rocks_config.rocks_path, 
-#        "--server='https://nvim-neorocks.github.io/rocks-binaries/'",
-#        "--lua-version=5.1",
-#        "rocks.nvim",
-#        }):wait()
-#    end
-
-#    vim.opt.runtimepath:append(vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*"))
-#    '';
   };
 
   home.packages = with pkgs; [
-    # for installing Rocks.nvim
     lua51Packages.luarocks
+    lua51Packages.luarocks-build-rust-mlua
     cargo
-    # clang
+    rustc
     gcc
-
-    # for install deps
     unzip
     tree-sitter
+    rocksLuarocks
   ];
 
-  # home.file.".config/nvim/rocks.toml".source = "${nvim-config}/rocks.toml";
-  # home.file.".config/nvim".source = nvim-config;
+  xdg.dataFile."nvim/nvim-nix/generated-by-nix.lua".text = ''
+    local M = {}
+    M.gcc_path = "${pkgs.gcc}/bin/gcc"
+    M.luarocks_executable = "${rocksLuarocks}/bin/rocks-luarocks"
+    return M
+  '';
+
+  xdg.dataFile."nvim/nvim-nix/luarocks-config-generated.lua".text = ''
+    return ${luarocksConfigStr}
+  '';
 }
