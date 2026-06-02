@@ -42,7 +42,7 @@
 
       localsend
       sing-box
-      zotero
+      # zotero
 
       clash-rs
       orbstack

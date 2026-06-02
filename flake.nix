@@ -106,6 +106,7 @@
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            nh
             sops
             ssh-to-age
             age

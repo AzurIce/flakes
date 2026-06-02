@@ -1,6 +1,8 @@
 inputs@{
   system,
+  pkgs,
   mac,
+  config,
   ...
 }:
 
@@ -56,6 +58,13 @@ inputs@{
       hashedPassword = {
         neededForUsers = true;
       };
+      access-tokens = { };
     };
   };
+
+  # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
+  nix.extraOptions = ''
+    !include ${config.sops.secrets."access-tokens".path}
+  '';
+  environment.systemPackages = [ pkgs.nh ];
 }
