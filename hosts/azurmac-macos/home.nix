@@ -2,7 +2,6 @@ inputs@{
   user,
   pkgs,
   config,
-  chat,
   ...
 }:
 
@@ -22,7 +21,6 @@ in
 
     ../../home/ai
     ../../home/fonts.nix
-    # ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix
     # ../../modules/programs/kitty.nix
@@ -71,8 +69,8 @@ in
       btop
       sketchybar
       eza
-      inputs.self.packages.${pkgs.system}.cc-switch
-      inputs.self.packages.${pkgs.system}.splitrail
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
     ];
   };
 
@@ -121,6 +119,6 @@ in
   #   };
   # };
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
   programs.home-manager.enable = true;
 }

@@ -68,6 +68,25 @@ let
       authTokenFile = aicodemirrorKey;
       extraVars = { };
     };
+    kimiCode = {
+      baseUrl = "https://api.kimi.com/coding";
+      authTokenFile = config.sops.secrets.kimiCodeKey.path;
+      extraVars = {
+        ANTHROPIC_MODEL = "kimi-for-coding";
+      };
+    };
+    deepseek = {
+      baseUrl = "https://api.deepseek.com/anthropic";
+      authTokenFile = config.sops.secrets.deepseekKey.path;
+      extraVars = {
+        ANTHROPIC_MODEL = "deepseek-v4-pro[1m]";
+        ANTHROPIC_DEFAULT_OPUS_MODEL = "deepseek-v4-pro[1m]";
+        ANTHROPIC_DEFAULT_SONNET_MODEL = "deepseek-v4-pro[1m]";
+        ANTHROPIC_DEFAULT_HAIKU_MODEL = "deepseek-v4-flash";
+        CLAUDE_CODE_SUBAGENT_MODEL = "deepseek-v4-flash";
+        CLAUDE_CODE_EFFORT_LEVEL = "max";
+      };
+    };
   };
 
   providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);
@@ -96,7 +115,9 @@ in
     ];
 
   home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.claude";
+  home.file.".codex".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.codex";
   home.file.".pi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.pi";
+  xdg.configFile."rua".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/rua";
 
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
@@ -106,6 +127,7 @@ in
     };
 
     secrets = {
+      kimiCodeKey = { };
       aicodemirrorKey = { };
       minimaxKey = { };
       siliconflowKey = { };
@@ -114,12 +136,14 @@ in
       opencodeGoKey = { };
       zaiKey = { };
       splitrailKey = { };
+      deepseekKey = { };
     };
   };
 
   programs.zsh.initContent =
     let
       minimaxKey = config.sops.secrets.minimaxKey.path;
+      deepseekKey = config.sops.secrets.deepseekKey.path;
 
       # Generate shell function for a provider
       mkProviderFunction = name: cfg: ''
@@ -184,6 +208,7 @@ in
 
       # Other API Keys
       export MINIMAX_API_KEY="$(cat ${minimaxKey})"
+      export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
       export GOOGLE_GEMINI_BASE_URL="https://code.newcli.com/gemini"
       # export GOOGLE_GEMINI_BASE_URL="https://api.claudecode.net.cn/api/gemini"
       export GEMINI_API_KEY="$(cat ${foxcodeKey})"
