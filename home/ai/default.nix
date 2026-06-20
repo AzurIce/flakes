@@ -119,25 +119,17 @@ in
   home.file.".pi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.pi";
   xdg.configFile."rua".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/rua";
 
-  sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
-    age = {
-      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      keyFile = "${config.home.homeDirectory}/.age-key.txt";
-    };
-
-    secrets = {
-      kimiCodeKey = { };
-      aicodemirrorKey = { };
-      minimaxKey = { };
-      siliconflowKey = { };
-      rightcodeKey = { };
-      foxcodeKey = { };
-      opencodeGoKey = { };
-      zaiKey = { };
-      splitrailKey = { };
-      deepseekKey = { };
-    };
+  sops.secrets = {
+    kimiCodeKey = { };
+    aicodemirrorKey = { };
+    minimaxKey = { };
+    siliconflowKey = { };
+    rightcodeKey = { };
+    foxcodeKey = { };
+    opencodeGoKey = { };
+    zaiKey = { };
+    splitrailKey = { };
+    deepseekKey = { };
   };
 
   programs.zsh.initContent =

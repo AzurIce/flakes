@@ -35,6 +35,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     claude-code.url = "github:sadjow/claude-code-nix";
+    codex-cli.url = "github:sadjow/codex-cli-nix";
     cc-statusline.url = "github:AzurIce/cc-statusline";
   };
 
@@ -43,7 +44,7 @@
     let
       host-inputs = inputs // {
         user = "azurice";
-        overlays = [ inputs.claude-code.overlays.default ];
+        overlays = [ inputs.claude-code.overlays.default inputs.codex-cli.overlays.default ];
       };
     in
     {
@@ -100,6 +101,10 @@
           inherit (pkgs) stdenvNoCC fetchurl unzip;
         };
         packages.splitrail = import ./packages/splitrail.nix {
+          inherit lib;
+          inherit (pkgs) stdenvNoCC fetchurl unzip;
+        };
+        packages.revelo = import ./packages/revelo.nix {
           inherit lib;
           inherit (pkgs) stdenvNoCC fetchurl unzip;
         };

@@ -9,6 +9,7 @@ inputs@{
 {
   nixpkgs.overlays = [
     inputs.claude-code.overlays.default
+    inputs.codex-cli.overlays.default
     (
       final: prev:
       if prev.stdenv.isDarwin then
@@ -58,13 +59,7 @@ inputs@{
       hashedPassword = {
         neededForUsers = true;
       };
-      access-tokens = { };
     };
   };
-
-  # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
-  nix.extraOptions = ''
-    !include ${config.sops.secrets."access-tokens".path}
-  '';
   environment.systemPackages = [ pkgs.nh ];
 }

@@ -10,6 +10,7 @@
 
   environment.systemPackages =
     (with pkgs; [
+      gh
       git
       git-lfs
       # vim
@@ -20,6 +21,7 @@
       btop
       # arc-browser
 
+      ripgrep
       eza
       just
       nushell
@@ -153,7 +155,10 @@
 
     taps = [
       "homebrew/services"
-      "mocki-toki/formulae"
+      {
+        name = "mocki-toki/formulae";
+        trusted = true;
+      }
     ];
 
     # `brew install`

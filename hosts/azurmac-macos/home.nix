@@ -29,6 +29,22 @@ in
     # inputs.paneru.homeModules.paneru
   ];
 
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    age = {
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      keyFile = "${config.home.homeDirectory}/.age-key.txt";
+    };
+    secrets = {
+      access-tokens = { };
+    };
+  };
+
+  # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
+  nix.extraOptions = ''
+    !include ${config.sops.secrets."access-tokens".path}
+  '';
+
   xdg.configFile."ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ghostty";
   # services.paneru = {
   #   enable = true;
@@ -71,6 +87,7 @@ in
       eza
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.revelo
     ];
   };
 
