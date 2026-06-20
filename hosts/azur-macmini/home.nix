@@ -20,6 +20,7 @@ inputs@{
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix
     ../../modules/programs/kitty.nix
+    ../../modules/programs/caddy.nix
     #../../modules/programs/rime.nix
     # ../../modules/programs/obs-studio/home.nix
   ];
@@ -29,8 +30,8 @@ inputs@{
     homeDirectory = "/Users/${user}";
     packages = with pkgs; [
       btop
-      inputs.self.packages.${pkgs.system}.cc-switch
-      inputs.self.packages.${pkgs.system}.splitrail
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
     ];
   };
 
@@ -83,6 +84,6 @@ inputs@{
   #   };
   # };
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
   programs.home-manager.enable = true;
 }

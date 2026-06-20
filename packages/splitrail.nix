@@ -6,8 +6,8 @@
 }:
 
 let
-  version = "3.4.0";
-  hash = "sha256-alv3Y1a97AW/YX2pwluGRcanIOIHwVhbr8A2Bmy4Ob8=";
+  version = "3.5.4";
+  hash = "sha256-j2VUrixKUT98QOUt/eOY9dh3VwCIJvDxH97+B+dxMJA=";
   platform =
     if stdenvNoCC.hostPlatform.isAarch64 then
       "aarch64-apple-darwin"

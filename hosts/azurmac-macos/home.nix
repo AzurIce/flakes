@@ -2,7 +2,6 @@ inputs@{
   user,
   pkgs,
   config,
-  chat,
   ...
 }:
 
@@ -22,7 +21,6 @@ in
 
     ../../home/ai
     ../../home/fonts.nix
-    # ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix
     # ../../modules/programs/kitty.nix
@@ -30,6 +28,22 @@ in
     # ../../modules/programs/obs-studio/home.nix
     # inputs.paneru.homeModules.paneru
   ];
+
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    age = {
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      keyFile = "${config.home.homeDirectory}/.age-key.txt";
+    };
+    secrets = {
+      access-tokens = { };
+    };
+  };
+
+  # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
+  nix.extraOptions = ''
+    !include ${config.sops.secrets."access-tokens".path}
+  '';
 
   xdg.configFile."ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ghostty";
   # services.paneru = {
@@ -71,8 +85,9 @@ in
       btop
       sketchybar
       eza
-      inputs.self.packages.${pkgs.system}.cc-switch
-      inputs.self.packages.${pkgs.system}.splitrail
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.revelo
     ];
   };
 
@@ -121,6 +136,6 @@ in
   #   };
   # };
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
   programs.home-manager.enable = true;
 }

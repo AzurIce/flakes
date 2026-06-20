@@ -1,11 +1,12 @@
 rebuild target=".#":
-    sudo nixos-rebuild switch --flake {{target}}
-      
+    sudo nixos-rebuild switch --flake {{ target }}
+
 # build and switch for mac
 darwin target=".#":
-  sudo darwin-rebuild switch --flake {{target}}
-  just proxy
+    nh darwin switch {{ target }}
+    # sudo darwin-rebuild switch --flake {{ target }}
+    just proxy
 
 # set proxy for mac
 proxy:
-  sudo python3 hosts/azurmac-macos/scripts/darwin_set_proxy.py
+    sudo python3 hosts/azurmac-macos/scripts/darwin_set_proxy.py

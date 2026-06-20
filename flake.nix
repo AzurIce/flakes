@@ -5,9 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    chat.url = "github:YXHXianYu/chat";
-    # nixpkgs.url = "github:nixos/nixpkgs/273673e839189c26130d48993d849a84199523e6";
-    # impermanence.url = "github:nix-community/impermanence";
     sops-nix.url = "github:Mic92/sops-nix";
 
     eza = {
@@ -25,10 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     # firefox = {
     #   url = "github:nix-community/flake-firefox-nightly";
@@ -42,6 +35,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     claude-code.url = "github:sadjow/claude-code-nix";
+    codex-cli.url = "github:sadjow/codex-cli-nix";
     cc-statusline.url = "github:AzurIce/cc-statusline";
   };
 
@@ -50,7 +44,7 @@
     let
       host-inputs = inputs // {
         user = "azurice";
-        overlays = [ inputs.claude-code.overlays.default ];
+        overlays = [ inputs.claude-code.overlays.default inputs.codex-cli.overlays.default ];
       };
     in
     {
@@ -110,9 +104,14 @@
           inherit lib;
           inherit (pkgs) stdenvNoCC fetchurl unzip;
         };
+        packages.revelo = import ./packages/revelo.nix {
+          inherit lib;
+          inherit (pkgs) stdenvNoCC fetchurl unzip;
+        };
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            nh
             sops
             ssh-to-age
             age
