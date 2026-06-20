@@ -107,7 +107,8 @@ inputs@{
         # inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
         vivaldi
         # wlx-overlay-s
-        wechat-uos
+        wechat
+        qq
         gamescope
       ];
       shell = pkgs.zsh;

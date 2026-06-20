@@ -2,10 +2,11 @@
 
 {
   imports = [
+    ../../home
     ../../home/programs/zsh.nix
     ../../home/ai
     ../../home/wm/hyprland
-    ../../home/programs/eww
+    ../../home/programs/eww.nix
     ../../home/programs/kitty.nix
     ../../home/programs/fcitx5.nix
     # ../../home/programs/nvim.nix
