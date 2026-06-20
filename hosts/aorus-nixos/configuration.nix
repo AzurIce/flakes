@@ -30,8 +30,8 @@ inputs@{
   # Configure network proxy if necessary
   networking.proxy = {
     # default = "socks5h://192.168.2.10:7890";
-    default = "http://127.0.0.1:7890";
-    # allProxy = "http://192.168.2.52:7890";
+    # default = "http://127.0.0.1:7890";
+    allProxy = "http://192.168.2.52:7890";
   };
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
@@ -108,6 +108,7 @@ inputs@{
         vivaldi
         # wlx-overlay-s
         wechat-uos
+        gamescope
       ];
       shell = pkgs.zsh;
     };

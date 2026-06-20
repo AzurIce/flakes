@@ -36,6 +36,7 @@
     };
     claude-code.url = "github:sadjow/claude-code-nix";
     codex-cli.url = "github:sadjow/codex-cli-nix";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     cc-statusline.url = "github:AzurIce/cc-statusline";
   };
 
