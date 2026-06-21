@@ -17,7 +17,6 @@ in
   };
 
   home.packages = with pkgs; [
-    eww
     jq
     socat
 

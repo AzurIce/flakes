@@ -42,7 +42,7 @@ inputs@{ pkgs, system, ... }:
       dust
     ]
     ++ [
-      # inputs.moltis.packages.${pkgs.system}.default
+      # inputs.moltis.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
   # PostgreSQL service with user-owned data directory

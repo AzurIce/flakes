@@ -2,8 +2,9 @@
 
 {
   imports = [
+    ../../home/fonts.nix
     ../../home/wm/hyprland
-    ../../home/programs/eww
+    ../../home/programs/ashell.nix
     ../../home/programs/kitty.nix
     ../../home/programs/nvim.nix
 
