@@ -37,6 +37,7 @@
     claude-code.url = "github:sadjow/claude-code-nix";
     codex-cli.url = "github:sadjow/codex-cli-nix";
     cc-statusline.url = "github:AzurIce/cc-statusline";
+    kimi-code.url = "github:MoonshotAI/kimi-code";
   };
 
   outputs =

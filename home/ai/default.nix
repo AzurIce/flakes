@@ -112,6 +112,7 @@ in
     ]
     ++ [
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.kimi-code.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
   home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.claude";
