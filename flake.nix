@@ -36,8 +36,11 @@
     };
     claude-code.url = "github:sadjow/claude-code-nix";
     codex-cli.url = "github:sadjow/codex-cli-nix";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     cc-statusline.url = "github:AzurIce/cc-statusline";
     kimi-code.url = "github:MoonshotAI/kimi-code";
+
+    nixpkgs-clash-verge-rev-old.url = "github:NixOS/nixpkgs/d6ff438";
   };
 
   outputs =
@@ -45,7 +48,10 @@
     let
       host-inputs = inputs // {
         user = "azurice";
-        overlays = [ inputs.claude-code.overlays.default inputs.codex-cli.overlays.default ];
+        overlays = [
+          inputs.claude-code.overlays.default
+          inputs.codex-cli.overlays.default
+        ];
       };
     in
     {

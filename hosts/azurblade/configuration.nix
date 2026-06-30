@@ -64,7 +64,16 @@ inputs@{
       wqy_microhei
       nerd-fonts.jetbrains-mono
     ];
-    fontconfig.hinting.autohint = true;
+    fontconfig = {
+      hinting = {
+        autohint = false;
+        style = "full";
+      };
+      subpixel = {
+        rgba = "rgb";
+        lcdfilter = "default";
+      };
+    };
   };
 
   # Configure keymap in X11

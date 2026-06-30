@@ -1,10 +1,16 @@
-inputs@{ pkgs, lib, system, mac, ... }:
+inputs@{
+  pkgs,
+  lib,
+  system,
+  mac,
+  ...
+}:
 
 {
   programs.git = {
     enable = true;
     settings = {
-      
+
       user = {
         name = "AzurIce";
         email = "973562770@qq.com";
@@ -12,8 +18,8 @@ inputs@{ pkgs, lib, system, mac, ... }:
       http.proxy = "http://127.0.0.1:7890";
       https.proxy = "https://127.0.0.1:7890";
       safe.directory = "*";
-      credential.helper = lib.mkIf (!mac)
-        "${pkgs.git-credential-manager}/bin/git-credential-manager";
+      credential.helper = lib.mkIf (!mac) "${pkgs.git-credential-manager}/bin/git-credential-manager";
+      credential.credentialStore = lib.mkIf (!mac) "cache";
     };
 
     ignores = [

@@ -2,9 +2,8 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-inputs@{
+{
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -30,8 +29,8 @@ inputs@{
   # Configure network proxy if necessary
   networking.proxy = {
     # default = "socks5h://192.168.2.10:7890";
-    default = "socks5h://127.0.0.1:7890";
-    # allProxy = "http://192.168.2.52:7890";
+    # default = "http://127.0.0.1:7890";
+    allProxy = "http://192.168.2.52:7890";
   };
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
@@ -62,6 +61,7 @@ inputs@{
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.graphics.enable = true;
   hardware.nvidia.open = true;
+  hardware.nvidia.modesetting.enable = true;
   nixpkgs.config.allowUnfree = true;
 
   fonts = {
@@ -72,7 +72,6 @@ inputs@{
       wqy_microhei
       nerd-fonts.jetbrains-mono
     ];
-    fontconfig.hinting.autohint = true;
   };
 
   # Configure keymap in X11
@@ -107,10 +106,14 @@ inputs@{
         # inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
         vivaldi
         # wlx-overlay-s
-        wechat-uos
+        wechat
+        qq
+        gamescope
       ];
+      shell = pkgs.zsh;
     };
   };
+  programs.zsh.enable = true;
 
   programs.localsend = {
     enable = true;
@@ -121,7 +124,7 @@ inputs@{
     # package = pkgs.clash-nyanpasu;
     package = pkgs.clash-verge-rev;
     enable = true;
-    # autoStart = true;
+    #   # autoStart = true;
   };
 
   # List packages installed in system profile. To search, run:

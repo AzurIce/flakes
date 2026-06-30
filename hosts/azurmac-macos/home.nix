@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    ../../home
     ../../home/programs/git.nix
     ../../home/programs/alacritty.nix
     ../../home/programs/helix.nix
@@ -28,22 +29,6 @@ in
     # ../../modules/programs/obs-studio/home.nix
     # inputs.paneru.homeModules.paneru
   ];
-
-  sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
-    age = {
-      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      keyFile = "${config.home.homeDirectory}/.age-key.txt";
-    };
-    secrets = {
-      access-tokens = { };
-    };
-  };
-
-  # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
-  nix.extraOptions = ''
-    !include ${config.sops.secrets."access-tokens".path}
-  '';
 
   xdg.configFile."ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ghostty";
   # services.paneru = {

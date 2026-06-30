@@ -2,8 +2,12 @@
 
 {
   imports = [
+    ../../home
+    ../../home/fonts.nix
+    ../../home/programs/zsh.nix
+    ../../home/ai
     ../../home/wm/hyprland
-    ../../home/programs/eww
+    ../../home/programs/ashell.nix
     ../../home/programs/kitty.nix
     ../../home/programs/fcitx5.nix
     # ../../home/programs/nvim.nix
@@ -29,6 +33,8 @@
 
     bash.enable = true; # see note on other shells below
   };
+
+  programs.zed-editor.enable = true;
 
   programs.home-manager.enable = true;
   manual.manpages.enable = false;

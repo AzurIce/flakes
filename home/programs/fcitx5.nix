@@ -1,5 +1,8 @@
-inputs@{ pkgs, user, ... }:
+inputs@{ pkgs, user, config, ... }:
 
+let
+  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
+in
 {
   i18n.inputMethod = {
     enable = true;
@@ -7,30 +10,12 @@ inputs@{ pkgs, user, ... }:
     fcitx5 = {
       addons = with pkgs; [
         fcitx5-rime
-        # fcitx5-gtk
       ];
-      settings = {
-        globalOptions = {
-          Behavior = {
-            ActiveByDefault = false;
-          };
-          Hotkey = {
-            EnumerateWithTriggerKeys = true;
-            EnumerateSkipFirst = false;
-            ModifierOnlyKeyTimeout = 250;
-          };
-        };
-        inputMethod = {
-          GroupOrder."0" = "Default";
-          "Groups/0" = {
-            Name = "Default";
-            "Default Layout" = "us";
-            DefaultIM = "pinyin";
-          };
-          "Groups/0/Items/0".Name = "keyboard-us";
-          "Groups/0/Items/1".Name = "rime";
-        };
-      };
     };
+  };
+
+  xdg.configFile."fcitx5" = {
+    recursive = true;
+    source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/fcitx5";
   };
 }

@@ -28,5 +28,9 @@ inputs@{ user, config, pkgs, ... }:
       ];
     };
   };
+
+  home.packages = with pkgs; [
+    eza
+  ];
 }
 
