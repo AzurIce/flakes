@@ -73,11 +73,23 @@ in
   // builtins.listToAttrs [
     (persistBind "/" "/var/log")
     (persistBind "/" "/etc/nixos")
-    (persistBind "/etc/ssh" "/ssh")
+    # (persistBind "/etc/ssh" "/ssh")
+    # These will cause empty ssh file while ssh file is not exist in persist
     # (persistBind "/etc" "/ssh/ssh_host_ed25519_key")
     # (persistBind "/etc" "/ssh/ssh_host_ed25519_key.pub")
     # (persistBind "/etc" "/ssh/ssh_host_rsa_key")
     # (persistBind "/etc" "/ssh/ssh_host_rsa_key.pub")
+  ];
+  services.openssh.hostKeys = [
+    {
+      path = "/persist/etc/ssh/ssh_host_ed25519_key";
+      type = "ed25519";
+    }
+    {
+      path = "/persist/etc/ssh/ssh_host_rsa_key";
+      type = "rsa";
+      bits = 4096;
+    }
   ];
 
   swapDevices = [ { device = "/dev/disk/by-uuid/cfebcefc-f250-4b15-ba48-eecdb3ef6d86"; } ];
