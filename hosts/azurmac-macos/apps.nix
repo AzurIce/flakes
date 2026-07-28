@@ -44,6 +44,7 @@
 
       localsend
       sing-box
+      lan-mouse
       # zotero
 
       clash-rs

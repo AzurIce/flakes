@@ -29,6 +29,34 @@ inputs@{
       else
         { }
     )
+    (
+      final: prev:
+      if prev.stdenv.isDarwin then
+        {
+          # Workaround for libfyaml generating bogus 'none required' link flags on Darwin,
+          # which breaks downstream packages like appstream/libadwaita.
+          # See: https://github.com/NixOS/nixpkgs/issues/514566
+          libfyaml = prev.libfyaml.overrideAttrs (old: {
+            patches = (old.patches or [ ]) ++ [
+              (prev.fetchpatch {
+                url = "https://github.com/pantoniou/libfyaml/commit/1026d76850909dc9b1c5f95b8cd94e865a313fd5.diff";
+                hash = "sha256-0YfOqdqHdELFMqr52TDAC3BNFLkcuxvuJY5b9yZ7NFk=";
+              })
+              ./libfyaml-pthread-darwin.patch
+              (prev.fetchpatch {
+                url = "https://github.com/pantoniou/libfyaml/commit/24b18e7363b336962fe160c1dc05ca57ba95783c.diff";
+                hash = "sha256-g5QKI4HuS8MEQ9ddIQNC0j+28Dh9zLAp5RaZX5SWBHk=";
+              })
+              (prev.fetchpatch {
+                url = "https://github.com/pantoniou/libfyaml/commit/9f2492ca27bb1fda64f2b12edc2da17406208b93.diff";
+                hash = "sha256-E4wS+P7R3VGrBpD7swWMMi/QPTF+9rzAeEyxhbmdiwk=";
+              })
+            ];
+          });
+        }
+      else
+        { }
+    )
   ];
 
   nix.settings = {
