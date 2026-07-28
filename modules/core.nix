@@ -11,7 +11,8 @@ inputs@{
     inputs.claude-code.overlays.default
     inputs.codex-cli.overlays.default
     (final: prev: {
-      clash-verge-rev = inputs.nixpkgs-clash-verge-rev-old.legacyPackages.${prev.stdenv.hostPlatform.system}.clash-verge-rev;
+      clash-verge-rev =
+        inputs.nixpkgs-clash-verge-rev-old.legacyPackages.${prev.stdenv.hostPlatform.system}.clash-verge-rev;
     })
     (
       final: prev:
@@ -45,7 +46,10 @@ inputs@{
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
     age = {
-      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      sshKeyPaths = [
+        "/etc/ssh/ssh_host_ed25519_key"
+        "/persist/etc/ssh/ssh_host_ed25519_key"
+      ];
 
       # New machine setup:
       # 1. age-keygen -o ~/.age-key.txt
