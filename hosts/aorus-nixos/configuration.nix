@@ -124,6 +124,7 @@
     # package = pkgs.clash-nyanpasu;
     package = pkgs.clash-verge-rev;
     enable = true;
+    tunMode = true;
     #   # autoStart = true;
   };
 

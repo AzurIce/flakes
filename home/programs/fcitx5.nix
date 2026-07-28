@@ -18,4 +18,9 @@ in
     recursive = true;
     source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/fcitx5";
   };
+
+  xdg.dataFile."fcitx5/rime" = {
+    recursive = true;
+    source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/rime";
+  };
 }
