@@ -29,8 +29,8 @@
   # Configure network proxy if necessary
   networking.proxy = {
     # default = "socks5h://192.168.2.10:7890";
-    # default = "http://127.0.0.1:7890";
-    allProxy = "http://192.168.2.52:7890";
+    default = "http://127.0.0.1:7890";
+    # allProxy = "http://192.168.2.52:7890";
   };
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
@@ -106,8 +106,6 @@
         # inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
         vivaldi
         # wlx-overlay-s
-        wechat
-        qq
         gamescope
       ];
       shell = pkgs.zsh;
@@ -148,6 +146,10 @@
     # "ssh/ssh_host_rsa_key.pub".source = "/persist/etc/ssh/ssh_host_rsa_key.pub";
     machine-id.source = "/persist/etc/machine-id";
   };
+
+  # On this host the SSH host keys live under /persist/etc/ssh only (no bind
+  # mount to /etc/ssh), so restrict sops-nix to the path that actually exists.
+  sops.age.sshKeyPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # Impermanence with sops-nix to may cause bad things to happen
   # see: https://github.com/nix-community/impermanence/issues/202
   # environment.persistence."/persistent" = {

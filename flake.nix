@@ -28,6 +28,7 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
     hyprland.url = "github:hyprwm/Hyprland";
+    # hyprsession.url = "github:joshurtree/hyprsession";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     chromium-darwin.url = "github:lrworth/chromium-bin-flake";
     paneru = {
@@ -114,6 +115,10 @@
         packages.revelo = import ./packages/revelo.nix {
           inherit lib;
           inherit (pkgs) stdenvNoCC fetchurl unzip;
+        };
+        packages.clipvault = import ./packages/clipvault.nix {
+          inherit lib;
+          inherit (pkgs) stdenv fetchurl autoPatchelfHook gcc;
         };
 
         devShells.default = pkgs.mkShell {

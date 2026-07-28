@@ -8,9 +8,9 @@ inputs@{
 }:
 
 nixpkgs.lib.nixosSystem {
-  system = inputs.system;
   specialArgs = inputs;
   modules = [
+    { nixpkgs.hostPlatform = inputs.system; }
     ./configuration.nix
     ../../modules/core.nix
     ../../modules/audio.nix

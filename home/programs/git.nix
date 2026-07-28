@@ -10,7 +10,6 @@ inputs@{
   programs.git = {
     enable = true;
     settings = {
-
       user = {
         name = "AzurIce";
         email = "973562770@qq.com";
@@ -19,7 +18,7 @@ inputs@{
       https.proxy = "https://127.0.0.1:7890";
       safe.directory = "*";
       credential.helper = lib.mkIf (!mac) "${pkgs.git-credential-manager}/bin/git-credential-manager";
-      credential.credentialStore = lib.mkIf (!mac) "cache";
+      credential.credentialStore = lib.mkIf (!mac) "secretservice";
     };
 
     ignores = [
@@ -28,6 +27,7 @@ inputs@{
 
     lfs.enable = true;
   };
+
   programs.delta = {
     enable = true;
     enableGitIntegration = true;

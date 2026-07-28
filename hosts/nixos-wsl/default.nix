@@ -1,9 +1,9 @@
 inputs@{ user, nixpkgs, sops-nix, home-manager, nixos-wsl, ... }:
 
 nixpkgs.lib.nixosSystem {
-  system = inputs.system;
   specialArgs = inputs;
   modules = [
+    { nixpkgs.hostPlatform = inputs.system; }
     nixos-wsl.nixosModules.default
     ./configuration.nix
     # ../../modules/core.nix

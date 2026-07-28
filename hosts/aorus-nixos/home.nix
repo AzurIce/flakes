@@ -1,4 +1,4 @@
-{ user, nixvim, ... }:
+inputs@{ user, pkgs, ... }:
 
 {
   imports = [
@@ -22,6 +22,12 @@
     username = "${user}";
     homeDirectory = "/home/${user}";
     stateVersion = "24.11";
+    packages = with pkgs; [
+      qq
+      wechat
+
+      zed-editor
+    ];
   };
 
   programs = {

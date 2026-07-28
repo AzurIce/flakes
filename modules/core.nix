@@ -71,6 +71,8 @@ inputs@{
     ];
   };
 
+  services.gnome.gnome-keyring.enable = true;
+
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
     age = {

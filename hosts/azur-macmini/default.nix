@@ -1,9 +1,9 @@
 inputs@{ user, sops-nix, home-manager, nix-darwin, ... }:
 
 nix-darwin.lib.darwinSystem {
-  system = inputs.system;
   specialArgs = inputs;
   modules = [
+    { nixpkgs.hostPlatform = inputs.system; }
     ./nix-core.nix
     ./system.nix
     ./apps.nix

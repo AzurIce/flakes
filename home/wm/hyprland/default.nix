@@ -10,6 +10,7 @@ in
 
   programs.hyprcursor-phinger.enable = true;
   home.pointerCursor = {
+    enable = true;
     name = "phinger-cursors-dark";
     package = pkgs.phinger-cursors;
     size = 24;
@@ -24,6 +25,9 @@ in
     rofi
     wlogout
     hyprpaper
+    wl-clipboard
+    # inputs.hyprsession.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.clipvault
   ];
 
   xdg.configFile."hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hypr";

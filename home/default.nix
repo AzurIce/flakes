@@ -3,7 +3,7 @@
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
     age = {
-      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      sshKeyPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
       keyFile = "${config.home.homeDirectory}/.age-key.txt";
     };
     secrets = {
