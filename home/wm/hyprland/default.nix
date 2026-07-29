@@ -24,11 +24,29 @@ in
     kitty
     rofi
     wlogout
-    hyprpaper
+    # hyprpaper
     wl-clipboard
     # inputs.hyprsession.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.clipvault
   ];
 
+  
+
   xdg.configFile."hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hypr";
+
+  programs.zsh.initContent = ''
+    switch-wallpaper() {
+      "${dotfilesPath}/wallpapaers/switch-wallpaper" "$@"
+    }
+
+    alias wp='switch-wallpaper'
+
+    _switch-wallpaper() {
+      local -a modes
+      modes=(next prev random)
+      _describe 'mode' modes
+    }
+    compdef _switch-wallpaper switch-wallpaper
+  '';
 }

@@ -26,6 +26,7 @@ inputs@{ user, pkgs, ... }:
     packages = with pkgs; [
       qq
       wechat
+      wemeet
 
       zed-editor
     ];

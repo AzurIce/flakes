@@ -17,6 +17,7 @@ nixpkgs.lib.nixosSystem {
     ../../modules/bluetooth.nix
     # ../../modules/gaming
     ../../modules/wm/hyprland.nix
+    ../../modules/programs/obs.nix
     # impermanence.nixosModules.impermanence
     nix-flatpak.nixosModules.nix-flatpak
     {

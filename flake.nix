@@ -28,6 +28,7 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
     hyprland.url = "github:hyprwm/Hyprland";
+    awww.url = "git+https://codeberg.org/LGFae/awww";
     # hyprsession.url = "github:joshurtree/hyprsession";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     chromium-darwin.url = "github:lrworth/chromium-bin-flake";
