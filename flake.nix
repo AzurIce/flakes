@@ -40,7 +40,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     cc-statusline.url = "github:AzurIce/cc-statusline";
     kimi-code.url = "github:MoonshotAI/kimi-code";
-    herder.url = "github:ogulcancelik/herdr";
+    herdr.url = "github:ogulcancelik/herdr";
 
     nixpkgs-clash-verge-rev-old.url = "github:NixOS/nixpkgs/d6ff438";
   };

@@ -413,7 +413,7 @@
         "type": "github"
       }
     },
-    "herder": {
+    "herdr": {
       "inputs": {
         "nixpkgs": "nixpkgs_5",
         "rust-overlay": "rust-overlay_3"
@@ -1306,7 +1306,7 @@
         "codex-cli": "codex-cli",
         "eza": "eza",
         "flake-utils": "flake-utils_5",
-        "herder": "herder",
+        "herdr": "herdr",
         "home-manager": "home-manager",
         "hyprcursor-phinger": "hyprcursor-phinger",
         "hyprland": "hyprland",
@@ -1383,7 +1383,7 @@
     "rust-overlay_3": {
       "inputs": {
         "nixpkgs": [
-          "herder",
+          "herdr",
           "nixpkgs"
         ]
       },

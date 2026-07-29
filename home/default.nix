@@ -7,6 +7,7 @@
     };
 
     secrets = {
+      # access-tokens = github.com=xxxxxx
       access-tokens = { };
     };
   };
