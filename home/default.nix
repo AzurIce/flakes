@@ -3,9 +3,9 @@
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
     age = {
-      sshKeyPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
-      keyFile = "${config.home.homeDirectory}/.age-key.txt";
+      keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     };
+
     secrets = {
       access-tokens = { };
     };

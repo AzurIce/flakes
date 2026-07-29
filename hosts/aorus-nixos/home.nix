@@ -10,6 +10,7 @@ inputs@{ user, pkgs, ... }:
     ../../home/programs/ashell.nix
     ../../home/programs/kitty.nix
     ../../home/programs/fcitx5.nix
+    ../../home/programs/herder.nix
     # ../../home/programs/nvim.nix
 
     ../../modules/programs/typora/home.nix
