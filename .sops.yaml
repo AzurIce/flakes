@@ -1,7 +1,7 @@
 keys:
   - &azurblade age1lflc9368khx0pflwd4hdadwap44ysuuc8aw8mxf04zhhmmwqf9nqg9dt5t
   - &macmini_ssh age1cdzjqn9qkpw8ud6yvx8qa66623fsaj8vem72yvr3tt5nf3p23ssq883z8s
-  - &macbookpro age16ahj6xx6pdsa8zfkh7ezfafy3nc64m29dn4zv063js7y0vns0ppsfrjnfs
+  - &macbookpro_user age16ahj6xx6pdsa8zfkh7ezfafy3nc64m29dn4zv063js7y0vns0ppsfrjnfs
   - &admin age1mau3zgns2as905ctc466pk8r837l92jcwyl3vr87w5rte4pcwfcqvunnwl
   - &admin_azurblade age1ncqpx03pxy5wuqzgqhe5xkyv2fx23r66q7tz8dx78un6a2pde9ssds7sqh
   - &aorus_nixos_host age1fs2rttmf4j3tn9hwp5hg6mmf8ypezhjlh5jrvp05lx4n3dpu642qt6z9ee
@@ -17,7 +17,7 @@ creation_rules:
       - age:
           - *azurblade
           - *macmini_ssh
-          - *macbookpro
+          - *macbookpro_user
           - *admin
           - *admin_azurblade
           - *aorus_nixos_user

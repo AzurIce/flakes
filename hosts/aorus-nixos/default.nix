@@ -1,7 +1,6 @@
 inputs@{
   user,
   nixpkgs,
-  sops-nix,
   home-manager,
   nix-flatpak,
   ...
@@ -13,13 +12,12 @@ nixpkgs.lib.nixosSystem {
     { nixpkgs.hostPlatform = inputs.system; }
     ./configuration.nix
     ../../modules/core.nix
+    ../../modules/sops.nix
     ../../modules/audio.nix
     ../../modules/bluetooth.nix
     # ../../modules/gaming
     ../../modules/wm/hyprland.nix
     # impermanence.nixosModules.impermanence
-    sops-nix.nixosModules.sops
-    home-manager.nixosModules.home-manager
     nix-flatpak.nixosModules.nix-flatpak
     {
       services.flatpak.enable = true;
@@ -40,6 +38,7 @@ nixpkgs.lib.nixosSystem {
         https_proxy = "http://127.0.0.1:7890";
       };
     }
+    home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
