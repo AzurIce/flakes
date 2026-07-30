@@ -1,8 +1,5 @@
-inputs@{ pkgs, config, ... }:
+inputs@{ pkgs, utils, ... }:
 
-let
-  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
-in
 {
   imports = [
     inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
@@ -33,11 +30,11 @@ in
 
   
 
-  xdg.configFile."hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/hypr";
+  xdg.configFile."hypr".source = utils.linkDotfile "hypr";
 
   programs.zsh.initContent = ''
     switch-wallpaper() {
-      "${dotfilesPath}/wallpapaers/switch-wallpaper" "$@"
+      "${utils.dotfilesPath}/wallpapaers/switch-wallpaper" "$@"
     }
 
     alias wp='switch-wallpaper'

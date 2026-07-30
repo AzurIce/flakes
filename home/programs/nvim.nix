@@ -1,8 +1,6 @@
-inputs@{ config, pkgs, ... }:
+inputs@{ config, pkgs, utils, ... }:
 
 let
-  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
-
   # Custom luarocks wrapper that includes the rust-mlua build backend.
   # Nix's luarocks hardcodes package.path in .luarocks-wrapped, ignoring LUA_PATH.
   # We patch it to prepend luarocks-build-rust-mlua's path.
@@ -42,7 +40,7 @@ in
     rocksLuarocks
   ];
 
-  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/nvim";
+  xdg.configFile."nvim".source = utils.linkDotfile "nvim";
 
   # Nix-generated rocks.nvim auxiliary configs (placed under ~/.local/share/nvim
   # so they travel with the Neovim data dir, and don't pollute dotfiles via symlink)

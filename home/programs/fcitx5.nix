@@ -1,8 +1,5 @@
-inputs@{ pkgs, user, config, ... }:
+inputs@{ pkgs, user, utils, ... }:
 
-let
-  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
-in
 {
   i18n.inputMethod = {
     enable = true;
@@ -16,11 +13,11 @@ in
 
   xdg.configFile."fcitx5" = {
     recursive = true;
-    source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/fcitx5";
+    source = utils.linkDotfile "fcitx5";
   };
 
   xdg.dataFile."fcitx5/rime" = {
     recursive = true;
-    source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/rime";
+    source = utils.linkDotfile "rime";
   };
 }

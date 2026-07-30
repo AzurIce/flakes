@@ -2,6 +2,7 @@ inputs@{
   config,
   pkgs,
   lib,
+  utils,
   ...
 }:
 
@@ -90,8 +91,6 @@ let
   };
 
   providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);
-
-  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
 in
 {
   imports = [
@@ -115,10 +114,12 @@ in
       inputs.kimi-code.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
-  home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.claude";
-  home.file.".codex".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.codex";
-  home.file.".pi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/.pi";
-  xdg.configFile."rua".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/rua";
+  home.file = utils.linkDotfiles [
+    ".claude"
+    ".codex"
+    ".pi"
+  ];
+  xdg.configFile."rua".source = utils.linkDotfile "rua";
 
   sops.secrets = {
     kimiCodeKey = { };
@@ -131,6 +132,13 @@ in
     zaiKey = { };
     splitrailKey = { };
     deepseekKey = { };
+  };
+
+  sops.templates."codex-auth.json" = {
+    path = "${config.home.homeDirectory}/.codex/auth.json";
+    content = builtins.toJSON {
+      OPENAI_API_KEY = config.sops.placeholder.foxcodeKey;
+    };
   };
 
   programs.zsh.initContent =
@@ -206,7 +214,7 @@ in
       # export GOOGLE_GEMINI_BASE_URL="https://api.claudecode.net.cn/api/gemini"
       export GEMINI_API_KEY="$(cat ${foxcodeKey})"
       # export OPENAI_BASE_URL="https://api.claudecode.net.cn/api/codex/backend-api/codex"
-      export OPENAI_BASE_URL="hhttps://code.newcli.com/codex/v1"
+      export OPENAI_BASE_URL="https://code.newcli.com/codex/v1"
       export OPENAI_API_KEY="$(cat ${foxcodeKey})"
 
       ${providerFunctions}

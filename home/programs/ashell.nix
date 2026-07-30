@@ -1,17 +1,13 @@
 {
-  config,
   mac,
+  utils,
   ...
 }:
 
-let
-  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
-in
 {
   programs.ashell = {
     enable = true;
   };
 
-  xdg.configFile."ashell".source =
-    config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ashell${if mac then "-mac" else ""}";
+  xdg.configFile."ashell".source = utils.linkDotfile "ashell${if mac then "-mac" else ""}";
 }
