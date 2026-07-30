@@ -94,10 +94,10 @@ let
 in
 {
   imports = [
-    ./opencode.nix
     ./splitrail.nix
   ];
 
+  programs.opencode.enable = true;
   home.packages =
     with pkgs;
     [
@@ -118,8 +118,12 @@ in
     ".claude"
     ".codex"
     ".pi"
+    ".agents"
   ];
-  xdg.configFile."rua".source = utils.linkDotfile "rua";
+  xdg.configFile = utils.linkDotfiles [
+    "openode"
+    "rua"
+  ];
 
   sops.secrets = {
     kimiCodeKey = { };

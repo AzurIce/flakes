@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ../../home/utils.nix
     ../../home/fonts.nix
     ../../home/wm/hyprland
     ../../home/programs/ashell.nix

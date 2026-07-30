@@ -1,15 +1,7 @@
-inputs@{ pkgs, user, ... }:
+inputs@{ pkgs, utils, ... }:
 
 {
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "JetBrainsMono Nerdfont";
-      size = 12; # Default: 8
-    };
-    settings = {
-      background_opacity = "0.8";
-    };
-    themeFile = "Catppuccin-Mocha";
-  };
+  home.packages = [ pkgs.kitty ];
+
+  xdg.configFile."kitty".source = utils.linkDotfile "kitty";
 }

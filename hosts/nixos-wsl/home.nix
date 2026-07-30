@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ../../home/utils.nix
     # ../../home/wm/hyprland
     # ../../home/programs/kitty.nix
     ../../home/programs/nvim.nix

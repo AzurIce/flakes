@@ -12,6 +12,7 @@ nixpkgs.lib.nixosSystem {
     { nixpkgs.hostPlatform = inputs.system; }
     ./configuration.nix
     ../../modules/core.nix
+    ../../modules/core-nixos.nix
     ../../modules/sops.nix
     ../../modules/audio.nix
     ../../modules/bluetooth.nix

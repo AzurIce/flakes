@@ -1,9 +1,7 @@
-{ config, lib, ... }:
-
-let
-  dotfilesPath = "${config.home.homeDirectory}/flakes/.dotfiles";
-in
+{ config, ... }:
 {
+  imports = [ ./utils.nix ];
+
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
     age = {
@@ -20,16 +18,4 @@ in
   nix.extraOptions = ''
     !include ${config.sops.secrets."access-tokens".path}
   '';
-
-  _module.args.utils = {
-    inherit dotfilesPath;
-
-    linkDotfile = rel: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${rel}";
-
-    linkDotfiles =
-      names:
-      lib.genAttrs names (name: {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${name}";
-      });
-  };
 }

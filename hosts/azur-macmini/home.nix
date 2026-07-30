@@ -7,6 +7,7 @@ inputs@{
 
 {
   imports = [
+    ../../home/utils.nix
     ../../home/programs/git.nix
     ../../home/programs/alacritty.nix
     ../../home/programs/helix.nix
