@@ -43,6 +43,8 @@
     cc-statusline.url = "github:AzurIce/cc-statusline";
     kimi-code.url = "github:MoonshotAI/kimi-code";
     herdr.url = "github:ogulcancelik/herdr";
+
+    notist.url = "github:AzurIce/notist";
   };
 
   outputs =

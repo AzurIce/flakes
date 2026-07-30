@@ -107,6 +107,7 @@
         vivaldi
         # wlx-overlay-s
         gamescope
+        python3 # for ai simple use
       ];
       shell = pkgs.zsh;
     };

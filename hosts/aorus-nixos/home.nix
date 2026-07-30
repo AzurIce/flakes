@@ -29,6 +29,7 @@ inputs@{ user, pkgs, ... }:
       wemeet
 
       zed-editor
+      inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
 

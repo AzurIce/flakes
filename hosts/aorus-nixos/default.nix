@@ -16,7 +16,7 @@ nixpkgs.lib.nixosSystem {
     ../../modules/sops.nix
     ../../modules/audio.nix
     ../../modules/bluetooth.nix
-    # ../../modules/gaming
+    ../../modules/gaming
     ../../modules/wm/hyprland.nix
     ../../modules/programs/obs.nix
     # impermanence.nixosModules.impermanence

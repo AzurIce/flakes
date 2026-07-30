@@ -112,6 +112,7 @@ in
     ++ [
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.kimi-code.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
     ];
 
   home.file = utils.linkDotfiles [

@@ -71,7 +71,6 @@ in
       sketchybar
       eza
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
-      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.revelo
     ];
   };
