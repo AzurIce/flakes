@@ -18,6 +18,7 @@ inputs@{ pkgs, utils, ... }:
     jq
     socat
 
+    satty
     kitty
     rofi
     wlogout
@@ -25,12 +26,15 @@ inputs@{ pkgs, utils, ... }:
     wl-clipboard
     # inputs.hyprsession.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.wayshot.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.clipvault
   ];
 
-  
-
-  xdg.configFile."hypr".source = utils.linkDotfile "hypr";
+  xdg.configFile = utils.linkDotfiles [
+    "wayshot"
+    "hypr"
+    "satty"
+  ];
 
   programs.zsh.initContent = ''
     switch-wallpaper() {

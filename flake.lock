@@ -1010,22 +1010,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-clash-verge-rev-old": {
-      "locked": {
-        "lastModified": 1743222628,
-        "narHash": "sha256-XvJ1cHiM4aHsMpgm4hgLAHgkCLP2iccLWUcAqsN67GU=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "d6ff4388b202e1d0a0f4d36dd36c19989c1eac43",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "d6ff438",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1735774519,
@@ -1113,6 +1097,22 @@
       "original": {
         "owner": "NixOS",
         "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_14": {
+      "locked": {
+        "lastModified": 1784007870,
+        "narHash": "sha256-djcLt/JJphyNt4eDY9XTly+/WbCK5lqWq9lSgCmJkkQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "18b9261cb3294b6d2a06d03f96872827b8fe2698",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -1369,9 +1369,9 @@
         "nix-flatpak": "nix-flatpak",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_12",
-        "nixpkgs-clash-verge-rev-old": "nixpkgs-clash-verge-rev-old",
         "paneru": "paneru",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "wayshot": "wayshot"
       }
     },
     "rust-analyzer-src": {
@@ -1601,6 +1601,24 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "wayshot": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_14"
+      },
+      "locked": {
+        "lastModified": 1785210119,
+        "narHash": "sha256-/M0AMwlZ7gmkF7SW3BEDW9u7Hq0+mowR+E/qBzNxT00=",
+        "owner": "waycrate",
+        "repo": "wayshot",
+        "rev": "c567ff06d25fea7f9fe1b29b7c995fc653b3f807",
+        "type": "github"
+      },
+      "original": {
+        "owner": "waycrate",
+        "repo": "wayshot",
         "type": "github"
       }
     },

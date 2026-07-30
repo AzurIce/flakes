@@ -119,16 +119,13 @@ inputs@{
     openFirewall = true;
   };
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "clash-verge-rev-2.2.3"
-    "clash-verge-rev-unwrapped-2.2.3"
-    "clash-verge-rev-webui-2.2.3"
-    "clash-verge-rev-service-2.2.3"
-  ];
+  nixpkgs.config.permittedInsecurePackages = [];
   programs.clash-verge = {
     # package = pkgs.clash-nyanpasu;
     package = pkgs.clash-verge-rev;
     enable = true;
+    tunMode = true;
+    serviceMode = true;
     # autoStart = true;
   };
 

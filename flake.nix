@@ -29,6 +29,7 @@
     # };
     hyprland.url = "github:hyprwm/Hyprland";
     awww.url = "git+https://codeberg.org/LGFae/awww";
+    wayshot.url = "github:waycrate/wayshot";
     # hyprsession.url = "github:joshurtree/hyprsession";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     chromium-darwin.url = "github:lrworth/chromium-bin-flake";
@@ -42,8 +43,6 @@
     cc-statusline.url = "github:AzurIce/cc-statusline";
     kimi-code.url = "github:MoonshotAI/kimi-code";
     herdr.url = "github:ogulcancelik/herdr";
-
-    nixpkgs-clash-verge-rev-old.url = "github:NixOS/nixpkgs/d6ff438";
   };
 
   outputs =

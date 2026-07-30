@@ -4,10 +4,10 @@ inputs@{ pkgs, lib, ... }:
   nixpkgs.overlays = [
     inputs.claude-code.overlays.default
     inputs.codex-cli.overlays.default
-    (final: prev: {
-      clash-verge-rev =
-        inputs.nixpkgs-clash-verge-rev-old.legacyPackages.${prev.stdenv.hostPlatform.system}.clash-verge-rev;
-    })
+    # (final: prev: {
+    #   clash-verge-rev =
+    #     inputs.nixpkgs-clash-verge-rev-old.legacyPackages.${prev.stdenv.hostPlatform.system}.clash-verge-rev;
+    # })
     # (
     #   final: prev:
     #   lib.optionalAttrs prev.stdenv.isDarwin {
