@@ -5,7 +5,8 @@
     # rust-analyzer
 
     lua-language-server
-    nil
+    # nil
+    nixd
     nixfmt
   ];
 
