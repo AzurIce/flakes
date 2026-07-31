@@ -93,6 +93,8 @@ in
   ];
 
   swapDevices = [ { device = "/dev/disk/by-uuid/cfebcefc-f250-4b15-ba48-eecdb3ef6d86"; } ];
+  # zramSwap.enable = true;
+  boot.zswap.enable = true;
 
   boot.initrd.systemd = {
     extraBin = {

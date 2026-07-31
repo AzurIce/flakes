@@ -28,12 +28,15 @@ inputs@{ pkgs, utils, ... }:
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.wayshot.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.clipvault
+    # 桌面 shell（bar/launcher/通知/控制中心），替代 ashell
+    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   xdg.configFile = utils.linkDotfiles [
     "wayshot"
     "hypr"
     "satty"
+    "noctalia"
   ];
 
   programs.zsh.initContent = ''

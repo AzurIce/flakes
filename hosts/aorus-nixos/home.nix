@@ -7,8 +7,8 @@ inputs@{ user, pkgs, ... }:
     ../../home/programs/zsh.nix
     ../../home/ai
     ../../home/wm/hyprland
-    ../../home/programs/ashell.nix
     ../../home/programs/kitty.nix
+    ../../home/programs/yazi.nix
     ../../home/programs/fcitx5.nix
     ../../home/programs/herdr.nix
     # ../../home/programs/nvim.nix

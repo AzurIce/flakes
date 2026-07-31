@@ -45,6 +45,7 @@
     herdr.url = "github:ogulcancelik/herdr";
 
     notist.url = "github:AzurIce/notist";
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
   };
 
   outputs =
