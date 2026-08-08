@@ -104,7 +104,12 @@
       packages = with pkgs; [
         # firefox
         # inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
-        vivaldi
+        # WebGPU：Dawn 直接加载 Vulkan，与 Chromium 合成器无关。
+        # Dawn 有独立的 adapter blocklist（默认拒绝新 NVIDIA 驱动），
+        # 用 disable_adapter_blocklist 精准解封，比 --ignore-gpu-blocklist 影响面小
+        (vivaldi.override {
+          commandLineArgs = "--enable-unsafe-webgpu --enable-dawn-features=disable_adapter_blocklist";
+        })
         # wlx-overlay-s
         gamescope
         python3 # for ai simple use

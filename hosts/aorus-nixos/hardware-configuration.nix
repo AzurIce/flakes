@@ -64,6 +64,11 @@ in
     "/persist" = (btrSubvolFs "@persist") // {
       neededForBoot = true;
     };
+    "/home/azurice/Files" = {
+      device = "/dev/disk/by-uuid/ccca6d60-ebf5-4023-8273-017d67efb4f4";
+      fsType = "btrfs";
+      options = [ "compress=zstd" ];
+    };
     # "/gaming" = {
     #   device = "/dev/nvme0n1p5";
     #   fsType = "ntfs";
