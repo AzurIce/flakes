@@ -122,6 +122,7 @@ in
     ".claude"
     ".codex"
     ".dsh"
+    ".kimi-code"
     ".pi"
     ".agents"
   ];
