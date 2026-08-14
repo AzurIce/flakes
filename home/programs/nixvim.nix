@@ -195,13 +195,18 @@ inputs@{ pkgs, nixvim, ... }:
       # Nix
       nix.enable = true;
       nix-develop.enable = true;
-      lsp.servers.nil_ls = {
+      lsp.servers.nixd = {
         enable = true;
-        settings = {
+        settings.nixd = {
           formatting.command = [ "nixfmt" ];
-          nix.flake = {
-            autoArchive = true;
-            autoEvalInputs = true;
+          nixpkgs.expr = "import <nixpkgs> { }";
+          options = {
+            nixos.expr =
+              "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).nixosConfigurations.aorus-nixos.options";
+            nix-darwin.expr =
+              "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).darwinConfigurations.azurmac-macos.options";
+            home-manager.expr =
+              "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).nixosConfigurations.aorus-nixos.options.home-manager.users.type.getSubOptions []";
           };
         };
       };

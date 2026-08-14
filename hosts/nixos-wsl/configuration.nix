@@ -33,7 +33,7 @@
     yazi
 
     rust-analyzer
-    nil
+    nixd
     nixpkgs-fmt
     poetry
     bun
