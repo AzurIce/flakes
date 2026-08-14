@@ -1,0 +1,18 @@
+# https://github.com/a-kenji/flake-edit
+[follow]
+# hyprland and its whole dependency subtree pin their own nixpkgs;
+# following ours would break the hyprland cachix binary cache
+ignore = [
+  "hyprland.nixpkgs",
+  "hyprland.aquamarine.nixpkgs",
+  "hyprland.hyprcursor.nixpkgs",
+  "hyprland.hyprgraphics.nixpkgs",
+  "hyprland.hyprland-guiutils.nixpkgs",
+  "hyprland.hyprland-protocols.nixpkgs",
+  "hyprland.hyprlang.nixpkgs",
+  "hyprland.hyprutils.nixpkgs",
+  "hyprland.hyprwayland-scanner.nixpkgs",
+  "hyprland.hyprwire.nixpkgs",
+  "hyprland.pre-commit-hooks.nixpkgs",
+  "hyprland.xdph.nixpkgs",
+]

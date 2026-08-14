@@ -10,6 +10,7 @@ let
   aicodemirrorKey = config.sops.secrets.aicodemirrorKey.path;
   foxcodeKey = config.sops.secrets.foxcodeKey.path;
   zaiKey = config.sops.secrets.zaiKey.path;
+  opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
   rightcodeKey = config.sops.secrets.rightcodeKey.path;
 
   # ANTHROPIC Provider Configurations
@@ -102,7 +103,8 @@ in
     with pkgs;
     [
       # vibe coding
-      gemini-cli
+      # gemini-cli
+      antigravity-cli
       claude-code
       codex
       pi-coding-agent
@@ -113,11 +115,13 @@ in
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.kimi-code.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     ];
 
   home.file = utils.linkDotfiles [
     ".claude"
     ".codex"
+    ".dsh"
     ".pi"
     ".agents"
   ];
@@ -215,6 +219,7 @@ in
       # Other API Keys
       export MINIMAX_API_KEY="$(cat ${minimaxKey})"
       export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
+      export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"
       export GOOGLE_GEMINI_BASE_URL="https://code.newcli.com/gemini"
       # export GOOGLE_GEMINI_BASE_URL="https://api.claudecode.net.cn/api/gemini"
       export GEMINI_API_KEY="$(cat ${foxcodeKey})"

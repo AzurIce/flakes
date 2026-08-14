@@ -12,6 +12,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/programs/obsidian-overlay.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -214,7 +215,8 @@
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Palworld dedicated server: 8211 游戏端口(直接 IP 加入只需这个;27015 为社区列表查询端口,需要时再加)
+  networking.firewall.allowedUDPPorts = [ 8211 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 

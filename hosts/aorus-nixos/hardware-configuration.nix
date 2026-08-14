@@ -69,6 +69,20 @@ in
       fsType = "btrfs";
       options = [ "compress=zstd" ];
     };
+    # Windows 游戏盘 _Game_（nvme2n1p4，NTFS，UUID 464606A6460696B9），开机自动挂到 ~/Games。
+    # 选项说明：uid/gid 让文件归 azurice:users；iocharset=utf8 解决中文文件名乱码；
+    # prealloc 预分配；nofail 保证盘不在时也能正常开机（挂载点会是空目录）。
+    "/home/azurice/Games" = {
+      device = "/dev/disk/by-uuid/464606A6460696B9";
+      fsType = "ntfs3";
+      options = [
+        "uid=1000"
+        "gid=100"
+        "iocharset=utf8"
+        "prealloc"
+        "nofail"
+      ];
+    };
     # "/gaming" = {
     #   device = "/dev/nvme0n1p5";
     #   fsType = "ntfs";
