@@ -155,6 +155,40 @@
     machine-id.source = "/persist/etc/machine-id";
   };
 
+  # machine-id 持久化（血泪教训，勿乱改）：
+  # - /etc/machine-id 通过上面的 environment.etc 软链到 /persist/etc/machine-id。
+  # - 不要改用 bind mount：源文件缺失时挂载直接失败，可能导致无法开机；
+  #   symlink 缺失文件时只会降级为当次随机 id，系统照常启动。
+  # - 不要指望 systemd-machine-id-commit 自动写盘：systemd >= 258 的 commit
+  #   路径拒绝跟随 symlink（O_NOFOLLOW），会静默空转，见
+  #   https://github.com/systemd/systemd/issues/39717
+  # - 因此用这个 activation 脚本自愈，每次 boot / nixos-rebuild 都会运行：
+  #   a) 文件被 systemd 的临时 tmpfs 遮挡（说明磁盘文件缺失/为空）：记下
+  #      当前 id，卸载遮挡后写回真实文件——相当于替 machine-id-commit 完成
+  #      它在 symlink 下做不了的提交，本次启动内即可恢复；
+  #   b) 文件缺失或为空且未被遮挡：直接生成合法 id 写入（PID1 读
+  #      machine-id 早于 activation，这种情况下次启动生效）。
+  #   最坏情况只是某次启动临时用一次随机 id，永远不会导致无法开机。
+  system.activationScripts.persistMachineId.text = ''
+    f=/persist/etc/machine-id
+    if ${pkgs.util-linux}/bin/findmnt -n -M "$f" > /dev/null 2>&1; then
+      id=$(cat /etc/machine-id)
+      if ${pkgs.util-linux}/bin/umount "$f"; then
+        mkdir -p /persist/etc
+        printf '%s\n' "$id" > "$f.tmp"
+        chmod 444 "$f.tmp"
+        mv "$f.tmp" "$f"
+      else
+        echo "persistMachineId: failed to umount $f, will retry on next activation" >&2
+      fi
+    elif [ ! -s "$f" ]; then
+      mkdir -p /persist/etc
+      tr -d -- - < /proc/sys/kernel/random/uuid > "$f.tmp"
+      chmod 444 "$f.tmp"
+      mv "$f.tmp" "$f"
+    fi
+  '';
+
   # On this host the SSH host keys live under /persist/etc/ssh only (no bind
   # mount to /etc/ssh), so restrict sops-nix to the path that actually exists.
   sops.age.sshKeyPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
