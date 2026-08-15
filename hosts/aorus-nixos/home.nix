@@ -11,12 +11,11 @@ inputs@{ user, pkgs, ... }:
     ../../home/programs/yazi.nix
     ../../home/programs/fcitx5.nix
     ../../home/programs/herdr.nix
-    # ../../home/programs/nvim.nix
 
     ../../modules/programs/typora/home.nix
     ../../home/programs/git.nix
     ../../home/programs/helix.nix
-    ../../home/programs/waybar
+    # ../../home/programs/nvim.nix
   ];
 
   home = {
