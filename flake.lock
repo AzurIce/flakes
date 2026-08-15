@@ -27,6 +27,7 @@
           "hyprwayland-scanner"
         ],
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -124,11 +125,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1786666308,
-        "narHash": "sha256-HCjwjlX5SFBOPmppn9YMc7tBJ92/iwVhp5gMfAYkcRA=",
+        "lastModified": 1786748620,
+        "narHash": "sha256-K+sJmUXFksrB7pLvrcv8jIDGKxN52QtV1sIKXhT8MZo=",
         "owner": "sadjow",
         "repo": "claude-code-nix",
-        "rev": "a96094aad959f52a99e5b59670d8e7ae481d7a81",
+        "rev": "fd727a3f341b079ba5387b770c5caef86bdae3e6",
         "type": "github"
       },
       "original": {
@@ -412,11 +413,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1786673910,
-        "narHash": "sha256-BfjlefBAT4tzfQKGtknpaSpiRi/cJaNUlmv5cmJaulk=",
+        "lastModified": 1786737833,
+        "narHash": "sha256-DlwLfk3BZDgpCG+VRAIA/X7rZK9ppHEfvQsPzbgYQeI=",
         "owner": "ogulcancelik",
         "repo": "herdr",
-        "rev": "d76657f2c7fc18dcce3b9af43842c8afaba1646b",
+        "rev": "9e6c2b4e0957498b7da884ed2789fe28b9cde9cf",
         "type": "github"
       },
       "original": {
@@ -432,11 +433,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786656209,
-        "narHash": "sha256-ybGtuwGKTUCefKYsplzvw4xcCqznto0c7BaiQhgILtA=",
+        "lastModified": 1786719456,
+        "narHash": "sha256-B74DLQs/VjlqyhnnX3tguWwghqJHWSJX30TKZuAljIg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c554d3441f725537854e877519f01cbd60680174",
+        "rev": "83b7606dcf44abe3a94b86e8bb2b3355d22e8797",
         "type": "github"
       },
       "original": {
@@ -452,6 +453,7 @@
           "hyprlang"
         ],
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -500,6 +502,7 @@
           "hyprutils"
         ],
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -575,6 +578,7 @@
           "hyprwayland-scanner"
         ],
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -599,6 +603,7 @@
     "hyprland-protocols": {
       "inputs": {
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -627,6 +632,7 @@
           "hyprutils"
         ],
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -703,6 +709,7 @@
     "hyprutils": {
       "inputs": {
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -727,6 +734,7 @@
     "hyprwayland-scanner": {
       "inputs": {
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -755,6 +763,7 @@
           "hyprutils"
         ],
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [
@@ -798,11 +807,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786699330,
-        "narHash": "sha256-XnkGRK2XXsQsAoZQ0hEeburjql+DxHXC7Jedvoy/9Kk=",
+        "lastModified": 1786733733,
+        "narHash": "sha256-eNf5Q7ffGRH5EFp7ERpT1oeQugs0GckN85ojG9iMWWU=",
         "owner": "MoonshotAI",
         "repo": "kimi-code",
-        "rev": "7475c2e2e3dd86ac0b8a8d51d4f1d233ed7df797",
+        "rev": "d96cd037702637305422222e985139e51ff83c8c",
         "type": "github"
       },
       "original": {
@@ -995,11 +1004,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786703051,
-        "narHash": "sha256-Tz8fZO9rVBrdCKVB7UbyYAIqOAyGDged1hrr8XwUJzg=",
+        "lastModified": 1786766700,
+        "narHash": "sha256-G5d/GSncLwPsfoP1Fh26IftvQT93KUZEGB1b3l2Zzgg=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "6376a057f4ae04024221bd1a11e6714d2e954263",
+        "rev": "77bc1c9b3c7aa685db5e4b0dd63b6b8f7886d788",
         "type": "github"
       },
       "original": {
@@ -1122,6 +1131,7 @@
       "inputs": {
         "flake-compat": "flake-compat_3",
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ]
       },
@@ -1427,6 +1437,7 @@
           "hyprwayland-scanner"
         ],
         "nixpkgs": [
+          "hyprland",
           "nixpkgs"
         ],
         "systems": [

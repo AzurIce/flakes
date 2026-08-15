@@ -38,7 +38,7 @@
     poetry
     bun
     nodejs_22
-    nodePackages_latest.pnpm
+    pnpm
     typst
     sqlite
     pandoc

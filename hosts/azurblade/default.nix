@@ -18,7 +18,7 @@ nixpkgs.lib.nixosSystem {
     # ../../modules/gaming
     ../../modules/wm/hyprland.nix
     # impermanence.nixosModules.impermanence
-    sops-nix.nixosModules.sops
+    ../../modules/sops.nix
     home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;

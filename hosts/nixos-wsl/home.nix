@@ -21,10 +21,11 @@
 
   programs.git = {
     enable = true;
-    userEmail = "973562770@qq.com";
-    userName = "AzurIce";
-    extraConfig = {
-      # core.excludesFile = "~/.config/git/ignore";
+    settings = {
+      user = {
+        name = "AzurIce";
+        email = "973562770@qq.com";
+      };
       http.proxy = "http://127.0.0.1:7890";
       https.proxy = "https://127.0.0.1:7890";
       safe.directory = "*";
@@ -39,8 +40,6 @@
     ];
 
     lfs.enable = true;
-
-    delta.enable = true;
   };
 
   programs.home-manager.enable = true;

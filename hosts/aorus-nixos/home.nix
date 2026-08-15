@@ -11,6 +11,7 @@ inputs@{ user, pkgs, ... }:
     ../../home/programs/yazi.nix
     ../../home/programs/fcitx5.nix
     ../../home/programs/herdr.nix
+    ../../home/programs/webapp.nix
     # ../../home/programs/nvim.nix
 
     ../../modules/programs/typora/home.nix
