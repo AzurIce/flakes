@@ -11,18 +11,19 @@ in
 {
   imports = [
     ../../home
-    ../../home/programs/git.nix
-    ../../home/programs/alacritty.nix
-    ../../home/programs/helix.nix
-    ../../home/programs/yazi.nix
-    ../../home/programs/zellij.nix
+    ../../home/fonts.nix
     ../../home/programs/zsh.nix
-    ../../home/programs/rio.nix
+    ../../home/ai
+    ../../home/programs/alacritty.nix
+    ../../home/programs/yazi.nix
+    ../../home/programs/herdr.nix
+
+    ../../modules/programs/typora/home.nix
+    ../../home/programs/git.nix
+    ../../home/programs/helix.nix
     ../../home/programs/nvim.nix
 
-    ../../home/ai
-    ../../home/fonts.nix
-    ../../modules/programs/typora/home.nix
+    # ../../home/programs/rio.nix
     #../../modules/programs/maa/home.nix
     # ../../modules/programs/kitty.nix
     #../../modules/programs/rime.nix
@@ -87,10 +88,6 @@ in
     enableZshIntegration = true;
   };
 
-  programs.tmux = {
-    enable = true;
-    mouse = true;
-  };
   # programs.ghostty = {
   #   # enable = true;
   #   settings = {
