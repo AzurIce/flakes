@@ -8,6 +8,7 @@ inputs@{
 
 let
   aicodemirrorKey = config.sops.secrets.aicodemirrorKey.path;
+  pokeKey = config.sops.secrets.pokeKey.path;
   foxcodeKey = config.sops.secrets.foxcodeKey.path;
   zaiKey = config.sops.secrets.zaiKey.path;
   opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
@@ -133,6 +134,7 @@ in
 
   sops.secrets = {
     kimiCodeKey = { };
+    pokeKey = { };
     aicodemirrorKey = { };
     minimaxKey = { };
     siliconflowKey = { };
@@ -218,6 +220,7 @@ in
       export OPENCODE_ENABLE_EXA=1
 
       # Other API Keys
+      export POKE_API_KEY="$(cat ${pokeKey})"
       export MINIMAX_API_KEY="$(cat ${minimaxKey})"
       export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
       export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"

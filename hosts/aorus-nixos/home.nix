@@ -34,6 +34,12 @@ inputs@{ user, pkgs, ... }:
         postBuild = ''
           rm $out/bin/qq
           makeWrapper ${qq}/bin/qq $out/bin/qq \
+            --set QT_IM_MODULE fcitx \
+            --set XMODIFIERS "@im=fcitx" \
+            --set NIXOS_OZONE_WL "" \
+            --add-flags "--ozone-platform-hint=auto" \
+            --add-flags "--enable-features=WaylandWindowDecorations" \
+            --add-flags "--enable-wayland-ime=true" \
             --add-flags "--wayland-text-input-version=1"
           rm -f $out/share/applications/qq.desktop
           substitute ${qq}/share/applications/qq.desktop \
@@ -50,6 +56,8 @@ inputs@{ user, pkgs, ... }:
       godot_4
       blender
       chromium
+      mpv
+      gh
 
       inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];

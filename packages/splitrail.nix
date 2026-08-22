@@ -6,24 +6,24 @@
 }:
 
 let
-  version = "3.6.1";
+  version = "3.7.1";
   assets = {
     "aarch64-darwin" = {
       platform = "aarch64-apple-darwin";
-      hash = "sha256-QyRFdQfLE95c4RGAVSdSMQYqf/PT4YKkKUNQx6WIcGE=";
+      hash = "sha256-Zy5KWayxFCxnNRh6EvPhyDsH9Gi94hpoWcUyFxrV1iI=";
     };
     "x86_64-darwin" = {
       platform = "x86_64-apple-darwin";
-      hash = "sha256-KPpjwOvc7WJpMCV+efDXKui5px5v808vxEXo6R3aa2M=";
+      hash = "sha256-4+LChNW6DtDmZZVSBRDQuSXwQvMxMxzU9dEidwhFL0c=";
     };
     # Use the statically-linked musl builds on Linux so no patchelf is needed.
     "x86_64-linux" = {
       platform = "x86_64-unknown-linux-musl";
-      hash = "sha256-pDKi81OstcyvVQvHEGPZjjvtBG90gbhI4s/aLiIkmt8=";
+      hash = "sha256-Kih4380XBlaG6HvjCHhIEaeVa1RVb8eCYKshVaxgVxI=";
     };
     "aarch64-linux" = {
       platform = "aarch64-unknown-linux-musl";
-      hash = "sha256-qrTLtEhlRM/hc8KtWpUAo0SVeNKTCcQx6A/k8JyVeJQ=";
+      hash = "sha256-xZ2am/tnB9Gt3KRNysM+EPa1gKJftc4AjZs1u1m7b2w=";
     };
   };
   asset =

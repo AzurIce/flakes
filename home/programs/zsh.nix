@@ -4,6 +4,7 @@ inputs@{ user, config, pkgs, ... }:
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
+    dotDir = config.home.homeDirectory;
     initContent= ''
       # export TERM=xterm-256color
       export PATH=$PATH:/Users/azurice/.cargo/bin

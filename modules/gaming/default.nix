@@ -5,6 +5,10 @@
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+    extraCompatPackages = with pkgs; [
+      proton-ge-bin
+      dwproton-bin
+    ];
   };
 
   # Wine（nixpkgs staging，wow64）：跑 FFXIV 用，比 XIVLauncher 托管的 wine-xiv 8.5 新得多

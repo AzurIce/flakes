@@ -182,6 +182,9 @@
             sops
             ssh-to-age
             age
+            # for packages/update.sh
+            nodejs_24
+            prefetch-npm-deps
           ];
         };
       }

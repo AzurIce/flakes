@@ -1,3 +1,7 @@
+# update a hand-maintained package in packages/ (dsh|cc-switch|clipvault|splitrail|revelo|all)
+update pkg *args:
+    ./packages/update.sh {{ pkg }} {{ args }}
+
 rebuild target=".#":
     sudo nixos-rebuild switch --flake {{ target }}
 

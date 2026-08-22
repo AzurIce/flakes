@@ -47,6 +47,10 @@ inputs@{ pkgs, utils, ... }:
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.clipvault
     # 桌面 shell（bar/launcher/通知/控制中心），替代 ashell
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+    # 亮度控制：brightnessctl（笔记本/内屏）+ ddcutil（外接显示器）
+    brightnessctl
+    ddcutil
   ];
 
   xdg.configFile = utils.linkDotfiles [

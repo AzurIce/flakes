@@ -2,7 +2,8 @@
 # https://github.com/deepseek-ai/deepseek-harness
 #
 # Adapted from https://github.com/chinrw/deepseek-harness-nix (MIT), which
-# tracks the nixpkgs PR NixOS/nixpkgs#552467. Targets @deepseek-ai/dsh 0.1.0-rc.6.
+# tracks the nixpkgs PR NixOS/nixpkgs#552467. Tracks the npm `latest` dist-tag
+# of @deepseek-ai/dsh; update with `packages/update.sh dsh`.
 
 { lib
 , stdenv
@@ -14,9 +15,9 @@
 }:
 
 let
-  version = "0.1.0-rc.6";
-  srcHash = "sha256-caYhF/Q3wBGCs6nW80RCEzWPF5eS3vs5kw7dyGjlLdo=";
-  npmDepsHash = "sha256-9pkQ50fOb2pv44zDWRdW5PnZCv7gvJX9I9tKsblAIXA=";
+  version = "0.1.1-rc.2";
+  srcHash = "sha256-lmml3QdvbjNCPbY7NBEjQt86lRJiTn5I2fy7CwL6PdY=";
+  npmDepsHash = "sha256-BQgt9OosqjCMNJdJ89itI9o6vX0Ya2dFs9pqQvK3hFM=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "deepseek-harness";

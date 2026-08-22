@@ -6,11 +6,11 @@
 
 stdenvNoCC.mkDerivation rec {
   pname = "lxgw-bright";
-  version = "5.526";
+  version = "5.528";
 
   src = fetchurl {
     url = "https://github.com/lxgw/LxgwBright/archive/refs/tags/v${version}.tar.gz";
-    hash = "sha256-ybFPdSnx03ZDU7TbEcLdYhkSQhooxsvEDqOQ4VMygSM=";
+    hash = "sha256-/SIsnyp/3qIFcWbLXYYtiormy5y2bxHjlWllLj9fqFY=";
   };
 
   installPhase = ''
