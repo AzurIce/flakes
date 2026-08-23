@@ -175,6 +175,10 @@
           inherit lib;
           inherit (pkgs) stdenv buildNpmPackage fetchzip nodejs_24 python3 jq;
         };
+        packages.opencode = import ./packages/opencode.nix {
+          inherit lib;
+          inherit (pkgs) stdenvNoCC fetchurl unzip makeWrapper glibc;
+        };
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [

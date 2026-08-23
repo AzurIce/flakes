@@ -33,7 +33,7 @@
     default = "http://127.0.0.1:7890";
     # allProxy = "http://192.168.2.52:7890";
   };
-  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain,192.168.2.0/24";
 
   services.openssh.enable = true;
 

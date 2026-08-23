@@ -25,8 +25,8 @@ inputs@{ user, pkgs, ... }:
     homeDirectory = "/home/${user}";
     stateVersion = "24.11";
     packages = with pkgs; [
-      # QQ 在 Hyprland + fcitx5 下 --wayland-text-input-version=3 注册不上输入法,
-      # 覆盖成 v1(命令行和 .desktop 图标都走包装后的 bin)。
+      # QQ 在 Hyprland + fcitx5 下 --wayland-text-input-version=3 注册不上输入法；
+      # drun 从 systemd 会话启动时还可能缺少 GTK_IM_MODULE，统一在包装器中补齐。
       (symlinkJoin {
         name = "qq-imefix";
         paths = [ qq ];
@@ -34,10 +34,12 @@ inputs@{ user, pkgs, ... }:
         postBuild = ''
           rm $out/bin/qq
           makeWrapper ${qq}/bin/qq $out/bin/qq \
+            --set GTK_IM_MODULE fcitx \
             --set QT_IM_MODULE fcitx \
+            --set SDL_IM_MODULE fcitx \
             --set XMODIFIERS "@im=fcitx" \
             --set NIXOS_OZONE_WL "" \
-            --add-flags "--ozone-platform-hint=auto" \
+            --add-flags "--ozone-platform=wayland" \
             --add-flags "--enable-features=WaylandWindowDecorations" \
             --add-flags "--enable-wayland-ime=true" \
             --add-flags "--wayland-text-input-version=1"

@@ -99,7 +99,10 @@ in
     ./splitrail.nix
   ];
 
-  programs.opencode.enable = true;
+  programs.opencode = {
+    enable = true;
+    package = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
+  };
   home.packages =
     with pkgs;
     [

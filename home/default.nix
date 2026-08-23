@@ -14,6 +14,18 @@
     };
   };
 
+  programs.ssh = {
+    enable = true;
+    settings = {
+       lab = {
+         hostname = "58.87.79.189";
+         user = "user";
+         port = 32222;
+       };
+     };
+  };
+   
+
   # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
   nix.extraOptions = ''
     !include ${config.sops.secrets."access-tokens".path}
