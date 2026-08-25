@@ -8,6 +8,7 @@ inputs@{
 
 let
   aicodemirrorKey = config.sops.secrets.aicodemirrorKey.path;
+  gmiCloudKey = config.sops.secrets.gmiCloudKey.path;
   pokeKey = config.sops.secrets.pokeKey.path;
   foxcodeKey = config.sops.secrets.foxcodeKey.path;
   zaiKey = config.sops.secrets.zaiKey.path;
@@ -137,6 +138,7 @@ in
 
   sops.secrets = {
     kimiCodeKey = { };
+    gmiCloudKey = { };
     pokeKey = { };
     aicodemirrorKey = { };
     minimaxKey = { };
@@ -223,6 +225,7 @@ in
       export OPENCODE_ENABLE_EXA=1
 
       # Other API Keys
+      export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
       export POKE_API_KEY="$(cat ${pokeKey})"
       export MINIMAX_API_KEY="$(cat ${minimaxKey})"
       export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"

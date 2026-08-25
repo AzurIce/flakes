@@ -52,6 +52,7 @@ inputs@{ user, pkgs, ... }:
       wechat
       wemeet
 
+      mold
       zed-editor
       obsidian
 
