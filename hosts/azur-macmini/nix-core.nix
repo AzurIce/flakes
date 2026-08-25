@@ -16,6 +16,8 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  # 显式允许 metal-toolchain（exo 带的 Apple 闭源 Metal 编译器）。
+  nixpkgs.config.allowUnfreePredicate = pkg: (pkg.pname or "") == "metal-toolchain";
 
   # Auto upgrade nix package and the daemon service.
   # services.nix-daemon.enable = true;

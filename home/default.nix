@@ -16,13 +16,26 @@
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     settings = {
-       lab = {
-         hostname = "58.87.79.189";
-         user = "user";
-         port = 32222;
-       };
-     };
+      "*" = {
+        AddKeysToAgent = "no";
+        Compression = "no";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
+        ForwardAgent = "no";
+        HashKnownHosts = "no";
+        ServerAliveCountMax = 3;
+        ServerAliveInterval = 0;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+      };
+      lab = {
+        hostname = "58.87.79.189";
+        user = "user";
+        port = 32222;
+      };
+    };
   };
    
 

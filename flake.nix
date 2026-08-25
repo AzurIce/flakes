@@ -24,6 +24,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -93,6 +98,14 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # exo = {
+    #   url = "github:exo-explore/exo";
+    #   # 让 exo flake 内部的 nixpkgs 与本机对齐，避免重复 lock 多份 nixpkgs。
+    #   # exo 内部 dream2nix / pyproject-nix / uv2nix 之间的 follow 关系
+    #   # exo 自己已正确设好，不需要我们干预。
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.flake-parts.follows = "flake-parts";
+    # };
   };
 
   outputs =

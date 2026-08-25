@@ -94,6 +94,19 @@ let
   };
 
   providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);
+
+  # # exo（MLX 跨机推理集群）仅在 azurmac-macos / azur-macmini 两台 Mac 上安装。
+  # # Linux 主机 / 其他 host 不需要。
+  # # 双重判断：
+  # #   1. 仅 aarch64-darwin（exo 包的 mlx extra 仅支持 darwin + aarch64-linux）
+  # #   2. 限定 homeDirectory 在 azurice 账户（/Users/azurice），避免未来 mac 用户被误装
+  # # 当前 import 此模块的 host：
+  # #   - hosts/azurmac-macos/home.nix
+  # #   - hosts/azur-macmini/home.nix
+  # isExoHost =
+  #   pkgs.stdenv.hostPlatform.isAarch64
+  #   && pkgs.stdenv.hostPlatform.isDarwin
+  #   && config.home.homeDirectory == "/Users/azurice";
 in
 {
   imports = [
@@ -122,6 +135,11 @@ in
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     ];
+    # ++ lib.optional (isExoHost && pkgs.stdenv.hostPlatform.isDarwin) (
+    #   # exo CLI（`exo` 命令，支持 TP cluster）
+    #   # exo flake 的 output：`packages.<system>.exo` 与 `packages.<system>.default` 同指
+    #   inputs.exo.packages.${pkgs.stdenv.hostPlatform.system}.exo
+    # );
 
   home.file = utils.linkDotfiles [
     ".claude"
