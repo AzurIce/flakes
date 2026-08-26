@@ -166,6 +166,12 @@
       let
         pkgs = inputs.nixpkgs.legacyPackages.${system};
         lib = inputs.nixpkgs.lib;
+        mlx-bin = pkgs.python3Packages.callPackage ./packages/mlx-bin.nix { };
+        mlx-audio = pkgs.python3Packages.callPackage ./packages/mlx-audio.nix {
+          # use the official wheel (with Metal support) instead of nixpkgs'
+          # CPU-only source build
+          mlx = mlx-bin;
+        };
       in
       {
         packages.cc-switch = import ./packages/cc-switch.nix {
@@ -191,6 +197,11 @@
         packages.opencode = import ./packages/opencode.nix {
           inherit lib;
           inherit (pkgs) stdenvNoCC fetchurl unzip makeWrapper glibc;
+        };
+        packages.mlx-audio = mlx-audio;
+        packages.mlx-vlm = pkgs.python3Packages.callPackage ./packages/mlx-vlm.nix {
+          inherit mlx-audio;
+          mlx = mlx-bin;
         };
 
         devShells.default = pkgs.mkShell {
