@@ -62,7 +62,7 @@ inputs@{ user, pkgs, ... }:
       mpv
       gh
 
-      inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
+      # inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
 

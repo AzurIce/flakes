@@ -8,6 +8,7 @@ inputs@{
 
 let
   gmiCloudKey = config.sops.secrets.gmiCloudKey.path;
+  zhipuKey = config.sops.secrets.zhipuKey.path;
   pokeKey = config.sops.secrets.pokeKey.path;
   opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
   minimaxKey = config.sops.secrets.minimaxKey.path;
@@ -34,6 +35,9 @@ in
 
       rtk
     ]
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode
+    ]
     ++ [
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.kimi-code.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -53,9 +57,22 @@ in
     "openode"
     "rua"
   ];
+  xdg.desktopEntries = lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+    zcode = {
+      name = "ZCode";
+      comment = "ZCode Desktop App";
+      exec = "${inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode}/bin/zcode --no-sandbox %U";
+      icon = "zcode";
+      terminal = false;
+      categories = [ "Development" ];
+      mimeType = [ "x-scheme-handler/zcode" ];
+      settings.StartupWMClass = "ZCode";
+    };
+  };
 
   sops.secrets = {
     kimiCodeKey = { };
+    zhipuKey = { };
     gmiCloudKey = { };
     pokeKey = { };
     aicodemirrorKey = { };
@@ -83,6 +100,7 @@ in
 
     # Other API Keys
     export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
+    export ZAI_CODING_CN_API_KEY="$(cat ${zhipuKey})"
     export POKE_API_KEY="$(cat ${pokeKey})"
     export MINIMAX_API_KEY="$(cat ${minimaxKey})"
     export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"

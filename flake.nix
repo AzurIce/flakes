@@ -98,14 +98,6 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # exo = {
-    #   url = "github:exo-explore/exo";
-    #   # 让 exo flake 内部的 nixpkgs 与本机对齐，避免重复 lock 多份 nixpkgs。
-    #   # exo 内部 dream2nix / pyproject-nix / uv2nix 之间的 follow 关系
-    #   # exo 自己已正确设好，不需要我们干预。
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    #   inputs.flake-parts.follows = "flake-parts";
-    # };
   };
 
   outputs =
@@ -161,11 +153,14 @@
         }
       );
     }
-    // inputs.flake-utils.lib.eachDefaultSystem (
+    // inputs.flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ] (
       system:
       let
-        pkgs = inputs.nixpkgs.legacyPackages.${system};
         lib = inputs.nixpkgs.lib;
+        pkgs = import inputs.nixpkgs {
+          inherit system;
+          config.allowUnfreePredicate = pkg: (pkg.pname or "") == "zcode";
+        };
         mlx-bin = pkgs.python3Packages.callPackage ./packages/mlx-bin.nix { };
         mlx-audio = pkgs.python3Packages.callPackage ./packages/mlx-audio.nix {
           # use the official wheel (with Metal support) instead of nixpkgs'
@@ -174,36 +169,49 @@
         };
       in
       {
-        packages.cc-switch = import ./packages/cc-switch.nix {
-          inherit lib;
-          inherit (pkgs) stdenvNoCC fetchurl unzip;
-        };
-        packages.splitrail = import ./packages/splitrail.nix {
-          inherit lib;
-          inherit (pkgs) stdenvNoCC fetchurl unzip;
-        };
-        packages.revelo = import ./packages/revelo.nix {
-          inherit lib;
-          inherit (pkgs) stdenvNoCC fetchurl unzip;
-        };
-        packages.clipvault = import ./packages/clipvault.nix {
-          inherit lib;
-          inherit (pkgs) stdenv fetchurl autoPatchelfHook gcc;
-        };
-        packages.dsh = import ./packages/dsh.nix {
-          inherit lib;
-          inherit (pkgs) stdenv buildNpmPackage fetchzip nodejs_24 python3 jq;
-        };
-        packages.opencode = import ./packages/opencode.nix {
-          inherit lib;
-          inherit (pkgs) stdenvNoCC fetchurl unzip makeWrapper glibc;
-        };
-        packages.mlx-audio = mlx-audio;
-        packages.mlx-vlm = pkgs.python3Packages.callPackage ./packages/mlx-vlm.nix {
-          inherit mlx-audio;
-          mlx = mlx-bin;
-        };
-
+        packages = {
+          # packages.cc-switch = import ./packages/cc-switch.nix {
+          #   inherit lib;
+          #   inherit (pkgs) stdenvNoCC fetchurl unzip;
+          # };
+          # packages.splitrail = import ./packages/splitrail.nix {
+          #   inherit lib;
+          #   inherit (pkgs) stdenvNoCC fetchurl unzip;
+          # };
+          splitrail = import ./packages/splitrail.nix {
+            inherit lib;
+            inherit (pkgs) stdenvNoCC fetchurl unzip;
+          };
+          revelo = import ./packages/revelo.nix {
+            inherit lib;
+            inherit (pkgs) stdenvNoCC fetchurl unzip;
+          };
+          clipvault = import ./packages/clipvault.nix {
+            inherit lib;
+            inherit (pkgs) stdenv fetchurl autoPatchelfHook gcc;
+          };
+          dsh = import ./packages/dsh.nix {
+            inherit lib;
+            inherit (pkgs) stdenv buildNpmPackage fetchzip nodejs_24 python3 jq;
+          };
+          opencode = import ./packages/opencode.nix {
+            inherit lib;
+            inherit (pkgs) stdenvNoCC fetchurl unzip makeWrapper glibc;
+          };
+          mlx-audio = mlx-audio;
+          mlx-vlm = pkgs.python3Packages.callPackage ./packages/mlx-vlm.nix {
+            inherit mlx-audio;
+            mlx = mlx-bin;
+          };
+        }
+        // (if pkgs.stdenv.hostPlatform.isLinux then {
+          zcode = import ./packages/zcode.nix {
+            inherit lib;
+            inherit (pkgs) appimageTools fetchurl;
+          };
+        } else { });
+      }
+      // {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             nh
