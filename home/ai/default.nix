@@ -7,106 +7,11 @@ inputs@{
 }:
 
 let
-  aicodemirrorKey = config.sops.secrets.aicodemirrorKey.path;
   gmiCloudKey = config.sops.secrets.gmiCloudKey.path;
   pokeKey = config.sops.secrets.pokeKey.path;
-  foxcodeKey = config.sops.secrets.foxcodeKey.path;
-  zaiKey = config.sops.secrets.zaiKey.path;
   opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
-  rightcodeKey = config.sops.secrets.rightcodeKey.path;
-
-  # ANTHROPIC Provider Configurations
-  anthropicProviders = {
-    foxcode-aws = {
-      baseUrl = "https://code.newcli.com/claude/aws";
-      authTokenFile = foxcodeKey;
-      extraVars = { };
-    };
-    foxcode = {
-      baseUrl = "https://code.newcli.com/claude";
-      authTokenFile = foxcodeKey;
-      extraVars = { };
-    };
-    foxcode-turbo = {
-      baseUrl = "https://code.newcli.com/claude/turbo";
-      authTokenFile = foxcodeKey;
-      extraVars = { };
-    };
-    foxcode-super = {
-      baseUrl = "https://code.newcli.com/claude/super";
-      authTokenFile = foxcodeKey;
-      extraVars = { };
-    };
-    foxcode-ultra = {
-      baseUrl = "https://code.newcli.com/claude/ultra";
-      authTokenFile = foxcodeKey;
-      extraVars = { };
-    };
-    zai = {
-      baseUrl = "https://api.z.ai/api/anthropic";
-      authTokenFile = zaiKey;
-      extraVars = {
-        ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-Air";
-        ANTHROPIC_DEFAULT_SONNET_MODEL = "glm-4.7";
-        ANTHROPIC_DEFAULT_OPUS_MODEL = "glm-5";
-        ANTHROPIC_MODEL = "glm-5";
-      };
-    };
-    rightcode-aws = {
-      baseUrl = "https://right.codes/claude-aws";
-      authTokenFile = rightcodeKey;
-      extraVars = { };
-    };
-    rightcode-sale = {
-      baseUrl = "https://right.codes/claude-sale";
-      authTokenFile = rightcodeKey;
-      extraVars = { };
-    };
-    rightcode = {
-      baseUrl = "https://right.codes/claude-sale";
-      authTokenFile = rightcodeKey;
-      extraVars = { };
-    };
-    aicodemirror = {
-      baseUrl = "https://api.claudecode.net.cn/api/claudecode";
-      authTokenFile = aicodemirrorKey;
-      extraVars = { };
-    };
-    kimiCode = {
-      baseUrl = "https://api.kimi.com/coding";
-      authTokenFile = config.sops.secrets.kimiCodeKey.path;
-      extraVars = {
-        ANTHROPIC_MODEL = "kimi-for-coding";
-      };
-    };
-    deepseek = {
-      baseUrl = "https://api.deepseek.com/anthropic";
-      authTokenFile = config.sops.secrets.deepseekKey.path;
-      extraVars = {
-        ANTHROPIC_MODEL = "deepseek-v4-pro[1m]";
-        ANTHROPIC_DEFAULT_OPUS_MODEL = "deepseek-v4-pro[1m]";
-        ANTHROPIC_DEFAULT_SONNET_MODEL = "deepseek-v4-pro[1m]";
-        ANTHROPIC_DEFAULT_HAIKU_MODEL = "deepseek-v4-flash";
-        CLAUDE_CODE_SUBAGENT_MODEL = "deepseek-v4-flash";
-        CLAUDE_CODE_EFFORT_LEVEL = "max";
-      };
-    };
-  };
-
-  providerNames = lib.concatStringsSep " " (lib.attrNames anthropicProviders);
-
-  # # exo（MLX 跨机推理集群）仅在 azurmac-macos / azur-macmini 两台 Mac 上安装。
-  # # Linux 主机 / 其他 host 不需要。
-  # # 双重判断：
-  # #   1. 仅 aarch64-darwin（exo 包的 mlx extra 仅支持 darwin + aarch64-linux）
-  # #   2. 限定 homeDirectory 在 azurice 账户（/Users/azurice），避免未来 mac 用户被误装
-  # # 当前 import 此模块的 host：
-  # #   - hosts/azurmac-macos/home.nix
-  # #   - hosts/azur-macmini/home.nix
-  # isExoHost =
-  #   pkgs.stdenv.hostPlatform.isAarch64
-  #   && pkgs.stdenv.hostPlatform.isDarwin
-  #   && config.home.homeDirectory == "/Users/azurice";
+  minimaxKey = config.sops.secrets.minimaxKey.path;
+  deepseekKey = config.sops.secrets.deepseekKey.path;
 in
 {
   imports = [
@@ -135,11 +40,6 @@ in
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     ];
-    # ++ lib.optional (isExoHost && pkgs.stdenv.hostPlatform.isDarwin) (
-    #   # exo CLI（`exo` 命令，支持 TP cluster）
-    #   # exo flake 的 output：`packages.<system>.exo` 与 `packages.<system>.default` 同指
-    #   inputs.exo.packages.${pkgs.stdenv.hostPlatform.system}.exo
-    # );
 
   home.file = utils.linkDotfiles [
     ".claude"
@@ -172,94 +72,22 @@ in
   sops.templates."codex-auth.json" = {
     path = "${config.home.homeDirectory}/.codex/auth.json";
     content = builtins.toJSON {
-      OPENAI_API_KEY = config.sops.placeholder.foxcodeKey;
+      OPENAI_API_KEY = config.sops.placeholder.pokeKey;
     };
   };
 
-  programs.zsh.initContent =
-    let
-      minimaxKey = config.sops.secrets.minimaxKey.path;
-      deepseekKey = config.sops.secrets.deepseekKey.path;
+  programs.zsh.initContent = ''
+    export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+    export OPENCODE_ENABLE_EXA=1
 
-      # Generate shell function for a provider
-      mkProviderFunction = name: cfg: ''
-        _cc_${name}() {
-          export ANTHROPIC_BASE_URL="${cfg.baseUrl}"
-          export ANTHROPIC_API_KEY="$(cat ${cfg.authTokenFile})"
-          ${lib.concatStringsSep "\n  " (lib.mapAttrsToList (k: v: "export ${k}=\"${v}\"") cfg.extraVars)}
-          ${lib.optionalString (cfg.extraVars == { })
-            "unset ANTHROPIC_DEFAULT_HAIKU_MODEL ANTHROPIC_DEFAULT_SONNET_MODEL ANTHROPIC_DEFAULT_OPUS_MODEL ANTHROPIC_MODEL 2>/dev/null"
-          }
-          echo "Switched to ${name}"
-        }
-      '';
-
-      # Generate all provider functions
-      providerFunctions = lib.concatStringsSep "\n" (
-        lib.mapAttrsToList mkProviderFunction anthropicProviders
-      );
-
-      # Generate the cc-switch command
-      ccSwitchCommand = ''
-        cc-switch() {
-          # Show status if no argument
-          if [ -z "$1" ]; then
-            echo "Current: ANTHROPIC_BASE_URL=$ANTHROPIC_BASE_URL"
-            echo ""
-            echo "Available providers:"
-            ${lib.concatStringsSep "\n            " (
-              map (name: ''echo "  ${name}"'') (lib.attrNames anthropicProviders)
-            )}
-            return 0
-          fi
-
-          case "$1" in
-            ${lib.concatStringsSep "\n    " (
-              lib.mapAttrsToList (name: _: ''"${name}") _cc_${name} ;;'') anthropicProviders
-            )}
-            *)
-              echo "Unknown provider: $1"
-              echo "Available providers:"
-              ${lib.concatStringsSep "\n              " (
-                map (name: ''echo "  ${name}"'') (lib.attrNames anthropicProviders)
-              )}
-              return 1
-              ;;
-          esac
-        }
-
-        # Completion for cc-switch
-        _cc-switch() {
-          local -a providers
-          providers=(${providerNames})
-          _describe 'provider' providers
-        }
-        compdef _cc-switch cc-switch
-      '';
-    in
-    ''
-      export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-      export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-      export OPENCODE_ENABLE_EXA=1
-
-      # Other API Keys
-      export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
-      export POKE_API_KEY="$(cat ${pokeKey})"
-      export MINIMAX_API_KEY="$(cat ${minimaxKey})"
-      export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
-      export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"
-      export GOOGLE_GEMINI_BASE_URL="https://code.newcli.com/gemini"
-      # export GOOGLE_GEMINI_BASE_URL="https://api.claudecode.net.cn/api/gemini"
-      export GEMINI_API_KEY="$(cat ${foxcodeKey})"
-      # export OPENAI_BASE_URL="https://api.claudecode.net.cn/api/codex/backend-api/codex"
-      export OPENAI_BASE_URL="https://code.newcli.com/codex/v1"
-      export OPENAI_API_KEY="$(cat ${foxcodeKey})"
-
-      ${providerFunctions}
-
-      ${ccSwitchCommand}
-
-      # Default: use foxcode-ultra
-      _cc_foxcode-ultra
-    '';
+    # Other API Keys
+    export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
+    export POKE_API_KEY="$(cat ${pokeKey})"
+    export MINIMAX_API_KEY="$(cat ${minimaxKey})"
+    export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
+    export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"
+    export OPENAI_BASE_URL="https://www.poke2api.com"
+    export OPENAI_API_KEY="$(cat ${pokeKey})"
+  '';
 }
