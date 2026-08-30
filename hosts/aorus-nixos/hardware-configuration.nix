@@ -57,7 +57,12 @@ in
     };
 
     "/" = btrSubvolFs "@root";
-    "/nix" = btrSubvolFs "@nix";
+    # /nix 已迁至 GM7000 盘尾的 200G 独立分区（NixStore），sda3 上旧 @nix 已弃用
+    "/nix" = {
+      device = "/dev/disk/by-uuid/af9cf058-4b2b-4ca6-b08a-2dc006d1e9bd";
+      fsType = "btrfs";
+      options = [ "subvol=@nix" "compress=zstd" ];
+    };
     "/home" = btrSubvolFs "@home" // {
       neededForBoot = true;
     }; # For ~/.age-key.txt to make sops-nix set password
