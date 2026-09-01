@@ -17,7 +17,7 @@
 let
   version = "0.1.1-rc.2";
   srcHash = "sha256-lmml3QdvbjNCPbY7NBEjQt86lRJiTn5I2fy7CwL6PdY=";
-  npmDepsHash = "sha256-BQgt9OosqjCMNJdJ89itI9o6vX0Ya2dFs9pqQvK3hFM=";
+  npmDepsHash = "sha256-NXUGVVNVvnNrSeNEfAwkjWNH1OCZ9E+BFM3vFMzIX8Y=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "deepseek-harness";

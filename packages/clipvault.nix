@@ -11,11 +11,11 @@ let
   sources = {
     x86_64-linux = {
       url = "https://github.com/rolv-apneseth/clipvault/releases/download/v${version}/clipvault-x86_64-unknown-linux-gnu.tar.gz";
-      sha256 = "13qa9fv55h1cvs1viqsbwlp5dxa4dis8dajjkn63zzshs2qicx6i";
+      sha256 = "sha256-0XQWsdBQ/z+MnVKqhnRsRPVWLuVL47iD3izAUrZLCo8=";
     };
     aarch64-linux = {
       url = "https://github.com/rolv-apneseth/clipvault/releases/download/v${version}/clipvault-aarch64-unknown-linux-gnu.tar.gz";
-      sha256 = "0kbspij4pcygdfqn7yvbxnn08k8gl0jlc9l8kdv4xkzb8akqigr8";
+      sha256 = "sha256-KL+Ip0Lrz052m4gmRiWgD00ErO1r+2Oxa8+zS2S8ek0=";
     };
   };
   source = sources.${stdenv.hostPlatform.system} or (throw "clipvault: unsupported system ${stdenv.hostPlatform.system}");

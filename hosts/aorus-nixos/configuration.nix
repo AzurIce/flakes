@@ -35,6 +35,9 @@
   };
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain,192.168.2.0/24";
 
+  services.earlyoom.enable = true;
+  # 全量 Magic SysRq：桌面冻死时 Alt+SysRq+F 手动杀最大进程，REISUB 安全重启
+  boot.kernel.sysctl."kernel.sysrq" = 1;
   services.openssh.enable = true;
 
   # i18n.inputMethod = {
@@ -141,7 +144,14 @@
     neovim
     helix
 
-    btop
+    # btop
+    (pkgs.btop.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.makeWrapper ];
+      postFixup = ''
+        wrapProgram $out/bin/btop \
+          --prefix LD_LIBRARY_PATH : /run/opengl-driver/lib
+      '';
+    }))
     just
   ];
 

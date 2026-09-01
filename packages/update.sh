@@ -30,7 +30,8 @@ set_version() { # file version — first `version = "..."` line
 }
 
 set_hash() { # file field hash — first `field = "..."` line
-  sed -i "0,/  $2 = \".*\";/s//  $2 = \"$3\";/" "$1"
+  # use "|" delimiter: SRI hashes contain "/" and "+"
+  sed -i "0,/  $2 = \".*\";/s||  $2 = \"$3\";|" "$1"
 }
 
 set_platform_hash() { # file block-pattern field hash — `field` inside the `<pattern> = { ... };` block
@@ -98,7 +99,7 @@ update_splitrail() {
     "aarch64-darwin:aarch64-apple-darwin"; do
     sys="${pair%%:*}"; platform="${pair#*:}"
     hash=$(sri "https://github.com/Piebald-AI/splitrail/releases/download/v${ver}/splitrail-v${ver}-${platform}.tar.gz")
-    set_platform_hash packages/splitrail.nix "\"${sys}" hash "$hash"
+    set_platform_hash packages/splitrail.nix "\"${sys}\"" hash "$hash"
   done
 }
 
