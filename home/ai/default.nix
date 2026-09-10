@@ -13,6 +13,7 @@ let
   opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
   minimaxKey = config.sops.secrets.minimaxKey.path;
   deepseekKey = config.sops.secrets.deepseekKey.path;
+  zhipuKey = config.sops.secrets.zhipuKey.path;
 in
 {
   imports = [
@@ -84,6 +85,7 @@ in
     zaiKey = { };
     splitrailKey = { };
     deepseekKey = { };
+    zhipuKey = { };
   };
 
   sops.templates."codex-auth.json" = {
@@ -104,6 +106,7 @@ in
     export POKE_API_KEY="$(cat ${pokeKey})"
     export MINIMAX_API_KEY="$(cat ${minimaxKey})"
     export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
+    export ZHIPUAI_API_KEY="$(cat ${zhipuKey})"
     export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"
     export OPENAI_BASE_URL="https://www.poke2api.com"
     export OPENAI_API_KEY="$(cat ${pokeKey})"

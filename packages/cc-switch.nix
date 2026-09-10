@@ -1,21 +1,16 @@
 {
   lib,
   stdenvNoCC,
-  fetchurl,
   unzip,
+  sources,
 }:
 
 let
-  version = "3.20.0";
+  inherit (sources.cc-switch) version src;
 in
 stdenvNoCC.mkDerivation {
   pname = "cc-switch";
-  inherit version;
-
-  src = fetchurl {
-    url = "https://github.com/farion1231/cc-switch/releases/download/v${version}/CC-Switch-v${version}-macOS.zip";
-    hash = "sha256-MlHTsuQtyhRcMn1y8u/pV0CDFL1B3pTdc0bT/KHvg7Q=";
-  };
+  inherit version src;
 
   nativeBuildInputs = [ unzip ];
 

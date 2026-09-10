@@ -1,0 +1,71 @@
+# Upstream sources for the hand-maintained packages in this directory.
+# Run `just update` to regenerate _sources/generated.nix, which the package
+# expressions import for version + src. Multi-platform binaries are one
+# source entry per release asset, all keyed off the same upstream tag.
+
+[cc-switch]
+src.github = "farion1231/cc-switch"
+src.prefix = "v"
+fetch.url = "https://github.com/farion1231/cc-switch/releases/download/v$ver/CC-Switch-v$ver-macOS.zip"
+
+[revelo]
+src.github = "vbasky/revelo"
+src.prefix = "v"
+fetch.url = "https://github.com/vbasky/revelo/releases/download/v$ver/revelo-v$ver-aarch64-apple-darwin.tar.gz"
+
+[clipvault-x86_64-linux]
+src.github = "rolv-apneseth/clipvault"
+src.prefix = "v"
+fetch.url = "https://github.com/rolv-apneseth/clipvault/releases/download/v$ver/clipvault-x86_64-unknown-linux-gnu.tar.gz"
+
+[clipvault-aarch64-linux]
+src.github = "rolv-apneseth/clipvault"
+src.prefix = "v"
+fetch.url = "https://github.com/rolv-apneseth/clipvault/releases/download/v$ver/clipvault-aarch64-unknown-linux-gnu.tar.gz"
+
+[splitrail-x86_64-linux]
+src.github = "Piebald-AI/splitrail"
+src.prefix = "v"
+fetch.url = "https://github.com/Piebald-AI/splitrail/releases/download/v$ver/splitrail-v$ver-x86_64-unknown-linux-musl.tar.gz"
+
+[splitrail-aarch64-linux]
+src.github = "Piebald-AI/splitrail"
+src.prefix = "v"
+fetch.url = "https://github.com/Piebald-AI/splitrail/releases/download/v$ver/splitrail-v$ver-aarch64-unknown-linux-musl.tar.gz"
+
+[splitrail-x86_64-darwin]
+src.github = "Piebald-AI/splitrail"
+src.prefix = "v"
+fetch.url = "https://github.com/Piebald-AI/splitrail/releases/download/v$ver/splitrail-v$ver-x86_64-apple-darwin.tar.gz"
+
+[splitrail-aarch64-darwin]
+src.github = "Piebald-AI/splitrail"
+src.prefix = "v"
+fetch.url = "https://github.com/Piebald-AI/splitrail/releases/download/v$ver/splitrail-v$ver-aarch64-apple-darwin.tar.gz"
+
+[opencode-x86_64-linux]
+src.github = "anomalyco/opencode"
+src.prefix = "v"
+fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-linux-x64.tar.gz"
+
+[opencode-aarch64-linux]
+src.github = "anomalyco/opencode"
+src.prefix = "v"
+fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-linux-arm64.tar.gz"
+
+[opencode-aarch64-darwin]
+src.github = "anomalyco/opencode"
+src.prefix = "v"
+fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-darwin-arm64.zip"
+
+[opencode-x86_64-darwin]
+src.github = "anomalyco/opencode"
+src.prefix = "v"
+fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-darwin-x64.zip"
+
+# No dedicated npm source in nvfetcher; scrape dist-tags.latest from the
+# registry instead (same semantics as the old update.sh).
+[dsh]
+src.webpage = "https://registry.npmjs.org/@deepseek-ai/dsh"
+src.regex = '"latest":\s*"([^"]+)"'
+fetch.url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-$ver.tgz"
