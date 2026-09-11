@@ -102,6 +102,7 @@ in
     export ZAI_CODING_CN_API_KEY="$(cat ${zhipuKey})"
     export MINIMAX_API_KEY="$(cat ${minimaxKey})"
     export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
+    export ZHIPUAI_API_KEY="$(cat ${zhipuKey})"
     export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"
     export OPENAI_BASE_URL="https://www.poke2api.com"
     export OPENAI_API_KEY="$(cat ${pokeKey})"

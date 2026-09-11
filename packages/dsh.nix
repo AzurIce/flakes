@@ -2,33 +2,30 @@
 # https://github.com/deepseek-ai/deepseek-harness
 #
 # Adapted from https://github.com/chinrw/deepseek-harness-nix (MIT), which
-# tracks the nixpkgs PR NixOS/nixpkgs#552467. Tracks the newest GitHub
-# release (prereleases included) of deepseek-ai/deepseek-harness; the source
-# is still the matching npm tarball since GitHub releases ship no assets.
-# Update with `packages/update.sh dsh`.
+# tracks the nixpkgs PR NixOS/nixpkgs#552467. Tracks the npm `latest` dist-tag
+# of @deepseek-ai/dsh; update with `just update` (version + src) and
+# `just update-dsh` (vendored lockfile + npmDepsHash).
 
 { lib
 , stdenv
 , buildNpmPackage
-, fetchzip
 , nodejs_24
 , python3
 , jq
+, sources
 }:
 
 let
-  version = "0.1.3-alpha.2";
-  srcHash = "sha256-4OY3mRySTrTaFTJ274vYAzsAkNNMP4RHcukX13UHHnc=";
-  npmDepsHash = "sha256-7Tkhn7bSfArwcAdIQ2pN+Yww/ze3cj7kA+Oj2AQ2yA8=";
+  inherit (sources.dsh) version src;
+  npmDepsHash = "sha256-cqN2pdqnxEqJ/dPKW/cNSLICI4kB6qSJ7PqKqsQAMRo=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "deepseek-harness";
-  inherit version npmDepsHash;
+  inherit version npmDepsHash src;
 
-  src = fetchzip {
-    url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-${version}.tgz";
-    hash = srcHash;
-  };
+  # The npm tarball unpacks into a top-level `package/` directory (the old
+  # fetchzip-based src stripped it implicitly).
+  sourceRoot = "package";
 
   # python3 is required for the node-gyp fallback when node-pty has no
   # usable prebuild for the current platform.

@@ -1,45 +1,32 @@
 {
   lib,
   stdenvNoCC,
-  fetchurl,
   unzip,
+  sources,
 }:
 
 let
-  version = "3.7.2";
-  assets = {
-    "aarch64-darwin" = {
-      platform = "aarch64-apple-darwin";
-      hash = "sha256-FCD/7cBpHXQZ6iB2hc9jQBpKuyvbJKuza8ofAMHJTZI=";
-    };
-    "x86_64-darwin" = {
-      platform = "x86_64-apple-darwin";
-      hash = "sha256-2EAX1mIDht9objgOp8mg3PZbRkPYXqM0F8cqEbcP95Y=";
-    };
-    # Use the statically-linked musl builds on Linux so no patchelf is needed.
-    "x86_64-linux" = {
-      platform = "x86_64-unknown-linux-musl";
-      hash = "sha256-Ft/jReBc23vqoh7NsBWxg5O1J/7qAOMO+t6EZyqvR3Q=";
-    };
-    "aarch64-linux" = {
-      platform = "aarch64-unknown-linux-musl";
-      hash = "sha256-ZFv4otUPacISy8l98K7Y6W1P3cweez7NFr1HJFwDYbU=";
-    };
+  version = sources.splitrail-x86_64-linux.version;
+  platforms = {
+    x86_64-linux = "x86_64-unknown-linux-musl";
+    aarch64-linux = "aarch64-unknown-linux-musl";
+    x86_64-darwin = "x86_64-apple-darwin";
+    aarch64-darwin = "aarch64-apple-darwin";
   };
-  asset =
-    assets.${stdenvNoCC.hostPlatform.system}
-      or (throw "Unsupported platform: ${stdenvNoCC.hostPlatform.system}");
+  # Use the statically-linked musl builds on Linux so no patchelf is needed.
+  src = {
+    x86_64-linux = sources.splitrail-x86_64-linux.src;
+    aarch64-linux = sources.splitrail-aarch64-linux.src;
+    x86_64-darwin = sources.splitrail-x86_64-darwin.src;
+    aarch64-darwin = sources.splitrail-aarch64-darwin.src;
+  }.${stdenvNoCC.hostPlatform.system}
+    or (throw "splitrail: unsupported system ${stdenvNoCC.hostPlatform.system}");
 in
 stdenvNoCC.mkDerivation {
   pname = "splitrail";
-  inherit version;
+  inherit version src;
 
-  src = fetchurl {
-    url = "https://github.com/Piebald-AI/splitrail/releases/download/v${version}/splitrail-v${version}-${asset.platform}.tar.gz";
-    inherit (asset) hash;
-  };
-
-  sourceRoot = "splitrail-v${version}-${asset.platform}";
+  sourceRoot = "splitrail-v${version}-${platforms.${stdenvNoCC.hostPlatform.system}}";
 
   installPhase = ''
     runHook preInstall
@@ -52,7 +39,7 @@ stdenvNoCC.mkDerivation {
     description = "Fast, cross-platform, real-time token usage tracker and cost monitor for AI coding agents";
     homepage = "https://github.com/Piebald-AI/splitrail";
     license = licenses.mit;
-    platforms = platforms.darwin ++ platforms.linux;
+    platforms = lib.platforms.darwin ++ lib.platforms.linux;
     mainProgram = "splitrail";
   };
 }

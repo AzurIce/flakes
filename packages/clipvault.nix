@@ -1,32 +1,21 @@
 {
   lib,
   stdenv,
-  fetchurl,
   autoPatchelfHook,
   gcc,
+  sources,
 }:
 
 let
-  version = "1.3.0";
-  sources = {
-    x86_64-linux = {
-      url = "https://github.com/rolv-apneseth/clipvault/releases/download/v${version}/clipvault-x86_64-unknown-linux-gnu.tar.gz";
-      sha256 = "sha256-0XQWsdBQ/z+MnVKqhnRsRPVWLuVL47iD3izAUrZLCo8=";
-    };
-    aarch64-linux = {
-      url = "https://github.com/rolv-apneseth/clipvault/releases/download/v${version}/clipvault-aarch64-unknown-linux-gnu.tar.gz";
-      sha256 = "sha256-KL+Ip0Lrz052m4gmRiWgD00ErO1r+2Oxa8+zS2S8ek0=";
-    };
-  };
-  source = sources.${stdenv.hostPlatform.system} or (throw "clipvault: unsupported system ${stdenv.hostPlatform.system}");
+  version = sources.clipvault-x86_64-linux.version;
+  src = {
+    x86_64-linux = sources.clipvault-x86_64-linux.src;
+    aarch64-linux = sources.clipvault-aarch64-linux.src;
+  }.${stdenv.hostPlatform.system} or (throw "clipvault: unsupported system ${stdenv.hostPlatform.system}");
 in
 stdenv.mkDerivation {
   pname = "clipvault";
-  inherit version;
-
-  src = fetchurl {
-    inherit (source) url sha256;
-  };
+  inherit version src;
 
   sourceRoot = ".";
 
