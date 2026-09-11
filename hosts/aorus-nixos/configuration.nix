@@ -66,7 +66,16 @@
   hardware.graphics.enable = true;
   hardware.nvidia.open = true;
   hardware.nvidia.modesetting.enable = true;
-  nixpkgs.config.allowUnfree = true;
+  # 挂起/休眠支持：设置 NVreg_PreserveVideoMemoryAllocations=1，并在休眠前后
+  # 保存/恢复显存快照（写入 /var/tmp），否则 NVIDIA + Wayland 唤醒易黑屏花屏
+  hardware.nvidia.powerManagement.enable = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    # CUDA 构建只编本机 GPU 的架构（4070 Ti SUPER = Ada, sm_8.9）；
+    # 不收窄的话 nixpkgs 默认编 9 种架构，nvcc 阶段能慢好几倍
+    cudaCapabilities = [ "8.9" ];
+    cudaForwardCompat = false;
+  };
 
   fonts = {
     packages = with pkgs; [

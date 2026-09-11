@@ -42,10 +42,18 @@ update_dsh() {
   need npm; need prefetch-npm-deps
   local ver="${1:-}"
   if [ -z "$ver" ]; then
-    ver=$(curl -sf https://registry.npmjs.org/@deepseek-ai/dsh | jq -r -e '."dist-tags".latest')
+    # Newest dsh release on GitHub, prereleases included (the alpha line only
+    # ever appears there / under npm's `alpha` dist-tag, never `latest`).
+    ver=$(curl -sf "https://api.github.com/repos/deepseek-ai/deepseek-harness/releases?per_page=100" |
+      jq -r -e '.[].tag_name | select(startswith("dsh-v")) | sub("^dsh-v"; "")' |
+      sort -V | tail -n1)
   fi
   echo "dsh: $ver"
   local url="https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-${ver}.tgz"
+  # GitHub releases ship no assets and don't always get an npm publish
+  # (e.g. 0.1.3-alpha.1), so check the tarball exists before depending on it.
+  curl -sfI "$url" >/dev/null 2>&1 ||
+    die "no npm tarball for @deepseek-ai/dsh@${ver} (GitHub release without npm publish)"
 
   local src_hash deps_hash
   src_hash=$(sri_unpack "$url")

@@ -1,5 +1,16 @@
 inputs@{ user, pkgs, ... }:
 
+let
+  # llama.cpp CUDA 后端构建（只编 sm_89，见 configuration.nix 的 cudaCapabilities）
+  llama-cpp-cuda = pkgs.llama-cpp.override { cudaSupport = true; };
+  # hf CLI：python env 直接放进 home.packages 会触发新版 module system 的
+  # package 类型检查误报（types.nix listOf v2 求值路径），symlinkJoin 包装后正常
+  hf-cli = pkgs.symlinkJoin {
+    name = "hf-cli";
+    paths = [ (pkgs.python3.withPackages (ps: [ ps."huggingface-hub" ])) ];
+  };
+in
+
 {
   imports = [
     ../../home
@@ -62,7 +73,26 @@ inputs@{ user, pkgs, ... }:
       mpv
       gh
 
-      # inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+      # 本地推理：llama.cpp（CUDA）+ hf 模型下载 + 起服务包装器
+      llama-cpp-cuda
+      hf-cli
+      (writeShellScriptBin "llama-serve" ''
+        # llama-server：OpenAI 兼容 API(http://127.0.0.1:8010/v1) + 内置 WebUI(/)
+        # 参数原样透传给 llama-server，例如：
+        #   llama-serve -m ~/models/Qwen3-30B-A3B-UD-Q3_K_XL.gguf
+        # 下载模型（建议 --local-dir 存到 ~/models）：
+        #   hf download unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF --local-dir ~/models
+        exec ${llama-cpp-cuda}/bin/llama-server \
+          --n-gpu-layers 99 \
+          --ctx-size 32768 \
+          --flash-attn on \
+          --jinja \
+          --host 127.0.0.1 \
+          --port 8010 \
+          "$@"
+      '')
     ];
   };
 

@@ -117,6 +117,9 @@ in
   ];
 
   swapDevices = [ { device = "/dev/disk/by-uuid/cfebcefc-f250-4b15-ba48-eecdb3ef6d86"; } ];
+  # 休眠（swap 同上）：写入 initrd 内核参数 resume=，initrd 里 systemd-hibernate-resume
+  # 会在挂载根文件系统之前恢复内存镜像，Wayland 会话原样回来
+  boot.resumeDevice = "/dev/disk/by-uuid/cfebcefc-f250-4b15-ba48-eecdb3ef6d86";
   # zramSwap.enable = true;
   boot.zswap.enable = true;
 
@@ -129,7 +132,10 @@ in
       description = "Archive old BTRFS root subvolume and create a fresh one";
       wantedBy = [ "initrd.target" ];
       before = [ "sysroot.mount" ];
-      after = [ "initrd-root-device.target" ];
+      # 必须排在 hibernate resume 之后：恢复成功时 initrd 被挂起的内核直接接管，
+      # 本服务不会运行；若和 resume 并行先删了 @root，恢复中的内核会写坏文件系统。
+      # 冷启动（无休眠镜像）时 resume 失败退出，本服务照常执行。
+      after = [ "initrd-root-device.target" "systemd-hibernate-resume.service" ];
       requires = [ "initrd-root-device.target" ];
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";

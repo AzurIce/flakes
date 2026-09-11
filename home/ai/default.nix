@@ -34,6 +34,7 @@ in
       pi-coding-agent
 
       rtk
+      ripgrep
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode
@@ -94,18 +95,20 @@ in
   };
 
   programs.zsh.initContent = ''
-    export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
     export OPENCODE_ENABLE_EXA=1
+    export POKE_API_KEY="$(cat ${pokeKey})"
 
-    # Other API Keys
     export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
     export ZAI_CODING_CN_API_KEY="$(cat ${zhipuKey})"
-    export POKE_API_KEY="$(cat ${pokeKey})"
     export MINIMAX_API_KEY="$(cat ${minimaxKey})"
     export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
     export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"
     export OPENAI_BASE_URL="https://www.poke2api.com"
     export OPENAI_API_KEY="$(cat ${pokeKey})"
+    export ANTHROPIC_BASE_URL="https://www.poke2api.com"
+    export ANTHROPIC_AUTH_TOKEN="$(cat ${pokeKey})"
+    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+    export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+    export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
   '';
 }
