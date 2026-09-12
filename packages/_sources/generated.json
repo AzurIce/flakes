@@ -44,6 +44,21 @@
         },
         "version": "1.3.0"
     },
+    "codex-app-x86_64-linux": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "codex-app-x86_64-linux",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-2je457zvquoBnEeMrL5sc+4d3RXg4euzx+8KQt2BisI=",
+            "type": "url",
+            "url": "https://persistent.oaistatic.com/codex-app-prod/linux/deb/latest/chatgpt_amd64.deb"
+        },
+        "version": "26.908.40834"
+    },
     "dsh": {
         "cargoLock": null,
         "date": null,

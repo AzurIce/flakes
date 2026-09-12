@@ -30,6 +30,14 @@
       sha256 = "sha256-0XQWsdBQ/z+MnVKqhnRsRPVWLuVL47iD3izAUrZLCo8=";
     };
   };
+  codex-app-x86_64-linux = {
+    pname = "codex-app-x86_64-linux";
+    version = "26.908.40834";
+    src = fetchurl {
+      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/latest/chatgpt_amd64.deb";
+      sha256 = "sha256-2je457zvquoBnEeMrL5sc+4d3RXg4euzx+8KQt2BisI=";
+    };
+  };
   dsh = {
     pname = "dsh";
     version = "0.1.5-rc.1";

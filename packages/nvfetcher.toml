@@ -63,6 +63,14 @@ src.github = "anomalyco/opencode"
 src.prefix = "v"
 fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-darwin-x64.zip"
 
+# OpenAI only publishes a "latest" URL for the Linux desktop app (Codex app /
+# ChatGPT desktop); scrape the version from the macOS appcast, which shares the
+# same version numbers as the Linux deb.
+[codex-app-x86_64-linux]
+src.webpage = "https://persistent.oaistatic.com/codex-app-prod/appcast.xml"
+src.regex = '<sparkle:shortVersionString>([^<]+)</sparkle:shortVersionString>'
+fetch.url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/latest/chatgpt_amd64.deb"
+
 # No dedicated npm source in nvfetcher; scrape dist-tags.latest from the
 # registry instead (same semantics as the old update.sh).
 [dsh]

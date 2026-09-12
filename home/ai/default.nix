@@ -38,6 +38,7 @@ in
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.codex-app
     ]
     ++ [
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
