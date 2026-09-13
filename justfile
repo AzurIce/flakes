@@ -1,6 +1,8 @@
 # check & update hand-maintained packages in packages/ (FILTER: optional regex, e.g. '^splitrail')
 update *filter:
-    nvfetcher -c packages/nvfetcher.toml -o packages/_sources {{ filter }}
+    # keyfile rendered by sops-nix from the githubToken secret (see
+    # home/default.nix); ~/.config/nvchecker/keyfile.toml as manual fallback
+    KF="$HOME/.config/sops-nix/secrets/rendered/nvchecker-keyfile.toml"; [ -f "$KF" ] || KF="$HOME/.config/nvchecker/keyfile.toml"; nvfetcher -c packages/nvfetcher.toml -o packages/_sources $(test -f "$KF" && echo --keyfile "$KF") {{ filter }}
 
 # regenerate dsh's vendored package-lock.json + npmDepsHash (run after `just update` bumps dsh)
 update-dsh:

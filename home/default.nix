@@ -11,7 +11,15 @@
     secrets = {
       # access-tokens = github.com=xxxxxx
       access-tokens = { };
+      githubToken = { };
     };
+
+    # nvchecker keyfile consumed by `just update` (nvfetcher) in the flakes repo;
+    # rendered to ${config.xdg.configHome}/sops-nix/secrets/rendered/
+    templates."nvchecker-keyfile.toml".content = ''
+      [keys]
+      github = "${config.sops.placeholder.githubToken}"
+    '';
   };
 
   programs.ssh = {

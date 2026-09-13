@@ -8,10 +8,10 @@
 {
   cc-switch = {
     pname = "cc-switch";
-    version = "3.20.2";
+    version = "3.20.3";
     src = fetchurl {
-      url = "https://github.com/farion1231/cc-switch/releases/download/v3.20.2/CC-Switch-v3.20.2-macOS.zip";
-      sha256 = "sha256-CXKtzlE/B9ekL4VLgtZ3avtLOCTHCVk+j+aDZ6Kdgew=";
+      url = "https://github.com/farion1231/cc-switch/releases/download/v3.20.3/CC-Switch-v3.20.3-macOS.zip";
+      sha256 = "sha256-kf+fb2PtQZRee4Tg+o2pTb/Krow5PE6CF3oYUCTv3/E=";
     };
   };
   clipvault-aarch64-linux = {

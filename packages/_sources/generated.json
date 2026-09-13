@@ -8,11 +8,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-CXKtzlE/B9ekL4VLgtZ3avtLOCTHCVk+j+aDZ6Kdgew=",
+            "sha256": "sha256-kf+fb2PtQZRee4Tg+o2pTb/Krow5PE6CF3oYUCTv3/E=",
             "type": "url",
-            "url": "https://github.com/farion1231/cc-switch/releases/download/v3.20.2/CC-Switch-v3.20.2-macOS.zip"
+            "url": "https://github.com/farion1231/cc-switch/releases/download/v3.20.3/CC-Switch-v3.20.3-macOS.zip"
         },
-        "version": "3.20.2"
+        "version": "3.20.3"
     },
     "clipvault-aarch64-linux": {
         "cargoLock": null,
