@@ -146,6 +146,11 @@
     #   # autoStart = true;
   };
 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="320a", MODE="0666"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="320b", MODE="0666"
+  '';
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -267,7 +272,8 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # CharaForge 本地角色扮演应用（手机经局域网访问）
+  networking.firewall.allowedTCPPorts = [ 3000 ];
   # Palworld dedicated server: 8211 游戏端口(直接 IP 加入只需这个;27015 为社区列表查询端口,需要时再加)
   networking.firewall.allowedUDPPorts = [ 8211 ];
   # Or disable the firewall altogether.

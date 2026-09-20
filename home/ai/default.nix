@@ -3,11 +3,14 @@ inputs@{
   pkgs,
   lib,
   utils,
+  osConfig,
   ...
 }:
 
 let
   gmiCloudKey = config.sops.secrets.gmiCloudKey.path;
+  tripoKey = config.sops.secrets.tripoKey.path;
+  machgenKey = config.sops.secrets.machgenKey.path;
   zhipuKey = config.sops.secrets.zhipuKey.path;
   pokeKey = config.sops.secrets.pokeKey.path;
   opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
@@ -38,7 +41,6 @@ in
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode
-      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.codex-app
     ]
     ++ [
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -73,6 +75,8 @@ in
   };
 
   sops.secrets = {
+    tripoKey = { };
+    machgenKey = { };
     kimiCodeKey = { };
     zhipuKey = { };
     gmiCloudKey = { };
@@ -99,6 +103,8 @@ in
     export OPENCODE_ENABLE_EXA=1
     export POKE_API_KEY="$(cat ${pokeKey})"
 
+    export TRIPO_API_KEY="$(cat ${tripoKey})"
+    export MACHGEN_API_KEY="$(cat ${machgenKey})"
     export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
     export ZAI_CODING_CN_API_KEY="$(cat ${zhipuKey})"
     export MINIMAX_API_KEY="$(cat ${minimaxKey})"
@@ -113,4 +119,6 @@ in
     export CLAUDE_CODE_ATTRIBUTION_HEADER=0
     export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
   '';
+} // lib.optionalAttrs (osConfig.networking.hostName == "aorus-nixos") {
+
 }
