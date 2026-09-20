@@ -17,7 +17,7 @@
 
 let
   inherit (sources.dsh) version src;
-  npmDepsHash = "sha256-cqN2pdqnxEqJ/dPKW/cNSLICI4kB6qSJ7PqKqsQAMRo=";
+  npmDepsHash = "sha256-BdnHgZwqYTlSCONwqFEKhDGYCrXFgwuxGj/bYe14C0w=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "deepseek-harness";

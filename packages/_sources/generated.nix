@@ -30,52 +30,44 @@
       sha256 = "sha256-0XQWsdBQ/z+MnVKqhnRsRPVWLuVL47iD3izAUrZLCo8=";
     };
   };
-  codex-app-x86_64-linux = {
-    pname = "codex-app-x86_64-linux";
-    version = "26.908.40834";
-    src = fetchurl {
-      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/latest/chatgpt_amd64.deb";
-      sha256 = "sha256-2je457zvquoBnEeMrL5sc+4d3RXg4euzx+8KQt2BisI=";
-    };
-  };
   dsh = {
     pname = "dsh";
-    version = "0.1.5-rc.1";
+    version = "0.1.5-rc.2";
     src = fetchurl {
-      url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.1.5-rc.1.tgz";
-      sha256 = "sha256-Gnlxnxx2ORisMOgZTfeDqTMMaxLV8EyVBzGj+KHD2dA=";
+      url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.1.5-rc.2.tgz";
+      sha256 = "sha256-9MVIOdaegr8cOlpBqRDDzhQFzZ6dl9dTwMBPQGx9dIA=";
     };
   };
   opencode-aarch64-darwin = {
     pname = "opencode-aarch64-darwin";
-    version = "1.18.30";
+    version = "1.18.31";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.30/opencode-darwin-arm64.zip";
-      sha256 = "sha256-peQ9aIc4bvx9aM5Jrijju9/e49/R1xabYSw85n5Tseg=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-darwin-arm64.zip";
+      sha256 = "sha256-yvfzH6GuwjU+qFnU75q4JMYnPZQbAW6I1RGT+jAo004=";
     };
   };
   opencode-aarch64-linux = {
     pname = "opencode-aarch64-linux";
-    version = "1.18.30";
+    version = "1.18.31";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.30/opencode-linux-arm64.tar.gz";
-      sha256 = "sha256-QRGlXCoCwPrDFL1R6aIzAoDm0p0rhblVT/9tYmElZu0=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-linux-arm64.tar.gz";
+      sha256 = "sha256-1OMy9GsidEhYLA2fx19vgm3+lcn3UbwgEfxNk3oEK+Y=";
     };
   };
   opencode-x86_64-darwin = {
     pname = "opencode-x86_64-darwin";
-    version = "1.18.30";
+    version = "1.18.31";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.30/opencode-darwin-x64.zip";
-      sha256 = "sha256-dFMAflj/EiQBQ42VzLJDNIdLWQjcrud4g/lsIzldVxA=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-darwin-x64.zip";
+      sha256 = "sha256-+FEOr0APB8OiAU46UX42UMcFvNasPmdANRtyPuaFBC8=";
     };
   };
   opencode-x86_64-linux = {
     pname = "opencode-x86_64-linux";
-    version = "1.18.30";
+    version = "1.18.31";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.30/opencode-linux-x64.tar.gz";
-      sha256 = "sha256-VQByRoWBZUlv+FuhwrZI90IejiATv0GJpoDJ/45pnRc=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-linux-x64.tar.gz";
+      sha256 = "sha256-6TEr517YA7dBX8Kuq9ofT+k4kSo5Zzdi3Aw4wOEeveQ=";
     };
   };
   revelo = {

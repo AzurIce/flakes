@@ -19,6 +19,9 @@ nixpkgs.lib.nixosSystem {
     ../../modules/gaming
     ../../modules/wm/hyprland.nix
     ../../modules/programs/obs.nix
+    # ComfyUI（MiniMax H3 本地推理）
+    inputs.comfyui-nix.nixosModules.default
+    ../../modules/comfyui.nix
     # impermanence.nixosModules.impermanence
     nix-flatpak.nixosModules.nix-flatpak
     {
