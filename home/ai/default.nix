@@ -11,6 +11,7 @@ let
   gmiCloudKey = config.sops.secrets.gmiCloudKey.path;
   tripoKey = config.sops.secrets.tripoKey.path;
   machgenKey = config.sops.secrets.machgenKey.path;
+  typesafeKey = config.sops.secrets.typesafeKey.path;
   zhipuKey = config.sops.secrets.zhipuKey.path;
   pokeKey = config.sops.secrets.pokeKey.path;
   opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
@@ -51,7 +52,7 @@ in
 
   home.file = utils.linkDotfiles [
     ".claude"
-    ".codex"
+    # ".codex"
     ".dsh"
     ".kimi-code"
     ".pi"
@@ -78,6 +79,7 @@ in
     tripoKey = { };
     machgenKey = { };
     kimiCodeKey = { };
+    typesafeKey = { };
     zhipuKey = { };
     gmiCloudKey = { };
     pokeKey = { };
@@ -105,6 +107,7 @@ in
 
     export TRIPO_API_KEY="$(cat ${tripoKey})"
     export MACHGEN_API_KEY="$(cat ${machgenKey})"
+    export TYPESAFE_API_KEY="$(cat ${typesafeKey})"
     export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
     export ZAI_CODING_CN_API_KEY="$(cat ${zhipuKey})"
     export MINIMAX_API_KEY="$(cat ${minimaxKey})"
