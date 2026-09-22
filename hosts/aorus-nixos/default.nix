@@ -38,6 +38,20 @@ nixpkgs.lib.nixosSystem {
           origin = "flathub";
         }
       ];
+      # FF14（wine 跑在 flatpak 沙箱内）的输入法环境：wine 的 IME 走 XIM
+      # （XIM 跑在 X 协议上，可穿透 flatpak 沙箱直达宿主 fcitx5），需要
+      # fallback-x11 socket 和 XMODIFIERS；wine 自带的 GTK/SDL/QT IM 模块
+      # 变量一并补齐。xcb-imdkit 的按键被吃 bug 已在 core.nix 里打补丁修复。
+      # 注：此 rev 的 nix-flatpak 用 legacy 语法（无 .settings 包装）。
+      services.flatpak.overrides."cn.ottercorp.xivlaunchercn" = {
+        Context.sockets = [ "fallback-x11" ];
+        Environment = {
+          XMODIFIERS = "@im=fcitx";
+          GTK_IM_MODULE = "fcitx";
+          QT_IM_MODULE = "fcitx";
+          SDL_IM_MODULE = "fcitx";
+        };
+      };
       systemd.services.flatpak-managed-install.environment = {
         http_proxy = "http://127.0.0.1:7890";
         https_proxy = "http://127.0.0.1:7890";

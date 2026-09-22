@@ -22,6 +22,22 @@ inputs@{ pkgs, lib, ... }:
         });
       });
     })
+
+    # ⚠️ 上游 workaround，xcb-imdkit 修复合入后记得删掉 ⚠️
+    #
+    # 原因：xcb-imdkit 1.0.9（上游最后一次发版，2024-05）的 XIM sync 模式有竞态：
+    # XIM_DESTROY_IC 与在途 XIM_SYNC_REPLY 竞争时 client->sync 永不复位，之后该
+    # 客户端所有按键进队列永不派发 → wine 游戏（FF14 等）随机"按键被吃"直到重启。
+    # 上游 issue：https://github.com/fcitx/fcitx5/issues/1641（2026-08 定位，含本补丁）
+    # 删除时机：xcb-imdkit 新 release 合入该修复后（检查 protocolhandler.c 的
+    # _xcb_im_handle_sync_reply 不再对已销毁 IC 提前 break）。
+    (final: prev: {
+      xcb-imdkit = prev.xcb-imdkit.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [
+          ../patches/xcb-imdkit-xim-sync-freeze-fix.patch
+        ];
+      });
+    })
   ];
 
   nix.settings = {

@@ -1,0 +1,39 @@
+diff --git a/src/protocolhandler.c b/src/protocolhandler.c
+index 69783f9..15bbf48 100644
+--- a/src/protocolhandler.c
++++ b/src/protocolhandler.c
+@@ -11,6 +11,7 @@
+ #include "parser.h"
+ #include "uthash.h"
+ #include <stdbool.h>
++#include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/types.h>
+@@ -842,15 +843,23 @@ void _xcb_im_handle_sync_reply(xcb_im_t *im, xcb_im_client_t *client,
+         xcb_im_input_context_t *ic = NULL;
+         HASH_FIND(hh, client->input_contexts, &frame.input_context_ID,
+                   sizeof(uint16_t), ic);
++        /* The IC may have been destroyed (XIM_DESTROY_IC racing with an
++         * in-flight XIM_SYNC_REPLY). client->sync must still be cleared and
++         * the queue drained, otherwise sync stays true forever and every
++         * subsequent key from this client is queued but never dispatched
++         * (the client's keyboard freezes / all keys are swallowed).
++         * See https://github.com/fcitx/fcitx5/issues/1641 */
+         if (!ic) {
+-            break;
++            fprintf(stderr,
++                    "[xcb-imdkit] XIM_SYNC_REPLY for already-destroyed IC "
++                    "(id=%u): keyboard-freeze path hit, clearing sync flag\n",
++                    frame.input_context_ID);
+         }
+-
+         client->sync = false;
+         if (im->sync) {
+             im->sync = false;
+ 
+-            if (im->callback) {
++            if (ic && im->callback) {
+                 im->callback(im, client, ic, hdr, &frame, NULL, im->user_data);
+             }
+         }

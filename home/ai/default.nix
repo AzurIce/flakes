@@ -9,6 +9,7 @@ inputs@{
 
 let
   gmiCloudKey = config.sops.secrets.gmiCloudKey.path;
+  stepKey = config.sops.secrets.stepKey.path;
   tripoKey = config.sops.secrets.tripoKey.path;
   machgenKey = config.sops.secrets.machgenKey.path;
   typesafeKey = config.sops.secrets.typesafeKey.path;
@@ -77,6 +78,7 @@ in
 
   sops.secrets = {
     tripoKey = { };
+    stepKey = { };
     machgenKey = { };
     kimiCodeKey = { };
     typesafeKey = { };
@@ -105,6 +107,7 @@ in
     export OPENCODE_ENABLE_EXA=1
     export POKE_API_KEY="$(cat ${pokeKey})"
 
+    export STEP_FUN_API_KEY="$(cat ${stepKey})"
     export TRIPO_API_KEY="$(cat ${tripoKey})"
     export MACHGEN_API_KEY="$(cat ${machgenKey})"
     export TYPESAFE_API_KEY="$(cat ${typesafeKey})"
