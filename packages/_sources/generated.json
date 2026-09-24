@@ -8,11 +8,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-kf+fb2PtQZRee4Tg+o2pTb/Krow5PE6CF3oYUCTv3/E=",
+            "sha256": "sha256-AVMJ6hRgLzBwmv18JP1wN5PFeAvC1mweTKkUy3tplbw=",
             "type": "url",
-            "url": "https://github.com/farion1231/cc-switch/releases/download/v3.20.3/CC-Switch-v3.20.3-macOS.zip"
+            "url": "https://github.com/farion1231/cc-switch/releases/download/v3.20.4/CC-Switch-v3.20.4-macOS.zip"
         },
-        "version": "3.20.3"
+        "version": "3.20.4"
     },
     "clipvault-aarch64-linux": {
         "cargoLock": null,
@@ -53,11 +53,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-9MVIOdaegr8cOlpBqRDDzhQFzZ6dl9dTwMBPQGx9dIA=",
+            "sha256": "sha256-SXfSkjOlkopO8cFuRL3BnXe7848Wgj1U7IfFsBmIML8=",
             "type": "url",
-            "url": "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.1.5-rc.2.tgz"
+            "url": "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.1.5-rc.3.tgz"
         },
-        "version": "0.1.5-rc.2"
+        "version": "0.1.5-rc.3"
     },
     "opencode-aarch64-darwin": {
         "cargoLock": null,
@@ -68,11 +68,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-yvfzH6GuwjU+qFnU75q4JMYnPZQbAW6I1RGT+jAo004=",
+            "sha256": "sha256-+mQ/k0AcE1CNjVE3gOVM6cwBID1QERS+m4jWJAi4EB8=",
             "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-darwin-arm64.zip"
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-darwin-arm64.zip"
         },
-        "version": "1.18.31"
+        "version": "1.18.32"
     },
     "opencode-aarch64-linux": {
         "cargoLock": null,
@@ -83,11 +83,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-1OMy9GsidEhYLA2fx19vgm3+lcn3UbwgEfxNk3oEK+Y=",
+            "sha256": "sha256-VoRht9TYwZhlyX6aEQLmEwScYDnQH+dyFU3oc8GGWEA=",
             "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-linux-arm64.tar.gz"
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-linux-arm64.tar.gz"
         },
-        "version": "1.18.31"
+        "version": "1.18.32"
     },
     "opencode-x86_64-darwin": {
         "cargoLock": null,
@@ -98,11 +98,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-+FEOr0APB8OiAU46UX42UMcFvNasPmdANRtyPuaFBC8=",
+            "sha256": "sha256-okvxBJk4L4hV4Z0qCBuGg+SrmcfCr/sy3ImxfIoAzNY=",
             "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-darwin-x64.zip"
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-darwin-x64.zip"
         },
-        "version": "1.18.31"
+        "version": "1.18.32"
     },
     "opencode-x86_64-linux": {
         "cargoLock": null,
@@ -113,11 +113,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-6TEr517YA7dBX8Kuq9ofT+k4kSo5Zzdi3Aw4wOEeveQ=",
+            "sha256": "sha256-MEbgQE/cYPuAMH56R4JLoHR3NkF4pNCbqoVISW3W1Ds=",
             "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-linux-x64.tar.gz"
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-linux-x64.tar.gz"
         },
-        "version": "1.18.31"
+        "version": "1.18.32"
     },
     "revelo": {
         "cargoLock": null,
@@ -143,11 +143,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-2+5wm4Da5m7xEU+OT/6z4RyR27EKpPEF2teLRFLD/wo=",
+            "sha256": "sha256-DFkqoxwqTa6iVh7IT1pgnp3eAjb1dlc5TuE2HkolxVI=",
             "type": "url",
-            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.9.1/splitrail-v3.9.1-aarch64-apple-darwin.tar.gz"
+            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-aarch64-apple-darwin.tar.gz"
         },
-        "version": "3.9.1"
+        "version": "3.10.0"
     },
     "splitrail-aarch64-linux": {
         "cargoLock": null,
@@ -158,11 +158,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-ND2nnfT3+ipNhtoTleVdU1v/cPWa2vl+JL9aNJo9H5Y=",
+            "sha256": "sha256-kfKSo4HIL9IOC6pWXy8D5rW/RofhIpiHmKkk88t9m3M=",
             "type": "url",
-            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.9.1/splitrail-v3.9.1-aarch64-unknown-linux-musl.tar.gz"
+            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-aarch64-unknown-linux-musl.tar.gz"
         },
-        "version": "3.9.1"
+        "version": "3.10.0"
     },
     "splitrail-x86_64-darwin": {
         "cargoLock": null,
@@ -173,11 +173,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-ta3lVJS5k2KI5PaWwtNJoX/qG183df2LaHSSul+gNMI=",
+            "sha256": "sha256-flXdp6MN0QUIpY+qmyW3ldqfLiUaiE5USAwEzoPFULM=",
             "type": "url",
-            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.9.1/splitrail-v3.9.1-x86_64-apple-darwin.tar.gz"
+            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-x86_64-apple-darwin.tar.gz"
         },
-        "version": "3.9.1"
+        "version": "3.10.0"
     },
     "splitrail-x86_64-linux": {
         "cargoLock": null,
@@ -188,10 +188,10 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-OR8oNwLersnYGwofLs5oaVMpLtv4guPDBDCLCIjKOLw=",
+            "sha256": "sha256-djmcZEL18RxhQbhIDkCizBNmBIuMMKwoxdZ9KGOzEAY=",
             "type": "url",
-            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.9.1/splitrail-v3.9.1-x86_64-unknown-linux-musl.tar.gz"
+            "url": "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-x86_64-unknown-linux-musl.tar.gz"
         },
-        "version": "3.9.1"
+        "version": "3.10.0"
     }
 }
