@@ -38,6 +38,18 @@ inputs@{ pkgs, lib, ... }:
         ];
       });
     })
+
+    # 同一 issue 的 Fix B：即便 xcb-imdkit 打了上面 Fix A 的补救补丁，wine 客户端
+    # 仍会随机吃键（sync 模式还有别的卡死路径）。issue 作者长期验证的方案是
+    # fcitx5 侧直接关掉 XIM sync 模式，客户端走非 sync 路径，竞态无从发生。
+    # 删除时机：上游官方修复合入后（xim.cpp 的 sync 开关或 xcb-imdkit release）。
+    (final: prev: {
+      fcitx5 = prev.fcitx5.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [
+          ../patches/fcitx5-disable-xim-sync.patch
+        ];
+      });
+    })
   ];
 
   nix.settings = {

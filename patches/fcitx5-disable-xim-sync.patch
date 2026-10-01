@@ -1,0 +1,18 @@
+diff --git a/src/frontend/xim/xim.cpp b/src/frontend/xim/xim.cpp
+index 2f8b90e..b6a4d21 100644
+--- a/src/frontend/xim/xim.cpp
++++ b/src/frontend/xim/xim.cpp
+@@ -160,7 +160,12 @@ bool XIMServer::onCreated() {
+         if (::xim().checkLogLevel(LogLevel::Debug)) {
+             xcb_im_set_log_handler(im_.get(), XimLogFunc);
+         }
+-        xcb_im_set_use_sync_mode(im_.get(), true);
++        // Workaround for https://github.com/fcitx/fcitx5/issues/1641:
++        // XIM sync mode races XIM_DESTROY_IC against an in-flight
++        // XIM_SYNC_REPLY, permanently wedging the client's key queue
++        // (all keys swallowed until client restart) in wine games.
++        // Issue author validated sync-off for long-term daily use.
++        xcb_im_set_use_sync_mode(im_.get(), false);
+ 
+         filter_ = parent_->xcb()->call<fcitx::IXCBModule::addEventFilter>(
+             name, [this](xcb_connection_t *, xcb_generic_event_t *event) {

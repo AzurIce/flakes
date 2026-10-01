@@ -73,7 +73,7 @@ in
       mpv
       gh
 
-      inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
+      # inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # 本地推理：llama.cpp（CUDA）+ hf 模型下载 + 起服务包装器
       llama-cpp-cuda

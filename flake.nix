@@ -89,11 +89,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    notist = {
-      url = "github:AzurIce/notist";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
+    # notist = {
+    #   url = "github:AzurIce/notist";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.flake-utils.follows = "flake-utils";
+    # };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -217,6 +217,10 @@
             inherit lib;
             inherit (pkgs) appimageTools fetchurl;
           };
+          step-code = import ./packages/step-code.nix {
+            inherit lib sources;
+            inherit (pkgs) stdenv patchelf glibc gcc;
+          };
         } else { });
 
         devShells.default = pkgs.mkShell {
@@ -232,5 +236,12 @@
           ];
         };
       }
-    );
+    ) // {
+      templates = {
+        base = {
+          path = ./templates/base;
+          description = "a basic flake with flake-utils";
+        };
+      };
+    };
 }

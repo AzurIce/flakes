@@ -63,9 +63,23 @@ src.github = "anomalyco/opencode"
 src.prefix = "v"
 fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-darwin-x64.zip"
 
-# No dedicated npm source in nvfetcher; scrape dist-tags.latest from the
-# registry instead (same semantics as the old update.sh).
+# No dedicated npm source in nvfetcher; scrape the alpha dist-tag from the
+# registry instead (latest lags the preview channel; switch the regex back to
+# "latest" to re-track stable).
 [dsh]
 src.webpage = "https://registry.npmjs.org/@deepseek-ai/dsh"
-src.regex = '"latest":\s*"([^"]+)"'
+src.regex = '"next":\s*"([^"]+)"'
 fetch.url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-$ver.tgz"
+
+# Step Code has no npm package and no usable GitHub release assets; both the
+# version and the platform tarballs live on StepFun's CDN (what install.sh
+# reads). Scrape the version from the release manifest nvfetcher-style.
+[step-code-x86_64-linux]
+src.webpage = "https://static-openapi.stepfun.com/stepcode/latest.json"
+src.regex = '"version":\s*"([^"]+)"'
+fetch.url = "https://static-openapi.stepfun.com/stepcode/$ver/step-$ver-linux-x64.tar.gz"
+
+[step-code-aarch64-linux]
+src.webpage = "https://static-openapi.stepfun.com/stepcode/latest.json"
+src.regex = '"version":\s*"([^"]+)"'
+fetch.url = "https://static-openapi.stepfun.com/stepcode/$ver/step-$ver-linux-arm64.tar.gz"

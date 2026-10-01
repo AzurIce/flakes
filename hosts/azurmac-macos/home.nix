@@ -75,9 +75,7 @@ in
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.revelo
       # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.mlx-vlm
       # 上游 flake 的测试把缓存写到 Linux 沙箱专属的 /build，darwin 沙箱只读会挂，暂时跳过 check
-      (inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs {
-        doCheck = false;
-      })
+      # (inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default)
     ];
   };
 

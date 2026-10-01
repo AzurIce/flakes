@@ -2,9 +2,11 @@
 # https://github.com/deepseek-ai/deepseek-harness
 #
 # Adapted from https://github.com/chinrw/deepseek-harness-nix (MIT), which
-# tracks the nixpkgs PR NixOS/nixpkgs#552467. Tracks the npm `latest` dist-tag
-# of @deepseek-ai/dsh; update with `just update` (version + src) and
-# `just update-dsh` (vendored lockfile + npmDepsHash).
+# tracks the nixpkgs PR NixOS/nixpkgs#552467. Tracks the npm `next`
+# dist-tag of @deepseek-ai/dsh (upstream froze the `alpha` tag at
+# 0.1.7-alpha.2 and moved previews to `next`; flip the regex in
+# packages/nvfetcher.toml to re-track stable `latest`); update with
+# `just update` (version + src) and `just update-dsh` (lockfile + hash).
 
 { lib
 , stdenv
@@ -17,7 +19,7 @@
 
 let
   inherit (sources.dsh) version src;
-  npmDepsHash = "sha256-5muxwsUQluUW91ky6M/sSTPn+iYdVLXVirgbL1KXJxc=";
+  npmDepsHash = "sha256-DFwzW3SkYtpi+w8YTfFUEb3HRTjWBSKI5cRzF83b/v8=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "deepseek-harness";
@@ -44,11 +46,22 @@ in
 
   dontNpmBuild = true;
 
-  # dsh re-creates the cordis HMR service after the web bundle disables its
-  # row (it watches the user's patch files), and that service requires Node
-  # internal-module access. The shipped `node-addon-require-builtin` prebuild
-  # is broken on this Node/V8 ("x64 sysv getter is not a recognized
-  # this->field accessor"), so launch node with --expose-internals explicitly.
+  # dsh-app-boot loads Node internal modules exclusively through the
+  # node-addon-require-builtin native addon, whose prebuild pokes at V8
+  # internals and fails on this Node ("x64 sysv getter is not a recognized
+  # this->field accessor"). The wrapper below launches node with
+  # --expose-internals, so patch the call sites to prefer plain require()
+  # and keep the addon only as a fallback (the strategy cordis-plugin-loader
+  # already implements on its own).
+  preBuild = ''
+    while IFS= read -r f; do
+      substituteInPlace "$f" --replace-fail \
+        'const addon = createRequire(import.meta.url)("node-addon-require-builtin");' \
+        'const addon = ((req) => ({ requireBuiltin(id) { if (process.execArgv.includes("--expose-internals")) try { return req(id); } catch {} return req("node-addon-require-builtin").requireBuiltin(id); } }))(createRequire(import.meta.url));'
+    done < <(grep -rlF --include='*.js' 'createRequire(import.meta.url)("node-addon-require-builtin")' node_modules)
+  '';
+
+  # Node internals must be exposed for the patched requireBuiltin above.
   postInstall = ''
     cat > "$out/bin/dsh" <<'EOF'
     #!${stdenv.shell}

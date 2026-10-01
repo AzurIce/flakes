@@ -39,6 +39,7 @@
   # 全量 Magic SysRq：桌面冻死时 Alt+SysRq+F 手动杀最大进程，REISUB 安全重启
   boot.kernel.sysctl."kernel.sysrq" = 1;
   services.openssh.enable = true;
+  services.fail2ban.enable = true;
 
   # i18n.inputMethod = {
   #   enable = true;

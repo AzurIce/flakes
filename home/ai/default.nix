@@ -8,16 +8,37 @@ inputs@{
 }:
 
 let
-  gmiCloudKey = config.sops.secrets.gmiCloudKey.path;
-  stepKey = config.sops.secrets.stepKey.path;
-  tripoKey = config.sops.secrets.tripoKey.path;
-  machgenKey = config.sops.secrets.machgenKey.path;
-  typesafeKey = config.sops.secrets.typesafeKey.path;
-  zhipuKey = config.sops.secrets.zhipuKey.path;
-  pokeKey = config.sops.secrets.pokeKey.path;
-  opencodeGoKey = config.sops.secrets.opencodeGoKey.path;
-  minimaxKey = config.sops.secrets.minimaxKey.path;
-  deepseekKey = config.sops.secrets.deepseekKey.path;
+  secret = name: config.sops.secrets.${name}.path;
+
+  # 环境变量名 <- sops secret 名
+  keys = {
+    POKE_API_KEY = "pokeKey";
+    STEP_FUN_API_KEY = "stepKey";
+    STEP_PLAN_API_KEY = "stepKey";
+    STEP_API_KEY = "stepKey";
+    KIMI_API_KEY = "kimiCodeKey";
+    TRIPO_API_KEY = "tripoKey";
+    MACHGEN_API_KEY = "machgenKey";
+    TYPESAFE_API_KEY = "typesafeKey";
+    GMI_CLOUD_API_KEY = "gmiCloudKey";
+    ZAI_CODING_CN_API_KEY = "zhipuKey";
+    ZHIPUAI_API_KEY = "zhipuKey";
+    MINIMAX_API_KEY = "minimaxKey";
+    DEEPSEEK_API_KEY = "deepseekKey";
+    OPENCODE_API_KEY = "opencodeGoKey";
+    OPENAI_API_KEY = "pokeKey";
+    ANTHROPIC_AUTH_TOKEN = "pokeKey";
+  };
+
+  # keys 之外的 key：本模块不 export，但需要 sops-nix 部署（给别处按路径直读）
+  extraSecrets = [
+    "aicodemirrorKey"
+    "foxcodeKey"
+    "rightcodeKey"
+    "siliconflowKey"
+    "zaiKey"
+    "splitrailKey"
+  ];
 in
 {
   imports = [
@@ -43,6 +64,7 @@ in
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.step-code
     ]
     ++ [
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -60,7 +82,7 @@ in
     ".agents"
   ];
   xdg.configFile = utils.linkDotfiles [
-    "openode"
+    "opencode"
     "rua"
   ];
   xdg.desktopEntries = lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
@@ -76,25 +98,7 @@ in
     };
   };
 
-  sops.secrets = {
-    tripoKey = { };
-    stepKey = { };
-    machgenKey = { };
-    kimiCodeKey = { };
-    typesafeKey = { };
-    zhipuKey = { };
-    gmiCloudKey = { };
-    pokeKey = { };
-    aicodemirrorKey = { };
-    minimaxKey = { };
-    siliconflowKey = { };
-    rightcodeKey = { };
-    foxcodeKey = { };
-    opencodeGoKey = { };
-    zaiKey = { };
-    splitrailKey = { };
-    deepseekKey = { };
-  };
+  sops.secrets = lib.genAttrs (lib.unique (lib.attrValues keys ++ extraSecrets)) (_: { });
 
   sops.templates."codex-auth.json" = {
     path = "${config.home.homeDirectory}/.codex/auth.json";
@@ -103,28 +107,22 @@ in
     };
   };
 
-  programs.zsh.initContent = ''
-    export OPENCODE_ENABLE_EXA=1
-    export POKE_API_KEY="$(cat ${pokeKey})"
-
-    export STEP_FUN_API_KEY="$(cat ${stepKey})"
-    export TRIPO_API_KEY="$(cat ${tripoKey})"
-    export MACHGEN_API_KEY="$(cat ${machgenKey})"
-    export TYPESAFE_API_KEY="$(cat ${typesafeKey})"
-    export GMI_CLOUD_API_KEY="$(cat ${gmiCloudKey})"
-    export ZAI_CODING_CN_API_KEY="$(cat ${zhipuKey})"
-    export MINIMAX_API_KEY="$(cat ${minimaxKey})"
-    export DEEPSEEK_API_KEY="$(cat ${deepseekKey})"
-    export ZHIPUAI_API_KEY="$(cat ${zhipuKey})"
-    export OPENCODE_API_KEY="$(cat ${opencodeGoKey})"
-    export OPENAI_BASE_URL="https://www.poke2api.com"
-    export OPENAI_API_KEY="$(cat ${pokeKey})"
-    export ANTHROPIC_BASE_URL="https://www.poke2api.com"
-    export ANTHROPIC_AUTH_TOKEN="$(cat ${pokeKey})"
-    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
-    export CLAUDE_CODE_ATTRIBUTION_HEADER=0
-    export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-  '';
-} // lib.optionalAttrs (osConfig.networking.hostName == "aorus-nixos") {
-
+  programs.zsh.initContent = lib.mkMerge [
+    (lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (var: key: ''export ${var}="$(cat ${secret key})"'') keys
+      ++ [
+        "export OPENCODE_ENABLE_EXA=1"
+        ''export OPENAI_BASE_URL="https://www.poke2api.com"''
+        ''export ANTHROPIC_BASE_URL="https://www.poke2api.com"''
+        "export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1"
+        "export CLAUDE_CODE_ATTRIBUTION_HEADER=0"
+        "export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1"
+      ]
+    ))
+    (lib.mkIf (osConfig.networking.hostName == "aorus-nixos") (
+      lib.mkOrder 1200 ''
+        export CODE_DIR="/home/azurice/Files"
+      ''
+    ))
+  ];
 }

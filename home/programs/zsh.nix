@@ -7,7 +7,8 @@ inputs@{ user, config, pkgs, ... }:
     dotDir = config.home.homeDirectory;
     initContent= ''
       # export TERM=xterm-256color
-      export PATH=$PATH:/Users/azurice/.cargo/bin
+      export PATH=$PATH:$HOME/.cargo/bin
+      export PATH=$PATH:$HOME/.local/bin
 
       alias ls="eza"
       alias ll="eza -l"

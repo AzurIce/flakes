@@ -32,42 +32,42 @@
   };
   dsh = {
     pname = "dsh";
-    version = "0.1.5-rc.3";
+    version = "0.2.0-rc.2";
     src = fetchurl {
-      url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.1.5-rc.3.tgz";
-      sha256 = "sha256-SXfSkjOlkopO8cFuRL3BnXe7848Wgj1U7IfFsBmIML8=";
+      url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.2.0-rc.2.tgz";
+      sha256 = "sha256-vSeEfERc1opWWsH5HAa7vMdjnvkwcfZ4u1nF66/ziFk=";
     };
   };
   opencode-aarch64-darwin = {
     pname = "opencode-aarch64-darwin";
-    version = "1.18.32";
+    version = "1.18.34";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-darwin-arm64.zip";
-      sha256 = "sha256-+mQ/k0AcE1CNjVE3gOVM6cwBID1QERS+m4jWJAi4EB8=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-darwin-arm64.zip";
+      sha256 = "sha256-hSK3D1RRhLOo2XxcpPgUCTskdtcq6/2oxIvNBy7DHRs=";
     };
   };
   opencode-aarch64-linux = {
     pname = "opencode-aarch64-linux";
-    version = "1.18.32";
+    version = "1.18.34";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-linux-arm64.tar.gz";
-      sha256 = "sha256-VoRht9TYwZhlyX6aEQLmEwScYDnQH+dyFU3oc8GGWEA=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-linux-arm64.tar.gz";
+      sha256 = "sha256-u9s/AMLFHkLjFVJSMxUTCXJCJqh3bajpFF47D6PVMQ8=";
     };
   };
   opencode-x86_64-darwin = {
     pname = "opencode-x86_64-darwin";
-    version = "1.18.32";
+    version = "1.18.34";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-darwin-x64.zip";
-      sha256 = "sha256-okvxBJk4L4hV4Z0qCBuGg+SrmcfCr/sy3ImxfIoAzNY=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-darwin-x64.zip";
+      sha256 = "sha256-Zr8GOM/607Zb1mSMw5R2GeHdcfS/7uCoHgh6wDa7EIg=";
     };
   };
   opencode-x86_64-linux = {
     pname = "opencode-x86_64-linux";
-    version = "1.18.32";
+    version = "1.18.34";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.32/opencode-linux-x64.tar.gz";
-      sha256 = "sha256-MEbgQE/cYPuAMH56R4JLoHR3NkF4pNCbqoVISW3W1Ds=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-linux-x64.tar.gz";
+      sha256 = "sha256-DyJHlkcibR0t2ZWV0gCC7nvaOHC2LcapC0Hvwacdfpo=";
     };
   };
   revelo = {
@@ -80,34 +80,50 @@
   };
   splitrail-aarch64-darwin = {
     pname = "splitrail-aarch64-darwin";
-    version = "3.10.0";
+    version = "3.10.3";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-aarch64-apple-darwin.tar.gz";
-      sha256 = "sha256-DFkqoxwqTa6iVh7IT1pgnp3eAjb1dlc5TuE2HkolxVI=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-aarch64-apple-darwin.tar.gz";
+      sha256 = "sha256-s9KEIN4vcSTker4ocpW41FaEtzhm9A66dLGo+tk43HQ=";
     };
   };
   splitrail-aarch64-linux = {
     pname = "splitrail-aarch64-linux";
-    version = "3.10.0";
+    version = "3.10.3";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-aarch64-unknown-linux-musl.tar.gz";
-      sha256 = "sha256-kfKSo4HIL9IOC6pWXy8D5rW/RofhIpiHmKkk88t9m3M=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-aarch64-unknown-linux-musl.tar.gz";
+      sha256 = "sha256-e5wWzmmflLjFpn7CSytvmSZJQ3Bx5B7S41VwmA5XFA4=";
     };
   };
   splitrail-x86_64-darwin = {
     pname = "splitrail-x86_64-darwin";
-    version = "3.10.0";
+    version = "3.10.3";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-x86_64-apple-darwin.tar.gz";
-      sha256 = "sha256-flXdp6MN0QUIpY+qmyW3ldqfLiUaiE5USAwEzoPFULM=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-x86_64-apple-darwin.tar.gz";
+      sha256 = "sha256-Ki0ztiBrWLkuFkIGLAAYjC4oxKARBrQ7aqrEH6mvmlA=";
     };
   };
   splitrail-x86_64-linux = {
     pname = "splitrail-x86_64-linux";
-    version = "3.10.0";
+    version = "3.10.3";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.0/splitrail-v3.10.0-x86_64-unknown-linux-musl.tar.gz";
-      sha256 = "sha256-djmcZEL18RxhQbhIDkCizBNmBIuMMKwoxdZ9KGOzEAY=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-x86_64-unknown-linux-musl.tar.gz";
+      sha256 = "sha256-RaBnQ9D0DAMn648KKc7XTkf39hQsvIO6uBR8GNcMGQ0=";
+    };
+  };
+  step-code-aarch64-linux = {
+    pname = "step-code-aarch64-linux";
+    version = "0.1.2";
+    src = fetchurl {
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.2/step-0.1.2-linux-arm64.tar.gz";
+      sha256 = "sha256-Y21VFTKBWYprFz9ZkACUciSa3ZnN6XsBX4TWWES6Dac=";
+    };
+  };
+  step-code-x86_64-linux = {
+    pname = "step-code-x86_64-linux";
+    version = "0.1.2";
+    src = fetchurl {
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.2/step-0.1.2-linux-x64.tar.gz";
+      sha256 = "sha256-6XYFqMSLiAhyRjeyoMmT4/8QD7SEfoNYI2MSZPmU0Xc=";
     };
   };
 }
