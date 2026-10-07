@@ -6,14 +6,6 @@
   dockerTools,
 }:
 {
-  cc-switch = {
-    pname = "cc-switch";
-    version = "3.20.4";
-    src = fetchurl {
-      url = "https://github.com/farion1231/cc-switch/releases/download/v3.20.4/CC-Switch-v3.20.4-macOS.zip";
-      sha256 = "sha256-AVMJ6hRgLzBwmv18JP1wN5PFeAvC1mweTKkUy3tplbw=";
-    };
-  };
   clipvault-aarch64-linux = {
     pname = "clipvault-aarch64-linux";
     version = "1.3.0";
@@ -70,12 +62,36 @@
       sha256 = "sha256-DyJHlkcibR0t2ZWV0gCC7nvaOHC2LcapC0Hvwacdfpo=";
     };
   };
-  revelo = {
-    pname = "revelo";
-    version = "0.5.6";
+  pi-aarch64-darwin = {
+    pname = "pi-aarch64-darwin";
+    version = "1.0.3";
     src = fetchurl {
-      url = "https://github.com/vbasky/revelo/releases/download/v0.5.6/revelo-v0.5.6-aarch64-apple-darwin.tar.gz";
-      sha256 = "sha256-mHw/JmWYO082scTNSiGOC67H78CCQpuLkhJaGpzb/0I=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-darwin-arm64.tar.gz";
+      sha256 = "sha256-exqom6E1QvGsph69Y0htBBe10v79XEHt7djQg6txmyM=";
+    };
+  };
+  pi-aarch64-linux = {
+    pname = "pi-aarch64-linux";
+    version = "1.0.3";
+    src = fetchurl {
+      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-linux-arm64.tar.gz";
+      sha256 = "sha256-0wk6eayeIu9DDipz4AKj3etFHeB7cis6pTqmqU6qntw=";
+    };
+  };
+  pi-x86_64-darwin = {
+    pname = "pi-x86_64-darwin";
+    version = "1.0.3";
+    src = fetchurl {
+      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-darwin-x64.tar.gz";
+      sha256 = "sha256-dp4MHVmdvI5jrDVZV77I6YMr/5HxkNZ0MjkuYqxVIZQ=";
+    };
+  };
+  pi-x86_64-linux = {
+    pname = "pi-x86_64-linux";
+    version = "1.0.3";
+    src = fetchurl {
+      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-linux-x64.tar.gz";
+      sha256 = "sha256-m4x/9SO9kIgdHBUFFo8LnessA1c5a5K2L3mVUKSP8e0=";
     };
   };
   splitrail-aarch64-darwin = {

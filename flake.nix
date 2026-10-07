@@ -74,7 +74,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     cc-statusline = {
       url = "github:AzurIce/cc-statusline";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -86,6 +85,10 @@
     };
     herdr = {
       url = "github:ogulcancelik/herdr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    delta = {
+      url = "github:zed-industries/delta-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -173,26 +176,12 @@
             dockerTools
             ;
         };
-        # mlx-bin = pkgs.python3Packages.callPackage ./packages/mlx-bin.nix { };
-        # mlx-audio = pkgs.python3Packages.callPackage ./packages/mlx-audio.nix {
-        #   # use the official wheel (with Metal support) instead of nixpkgs'
-        #   # CPU-only source build
-        #   mlx = mlx-bin;
-        # };
       in
       {
         packages = {
-          cc-switch = import ./packages/cc-switch.nix {
-            inherit lib sources;
-            inherit (pkgs) stdenvNoCC unzip;
-          };
           splitrail = import ./packages/splitrail.nix {
             inherit lib sources;
             inherit (pkgs) stdenvNoCC unzip;
-          };
-          revelo = import ./packages/revelo.nix {
-            inherit lib sources;
-            inherit (pkgs) stdenvNoCC;
           };
           clipvault = import ./packages/clipvault.nix {
             inherit lib sources;
@@ -206,11 +195,10 @@
             inherit lib sources;
             inherit (pkgs) stdenvNoCC unzip makeWrapper glibc;
           };
-          # mlx-audio = mlx-audio;
-          # mlx-vlm = pkgs.python3Packages.callPackage ./packages/mlx-vlm.nix {
-          #   inherit mlx-audio;
-          #   mlx = mlx-bin;
-          # };
+          pi = import ./packages/pi.nix {
+            inherit lib sources;
+            inherit (pkgs) stdenvNoCC autoPatchelfHook makeWrapper ripgrep fd libxcb;
+          };
         }
         // (if pkgs.stdenv.hostPlatform.isLinux then {
           zcode = import ./packages/zcode.nix {

@@ -3,16 +3,6 @@
 # expressions import for version + src. Multi-platform binaries are one
 # source entry per release asset, all keyed off the same upstream tag.
 
-[cc-switch]
-src.github = "farion1231/cc-switch"
-src.prefix = "v"
-fetch.url = "https://github.com/farion1231/cc-switch/releases/download/v$ver/CC-Switch-v$ver-macOS.zip"
-
-[revelo]
-src.github = "vbasky/revelo"
-src.prefix = "v"
-fetch.url = "https://github.com/vbasky/revelo/releases/download/v$ver/revelo-v$ver-aarch64-apple-darwin.tar.gz"
-
 [clipvault-x86_64-linux]
 src.github = "rolv-apneseth/clipvault"
 src.prefix = "v"
@@ -62,6 +52,28 @@ fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/openc
 src.github = "anomalyco/opencode"
 src.prefix = "v"
 fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-darwin-x64.zip"
+
+# pi ships a bun-compiled standalone binary (plus docs/examples/native prebuilds)
+# per release; the npm package needs the whole monorepo build in nixpkgs.
+[pi-x86_64-linux]
+src.github = "earendil-works/pi"
+src.prefix = "v"
+fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-linux-x64.tar.gz"
+
+[pi-aarch64-linux]
+src.github = "earendil-works/pi"
+src.prefix = "v"
+fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-linux-arm64.tar.gz"
+
+[pi-aarch64-darwin]
+src.github = "earendil-works/pi"
+src.prefix = "v"
+fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-darwin-arm64.tar.gz"
+
+[pi-x86_64-darwin]
+src.github = "earendil-works/pi"
+src.prefix = "v"
+fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-darwin-x64.tar.gz"
 
 # No dedicated npm source in nvfetcher; scrape the alpha dist-tag from the
 # registry instead (latest lags the preview channel; switch the regex back to

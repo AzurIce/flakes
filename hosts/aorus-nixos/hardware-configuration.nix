@@ -140,28 +140,65 @@ in
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";
       script = ''
-        mkdir /btrfs_tmp
-        mount /dev/disk/by-uuid/22edbf0b-9105-4fb5-a378-905825f76f72 /btrfs_tmp
-        if [[ -e /btrfs_tmp/@root ]]; then
-            mkdir -p /btrfs_tmp/old_roots
-            timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/@root)" "+%Y-%m-%-d_%H:%M:%S")
-            mv /btrfs_tmp/@root "/btrfs_tmp/old_roots/$timestamp"
+        set -euo pipefail
+        export LC_ALL=C
+        mountpoint=/btrfs_tmp
+        keep_roots=3
+        archive_list=
+
+        mkdir -p "$mountpoint"
+        # 子卷路径相对于 Btrfs 顶层，不能依赖默认子卷仍然是 ID 5。
+        mount -o subvolid=5 /dev/disk/by-uuid/${uuid} "$mountpoint"
+        cleanup() {
+          if [[ -n "$archive_list" ]]; then
+            rm -f -- "$archive_list"
+          fi
+          umount "$mountpoint"
+        }
+        trap cleanup EXIT
+
+        mkdir -p "$mountpoint/old_roots"
+        if [[ -e "$mountpoint/@root" ]]; then
+          # 用当前归档时间命名；纳秒避免同一秒内重试时撞名。
+          timestamp=$(date -u +%Y-%m-%d_%H-%M-%S.%N)
+          archived_root="$mountpoint/old_roots/$timestamp"
+          mv -T -- "$mountpoint/@root" "$archived_root"
+          # 保留策略按归档时间排序，不使用旧根目录最后被修改的时间。
+          touch -- "$archived_root"
         fi
 
-        delete_subvolume_recursively() {
-            IFS=$'\n'
-            for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-                delete_subvolume_recursively "/btrfs_tmp/$i"
-            done
-            btrfs subvolume delete "$1"
+        prune_old_roots() {
+          local entry old_root count=0
+          if ! archive_list=$(mktemp /run/btrfs-old-roots.XXXXXX); then
+            echo "WARNING: cannot list old roots; skipping cleanup" >&2
+            return 0
+          fi
+          # 只选直接目录；NUL 分隔保留路径中的空格、换行等字符。
+          if ! find "$mountpoint/old_roots" -mindepth 1 -maxdepth 1 -type d \
+            -printf '%T@ %p\0' | sort -z -nr > "$archive_list"; then
+            echo "WARNING: cannot sort old roots; skipping cleanup" >&2
+            return 0
+          fi
+          while IFS= read -r -d "" entry; do
+            old_root="''${entry#* }"
+            # 普通目录和符号链接不能作为清理目标，也不计入保留数量。
+            if ! btrfs subvolume show "$old_root" > /dev/null; then
+              echo "WARNING: skipping non-subvolume: $old_root" >&2
+              continue
+            fi
+            count=$((count + 1))
+            if (( count > keep_roots )); then
+              # 工具负责先删嵌套子卷；普通文件无需逐个 rm。
+              if ! btrfs subvolume delete --recursive "$old_root"; then
+                echo "WARNING: failed to delete old root: $old_root" >&2
+              fi
+            fi
+          done < "$archive_list"
         }
 
-        for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +7); do
-            delete_subvolume_recursively "$i"
-        done
-
-        btrfs subvolume create /btrfs_tmp/@root
-        umount /btrfs_tmp
+        # 旧根清理失败可继续启动；挂载、归档和新建根失败必须报错。
+        prune_old_roots
+        btrfs subvolume create "$mountpoint/@root"
       '';
     };
   };

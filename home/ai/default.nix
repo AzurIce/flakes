@@ -57,7 +57,6 @@ in
       antigravity-cli
       claude-code
       codex
-      pi-coding-agent
 
       rtk
       ripgrep
@@ -67,6 +66,7 @@ in
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.step-code
     ]
     ++ [
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi
       inputs.cc-statusline.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.kimi-code.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail

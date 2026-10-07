@@ -62,6 +62,7 @@ in
       })
       wechat
       wemeet
+      wpsoffice-cn
 
       mold
       zed-editor
@@ -72,7 +73,9 @@ in
       chromium
       mpv
       gh
-
+      # Zed Delta：hiPrio 占住 bin/delta（与 programs.delta 装的 git-delta 冲突时
+      # 优先保留 Zed 的）；git 的 core.pager 用绝对 store 路径，diff 不受影响
+      (lib.hiPrio inputs.delta.packages.${pkgs.stdenv.hostPlatform.system}.default)
       # inputs.notist.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # 本地推理：llama.cpp（CUDA）+ hf 模型下载 + 起服务包装器
