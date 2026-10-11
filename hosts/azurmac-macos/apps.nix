@@ -176,6 +176,7 @@
       "barik"
       "wechat"
       "typora"
+      "keycastr"
       # "orbstack"
       # "ghostty"
       "ghostty@tip"

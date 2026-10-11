@@ -75,7 +75,6 @@ in
 
   home.file = utils.linkDotfiles [
     ".claude"
-    # ".codex"
     ".dsh"
     ".kimi-code"
     ".pi"
