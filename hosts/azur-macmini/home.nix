@@ -31,7 +31,7 @@ inputs@{
     homeDirectory = "/Users/${user}";
     packages = with pkgs; [
       btop
-      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
+      # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
     ];
   };

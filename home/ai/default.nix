@@ -13,9 +13,6 @@ let
   # 环境变量名 <- sops secret 名
   keys = {
     POKE_API_KEY = "pokeKey";
-    STEP_FUN_API_KEY = "stepKey";
-    STEP_PLAN_API_KEY = "stepKey";
-    STEP_API_KEY = "stepKey";
     KIMI_API_KEY = "kimiCodeKey";
     TRIPO_API_KEY = "tripoKey";
     MACHGEN_API_KEY = "machgenKey";
@@ -71,10 +68,10 @@ in
       inputs.kimi-code.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.dsh
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.rea
     ];
 
   home.file = utils.linkDotfiles [
-    ".claude"
     ".dsh"
     ".kimi-code"
     ".pi"

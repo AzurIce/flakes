@@ -32,114 +32,122 @@
   };
   opencode-aarch64-darwin = {
     pname = "opencode-aarch64-darwin";
-    version = "1.18.34";
+    version = "1.19.0";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-darwin-arm64.zip";
-      sha256 = "sha256-hSK3D1RRhLOo2XxcpPgUCTskdtcq6/2oxIvNBy7DHRs=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.0/opencode-darwin-arm64.zip";
+      sha256 = "sha256-DV9RGUjW+/7fm7FnU8CsQmE9zI3nXZ3rfo0M9YTI+6Y=";
     };
   };
   opencode-aarch64-linux = {
     pname = "opencode-aarch64-linux";
-    version = "1.18.34";
+    version = "1.19.0";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-linux-arm64.tar.gz";
-      sha256 = "sha256-u9s/AMLFHkLjFVJSMxUTCXJCJqh3bajpFF47D6PVMQ8=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.0/opencode-linux-arm64.tar.gz";
+      sha256 = "sha256-6YQdQ9PhqPNu0mkVktO4tPsJfmBsi1WaJ3obhFhA4ms=";
     };
   };
   opencode-x86_64-darwin = {
     pname = "opencode-x86_64-darwin";
-    version = "1.18.34";
+    version = "1.19.0";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-darwin-x64.zip";
-      sha256 = "sha256-Zr8GOM/607Zb1mSMw5R2GeHdcfS/7uCoHgh6wDa7EIg=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.0/opencode-darwin-x64.zip";
+      sha256 = "sha256-UVOAsD80EPIXjIwce6bR6VVqO97ioB0RTnsWgZUhMaA=";
     };
   };
   opencode-x86_64-linux = {
     pname = "opencode-x86_64-linux";
-    version = "1.18.34";
+    version = "1.19.0";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.18.34/opencode-linux-x64.tar.gz";
-      sha256 = "sha256-DyJHlkcibR0t2ZWV0gCC7nvaOHC2LcapC0Hvwacdfpo=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.0/opencode-linux-x64.tar.gz";
+      sha256 = "sha256-e7nmGtb+rPLonBCmosGEDj3kIgu1C6H8cRDzGAYHauw=";
     };
   };
   pi-aarch64-darwin = {
     pname = "pi-aarch64-darwin";
-    version = "1.0.3";
+    version = "1.1.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-darwin-arm64.tar.gz";
-      sha256 = "sha256-exqom6E1QvGsph69Y0htBBe10v79XEHt7djQg6txmyM=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.1.0/pi-darwin-arm64.tar.gz";
+      sha256 = "sha256-NFWxPeNcFaWJPN68kiZ4GZ6Qp86ZsGy8I/N4YOkNY8c=";
     };
   };
   pi-aarch64-linux = {
     pname = "pi-aarch64-linux";
-    version = "1.0.3";
+    version = "1.1.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-linux-arm64.tar.gz";
-      sha256 = "sha256-0wk6eayeIu9DDipz4AKj3etFHeB7cis6pTqmqU6qntw=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.1.0/pi-linux-arm64.tar.gz";
+      sha256 = "sha256-87DKxFn531Qg5OSLSOldgb+rV7cB3T/ksI/afRHSfas=";
     };
   };
   pi-x86_64-darwin = {
     pname = "pi-x86_64-darwin";
-    version = "1.0.3";
+    version = "1.1.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-darwin-x64.tar.gz";
-      sha256 = "sha256-dp4MHVmdvI5jrDVZV77I6YMr/5HxkNZ0MjkuYqxVIZQ=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.1.0/pi-darwin-x64.tar.gz";
+      sha256 = "sha256-j92RSa4n50cKahDtinwO2Ac41VreyAqNd2T2OG0eZYs=";
     };
   };
   pi-x86_64-linux = {
     pname = "pi-x86_64-linux";
-    version = "1.0.3";
+    version = "1.1.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.0.3/pi-linux-x64.tar.gz";
-      sha256 = "sha256-m4x/9SO9kIgdHBUFFo8LnessA1c5a5K2L3mVUKSP8e0=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.1.0/pi-linux-x64.tar.gz";
+      sha256 = "sha256-P6qUZmzThJ03rzIP90lAfQJxsHqblPQgyH4whm4Q4ok=";
+    };
+  };
+  rea = {
+    pname = "rea";
+    version = "6.4.0";
+    src = fetchurl {
+      url = "https://registry.npmjs.org/rea-agents/-/rea-agents-6.4.0.tgz";
+      sha256 = "sha256-WesWBLjbdfUi1Kl1w2zmtKKtRl5DutFl+aj3KDkdubg=";
     };
   };
   splitrail-aarch64-darwin = {
     pname = "splitrail-aarch64-darwin";
-    version = "3.10.3";
+    version = "3.11.1";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-aarch64-apple-darwin.tar.gz";
-      sha256 = "sha256-s9KEIN4vcSTker4ocpW41FaEtzhm9A66dLGo+tk43HQ=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.11.1/splitrail-v3.11.1-aarch64-apple-darwin.tar.gz";
+      sha256 = "sha256-8E7gGkFDHMR32ganKkQy3l4i+VcrzeywqvRJWwraQD4=";
     };
   };
   splitrail-aarch64-linux = {
     pname = "splitrail-aarch64-linux";
-    version = "3.10.3";
+    version = "3.11.1";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-aarch64-unknown-linux-musl.tar.gz";
-      sha256 = "sha256-e5wWzmmflLjFpn7CSytvmSZJQ3Bx5B7S41VwmA5XFA4=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.11.1/splitrail-v3.11.1-aarch64-unknown-linux-musl.tar.gz";
+      sha256 = "sha256-MI0jJMVtmX+ze7r01CDHiRG0uoRFopmkhRaWoyt+ees=";
     };
   };
   splitrail-x86_64-darwin = {
     pname = "splitrail-x86_64-darwin";
-    version = "3.10.3";
+    version = "3.11.1";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-x86_64-apple-darwin.tar.gz";
-      sha256 = "sha256-Ki0ztiBrWLkuFkIGLAAYjC4oxKARBrQ7aqrEH6mvmlA=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.11.1/splitrail-v3.11.1-x86_64-apple-darwin.tar.gz";
+      sha256 = "sha256-Vcz7miH55MSLMgbCusnn6XCXNmpkpcb6QRqgpU7u7Ek=";
     };
   };
   splitrail-x86_64-linux = {
     pname = "splitrail-x86_64-linux";
-    version = "3.10.3";
+    version = "3.11.1";
     src = fetchurl {
-      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.10.3/splitrail-v3.10.3-x86_64-unknown-linux-musl.tar.gz";
-      sha256 = "sha256-RaBnQ9D0DAMn648KKc7XTkf39hQsvIO6uBR8GNcMGQ0=";
+      url = "https://github.com/Piebald-AI/splitrail/releases/download/v3.11.1/splitrail-v3.11.1-x86_64-unknown-linux-musl.tar.gz";
+      sha256 = "sha256-qfKTGh9tax2zqEqrSdV5cfY95XdikYolwYkM/6WC5FI=";
     };
   };
   step-code-aarch64-linux = {
     pname = "step-code-aarch64-linux";
-    version = "0.1.2";
+    version = "0.1.3";
     src = fetchurl {
-      url = "https://static-openapi.stepfun.com/stepcode/0.1.2/step-0.1.2-linux-arm64.tar.gz";
-      sha256 = "sha256-Y21VFTKBWYprFz9ZkACUciSa3ZnN6XsBX4TWWES6Dac=";
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.3/step-0.1.3-linux-arm64.tar.gz";
+      sha256 = "sha256-LCAre1HOSNqpr5RPCwQs1M8XuGEh4dN1z/22vb+XwvY=";
     };
   };
   step-code-x86_64-linux = {
     pname = "step-code-x86_64-linux";
-    version = "0.1.2";
+    version = "0.1.3";
     src = fetchurl {
-      url = "https://static-openapi.stepfun.com/stepcode/0.1.2/step-0.1.2-linux-x64.tar.gz";
-      sha256 = "sha256-6XYFqMSLiAhyRjeyoMmT4/8QD7SEfoNYI2MSZPmU0Xc=";
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.3/step-0.1.3-linux-x64.tar.gz";
+      sha256 = "sha256-xKgAftysvM5T619u+waCDe7s8E9OSj1ZC1Zm7NTxJ4Q=";
     };
   };
 }

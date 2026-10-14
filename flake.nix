@@ -191,6 +191,7 @@
             inherit lib sources;
             inherit (pkgs) stdenv buildNpmPackage nodejs_24 python3 jq;
           };
+          rea = pkgs.callPackage ./packages/rea.nix { inherit sources; };
           opencode = import ./packages/opencode.nix {
             inherit lib sources;
             inherit (pkgs) stdenvNoCC unzip makeWrapper glibc;
@@ -217,7 +218,7 @@
             sops
             ssh-to-age
             age
-            # for `just update` / `just update-dsh`
+            # for `just update` / `just update-dsh` / `just update-rea`
             nvfetcher
             nodejs_24
             prefetch-npm-deps

@@ -36,7 +36,7 @@
       pandoc
       # python3
       raycast
-      vscode
+      # vscode
       cargo
       lua51Packages.luarocks
       lua51Packages.lua

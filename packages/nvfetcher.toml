@@ -83,6 +83,12 @@ src.webpage = "https://registry.npmjs.org/@deepseek-ai/dsh"
 src.regex = '"next":\s*"([^"]+)"'
 fetch.url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-$ver.tgz"
 
+# REA publishes its compiled CLI, MCP server, bridges and matching skill to npm.
+[rea]
+src.webpage = "https://registry.npmjs.org/rea-agents"
+src.regex = '"latest":\s*"([^"]+)"'
+fetch.url = "https://registry.npmjs.org/rea-agents/-/rea-agents-$ver.tgz"
+
 # Step Code has no npm package and no usable GitHub release assets; both the
 # version and the platform tarballs live on StepFun's CDN (what install.sh
 # reads). Scrape the version from the release manifest nvfetcher-style.

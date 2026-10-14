@@ -8,6 +8,10 @@ update *filter:
 update-dsh:
     ./packages/update-dsh.sh
 
+# regenerate REA's vendored package-lock.json + npmDepsHash after `just update` bumps REA
+update-rea:
+    ./packages/update-rea.sh
+
 rebuild target=".#":
     sudo nixos-rebuild switch --flake {{ target }}
 
