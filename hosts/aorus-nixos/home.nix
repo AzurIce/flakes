@@ -70,6 +70,8 @@ in
 
       godot_4
       blender
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.photocraft
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
       chromium
       mpv
       gh

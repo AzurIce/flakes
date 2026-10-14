@@ -69,10 +69,16 @@ in
     "/persist" = (btrSubvolFs "@persist") // {
       neededForBoot = true;
     };
+    # GM7000HS 的 Files 分区：资料与 Linux 游戏使用独立子卷，共享空间。
     "/home/azurice/Files" = {
       device = "/dev/disk/by-uuid/ccca6d60-ebf5-4023-8273-017d67efb4f4";
       fsType = "btrfs";
-      options = [ "compress=zstd" ];
+      options = [ "subvol=@files" "compress=zstd" ];
+    };
+    "/home/azurice/LinuxGames" = {
+      device = "/dev/disk/by-uuid/ccca6d60-ebf5-4023-8273-017d67efb4f4";
+      fsType = "btrfs";
+      options = [ "subvol=@games" "compress=zstd" ];
     };
     # Windows 游戏盘 _Game_（nvme2n1p4，NTFS，UUID 464606A6460696B9），开机自动挂到 ~/Games。
     # 选项说明：uid/gid 让文件归 azurice:users；iocharset=utf8 解决中文文件名乱码；

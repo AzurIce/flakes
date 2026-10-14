@@ -3,6 +3,16 @@
 # expressions import for version + src. Multi-platform binaries are one
 # source entry per release asset, all keyed off the same upstream tag.
 
+[photocraft-x86_64-linux]
+src.github = "storytold/photocraft"
+src.prefix = "v"
+fetch.url = "https://github.com/storytold/photocraft/releases/download/v$ver/photocraft-$ver-linux-x86_64.tar.gz"
+
+[photocraft-aarch64-linux]
+src.github = "storytold/photocraft"
+src.prefix = "v"
+fetch.url = "https://github.com/storytold/photocraft/releases/download/v$ver/photocraft-$ver-linux-aarch64.tar.gz"
+
 [clipvault-x86_64-linux]
 src.github = "rolv-apneseth/clipvault"
 src.prefix = "v"
@@ -88,6 +98,19 @@ fetch.url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-$ver.tgz"
 src.webpage = "https://registry.npmjs.org/rea-agents"
 src.regex = '"latest":\s*"([^"]+)"'
 fetch.url = "https://registry.npmjs.org/rea-agents/-/rea-agents-$ver.tgz"
+
+# ChatGPT desktop app (includes Codex). Versioned debs live in OpenAI's apt
+# repo; scrape the version from the repo's Packages index. The /deb/latest/
+# URLs always point at the newest build and are unusable for pinning.
+[chatgpt-x86_64-linux]
+src.webpage = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/dists/stable/main/binary-amd64/Packages"
+src.regex = 'Version:\s*(\S+)'
+fetch.url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_$ver_amd64.deb"
+
+[chatgpt-aarch64-linux]
+src.webpage = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/dists/stable/main/binary-arm64/Packages"
+src.regex = 'Version:\s*(\S+)'
+fetch.url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_$ver_arm64.deb"
 
 # Step Code has no npm package and no usable GitHub release assets; both the
 # version and the platform tarballs live on StepFun's CDN (what install.sh

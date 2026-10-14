@@ -25,6 +25,7 @@ let
     OPENCODE_API_KEY = "opencodeGoKey";
     OPENAI_API_KEY = "pokeKey";
     ANTHROPIC_AUTH_TOKEN = "pokeKey";
+    QQ_IMAP = "qqIMAP";
   };
 
   # keys 之外的 key：本模块不 export，但需要 sops-nix 部署（给别处按路径直读）

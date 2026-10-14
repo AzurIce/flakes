@@ -6,6 +6,22 @@
   dockerTools,
 }:
 {
+  chatgpt-aarch64-linux = {
+    pname = "chatgpt-aarch64-linux";
+    version = "26.1007.21434";
+    src = fetchurl {
+      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1007.21434_arm64.deb";
+      sha256 = "sha256-Vfrh4/sdYGmpBiDp5wc33Pi/IlVgTRV+KCzGdIobr0k=";
+    };
+  };
+  chatgpt-x86_64-linux = {
+    pname = "chatgpt-x86_64-linux";
+    version = "26.1007.21434";
+    src = fetchurl {
+      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1007.21434_amd64.deb";
+      sha256 = "sha256-J2tTQcPXSyYdOtUhBvf6ft3gaEHkdn/ipAy1QJmx8+0=";
+    };
+  };
   clipvault-aarch64-linux = {
     pname = "clipvault-aarch64-linux";
     version = "1.3.0";
@@ -60,6 +76,22 @@
     src = fetchurl {
       url = "https://github.com/anomalyco/opencode/releases/download/v1.19.0/opencode-linux-x64.tar.gz";
       sha256 = "sha256-e7nmGtb+rPLonBCmosGEDj3kIgu1C6H8cRDzGAYHauw=";
+    };
+  };
+  photocraft-aarch64-linux = {
+    pname = "photocraft-aarch64-linux";
+    version = "0.3.0";
+    src = fetchurl {
+      url = "https://github.com/storytold/photocraft/releases/download/v0.3.0/photocraft-0.3.0-linux-aarch64.tar.gz";
+      sha256 = "sha256-3c1pe/LzuiapRitxYk7H+oZrj9xRJss8+p+LFk81uv8=";
+    };
+  };
+  photocraft-x86_64-linux = {
+    pname = "photocraft-x86_64-linux";
+    version = "0.3.0";
+    src = fetchurl {
+      url = "https://github.com/storytold/photocraft/releases/download/v0.3.0/photocraft-0.3.0-linux-x86_64.tar.gz";
+      sha256 = "sha256-6POvavrlOopNbrE6v7zPdLj/whQ+SHBH1yTlaD1c/z0=";
     };
   };
   pi-aarch64-darwin = {

@@ -41,6 +41,14 @@
   services.openssh.enable = true;
   services.fail2ban.enable = true;
 
+  # Moonlight 串流服务：需要游玩时手动启动 sunshine.service。
+  services.sunshine = {
+    enable = true;
+    autoStart = false;
+    capSysAdmin = true; # 允许 DRM/KMS 捕获 Wayland 画面
+    openFirewall = true;
+  };
+
   # i18n.inputMethod = {
   #   enable = true;
   #   type = "fcitx5";
@@ -114,7 +122,10 @@
     azurice = {
       hashedPasswordFile = config.sops.secrets.hashedPassword.path;
       isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [
+        "wheel"
+        "uinput" # Sunshine 虚拟手柄、鼠标和键盘
+      ];
       packages = with pkgs; [
         # firefox
         # inputs.firefox.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
