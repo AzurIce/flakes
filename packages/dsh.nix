@@ -44,11 +44,36 @@ in
 
   dontNpmBuild = true;
 
-  # dsh re-creates the cordis HMR service after the web bundle disables its
-  # row (it watches the user's patch files), and that service requires Node
-  # internal-module access. The shipped `node-addon-require-builtin` prebuild
-  # is broken on this Node/V8 ("x64 sysv getter is not a recognized
-  # this->field accessor"), so launch node with --expose-internals explicitly.
+  # The shipped `node-addon-require-builtin` prebuild cannot probe nixpkgs'
+  # Node binary ("x64 sysv getter is not a recognized this->field accessor"),
+  # so Node internals must come from plain require with --expose-internals
+  # (see postInstall). Most packages try require first and only fall back to
+  # the addon; dsh-app-boot's internalModules() uses the addon unconditionally
+  # and is patched here to do the same.
+  preInstall = ''
+    node <<'EOF'
+    const fs = require("fs");
+    const path = require("path");
+    const before = "\tconst addon = createRequire(import.meta.url)(\"node-addon-require-builtin\");";
+    const after = "\tconst __dshRequire = createRequire(import.meta.url);\n\tconst addon = { requireBuiltin: (id) => { try { return __dshRequire(id); } catch { return __dshRequire(\"node-addon-require-builtin\").requireBuiltin(id); } } };";
+    const targets = [];
+    (function walk(dir) {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const p = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(p);
+        else if (/dsh-app-boot\/lib\/(index\.js|worker\/profile-resolution-bootstrap\.js)$/.test(p)) targets.push(p);
+      }
+    })("node_modules");
+    if (targets.length === 0) throw new Error("dsh-app-boot not found under node_modules");
+    for (const file of targets) {
+      const text = fs.readFileSync(file, "utf8");
+      if (!text.includes(before)) throw new Error("internalModules pattern not found in " + file);
+      fs.writeFileSync(file, text.replace(before, after));
+      console.log("patched internalModules in " + file);
+    }
+    EOF
+  '';
+
   postInstall = ''
     cat > "$out/bin/dsh" <<'EOF'
     #!${stdenv.shell}
