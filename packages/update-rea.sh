@@ -21,6 +21,10 @@ jq -e --arg version "$ver" '.name == "rea-agents" and .version == $version' \
   "$tmp/package/package.json" >/dev/null || die "tarball manifest does not match nvfetcher"
 jq 'del(.devDependencies)' "$tmp/package/package.json" > "$tmp/package.json.new"
 mv "$tmp/package.json.new" "$tmp/package/package.json"
+# frida is an optionalDependency whose install script downloads a prebuilt
+# binary; drop it (rea imports it lazily and tolerates its absence).
+jq 'del(.optionalDependencies.frida)' "$tmp/package/package.json" > "$tmp/package.json.new"
+mv "$tmp/package.json.new" "$tmp/package/package.json"
 (cd "$tmp/package" && npm install --package-lock-only --ignore-scripts --no-audit --no-fund >/dev/null)
 
 deps_hash=$(prefetch-npm-deps "$tmp/package/package-lock.json" | tail -n1)

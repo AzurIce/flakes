@@ -14,7 +14,7 @@
 
 let
   inherit (sources.rea) version src;
-  npmDepsHash = "sha256-aMD66LEDaVjyDrdaaSQA2FjdAUltdj+RZH8W8xNIdNo=";
+  npmDepsHash = "sha256-eVR13/QlwI7zbgDa9Wo/AcKmwvRwsKY2QJZoCfiQrwA=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "rea-agents";
@@ -29,6 +29,10 @@ in
   # jq's absolute path also works inside the fetchNpmDeps derivation.
   postPatch = ''
     ${jq}/bin/jq 'del(.devDependencies)' package.json > package.json.new
+    mv package.json.new package.json
+    # frida is an optionalDependency whose install script downloads a prebuilt
+    # binary; drop it (rea imports it lazily and tolerates its absence).
+    ${jq}/bin/jq 'del(.optionalDependencies.frida)' package.json > package.json.new
     mv package.json.new package.json
     cp ${./rea-package-lock.json} package-lock.json
   '';
