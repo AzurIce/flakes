@@ -10,7 +10,7 @@
 }:
 
 let
-  uuid = "22edbf0b-9105-4fb5-a378-905825f76f72";
+  uuid = "5a91da8f-7fb2-4e0d-96e1-ec651cc2882a";
   persistFs = path: {
     device = "/persist${path}";
     neededForBoot = true;
@@ -48,7 +48,7 @@ in
 
   fileSystems = {
     "/boot" = {
-      device = "/dev/disk/by-uuid/A57D-C07F";
+      device = "/dev/disk/by-uuid/ED2B-FF8A";
       fsType = "vfat";
       options = [
         "fmask=0022"
@@ -122,10 +122,10 @@ in
     }
   ];
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/cfebcefc-f250-4b15-ba48-eecdb3ef6d86"; } ];
+  swapDevices = [ { device = "/dev/disk/by-uuid/0c2655f5-5fa4-444b-943f-9ed858f4a82f"; } ];
   # 休眠（swap 同上）：写入 initrd 内核参数 resume=，initrd 里 systemd-hibernate-resume
   # 会在挂载根文件系统之前恢复内存镜像，Wayland 会话原样回来
-  boot.resumeDevice = "/dev/disk/by-uuid/cfebcefc-f250-4b15-ba48-eecdb3ef6d86";
+  boot.resumeDevice = "/dev/disk/by-uuid/0c2655f5-5fa4-444b-943f-9ed858f4a82f";
   # zramSwap.enable = true;
   boot.zswap.enable = true;
 
