@@ -124,3 +124,11 @@ fetch.url = "https://static-openapi.stepfun.com/stepcode/$ver/step-$ver-linux-x6
 src.webpage = "https://static-openapi.stepfun.com/stepcode/latest.json"
 src.regex = '"version":\s*"([^"]+)"'
 fetch.url = "https://static-openapi.stepfun.com/stepcode/$ver/step-$ver-linux-arm64.tar.gz"
+
+# Kimi Code Desktop's Linux download URLs are unversioned (always the latest
+# build), so scrape the version from the official changelog page instead; the
+# newest release is the first h2 heading on that page.
+[kimi-code-desktop-x86_64-linux]
+src.webpage = "https://www.kimi.com/code/docs/en/kimi-code-desktop/changelog.html"
+src.regex = 'tabindex="-1">(\d+\.\d+\.\d+) \('
+fetch.url = "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage"

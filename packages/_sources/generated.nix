@@ -46,6 +46,14 @@
       sha256 = "sha256-bQxv6K0MIXl6J9avwMtpoCJxTqDNczHky6iwe4zhkAk=";
     };
   };
+  kimi-code-desktop-x86_64-linux = {
+    pname = "kimi-code-desktop-x86_64-linux";
+    version = "1.1.0";
+    src = fetchurl {
+      url = "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage";
+      sha256 = "sha256-/cjm3VTv/7A3VFq0u2PUDvDCQB7U8ya+t9G40hizhOA=";
+    };
+  };
   opencode-aarch64-darwin = {
     pname = "opencode-aarch64-darwin";
     version = "1.19.3";

@@ -74,6 +74,21 @@
         },
         "version": "0.2.1-rc.1"
     },
+    "kimi-code-desktop-x86_64-linux": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "kimi-code-desktop-x86_64-linux",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-/cjm3VTv/7A3VFq0u2PUDvDCQB7U8ya+t9G40hizhOA=",
+            "type": "url",
+            "url": "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage"
+        },
+        "version": "1.1.0"
+    },
     "opencode-aarch64-darwin": {
         "cargoLock": null,
         "date": null,

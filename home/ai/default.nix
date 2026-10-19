@@ -61,6 +61,7 @@ in
     ]
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.kimi-code-desktop
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.step-code
     ]
     ++ [
