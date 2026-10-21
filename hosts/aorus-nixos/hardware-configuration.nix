@@ -57,9 +57,9 @@ in
     };
 
     "/" = btrSubvolFs "@root";
-    # /nix 已迁至 GM7000 盘尾的 200G 独立分区（NixStore），sda3 上旧 @nix 已弃用
+    # /nix 已迁回系统盘（970 EVO 的 @nix 子卷）；GM7000 盘尾的旧 NixStore 分区待处置
     "/nix" = {
-      device = "/dev/disk/by-uuid/af9cf058-4b2b-4ca6-b08a-2dc006d1e9bd";
+      device = "/dev/disk/by-uuid/5a91da8f-7fb2-4e0d-96e1-ec651cc2882a";
       fsType = "btrfs";
       options = [ "subvol=@nix" "compress=zstd" ];
     };
