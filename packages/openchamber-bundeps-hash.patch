@@ -1,0 +1,12 @@
+重烤 openchamber v2.5.2 的 bunDeps FOD 哈希（上游 nix/hashes.json 烤的值已与
+registry 实际内容漂移，bun install 产物哈希不匹配；真实哈希来自构建失败日志，
+即上游 update-hashes 脚本两遍法会烤进去的同一个值）。
+
+--- a/nix/hashes.json
++++ b/nix/hashes.json
+@@ -1,4 +1,4 @@
+ {
+-  "bunDeps": "sha256-kUwgCVYLT7Fa2U4U1buw6rLQDw6RQd09PYHP7y1ZiTA=",
++  "bunDeps": "sha256-6V8/2J/befS9hdILoBhU093c2Oyu2qrZnVp5ciIH1cY=",
+   "opencodeNodeModules": "sha256-3c3nMY6ebAxqRugN01rdvACinbe1vIVDCpVDFR/N94M="
+ }

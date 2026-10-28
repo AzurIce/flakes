@@ -104,6 +104,20 @@
 
     # 本地 ComfyUI（跑 MiniMax H3），模块用法见 modules/comfyui.nix
     comfyui-nix.url = "github:utensils/comfyui-nix";
+
+    # OpenCode 的 Web UI，服务模式见 modules/openchamber.nix
+    # 注意：不要 follow 任何 input——
+    # - opencode：上游 pin 死的（有 throwIf 一致性检查）
+    # - nixpkgs：bun-deps 的 FOD 哈希是对着它自己 lock 的 nixpkgs（里面的 bun 版本）算的，
+    #   follow 到我们的 unstable 会 hash mismatch
+    # 另外钉 tag：main 上出现过 flake pin 与 electron pin 漂移导致 eval 直接 throw，tag 是配套好的
+    openchamber.url = "github:openchamber/openchamber/v2.5.2";
+    # openchamber 的裸源码（flake=false）：配合 packages/openchamber-bundeps-hash.patch
+    # 重烤 v2.5.2 已漂移的 bunDeps 哈希，构建见 packages/openchamber.nix
+    openchamber-src = {
+      url = "github:openchamber/openchamber/v2.5.2";
+      flake = false;
+    };
   };
 
   outputs =
@@ -216,7 +230,11 @@
             inherit (pkgs) stdenv patchelf glibc gcc;
           };
           chatgpt = pkgs.callPackage ./packages/chatgpt.nix { inherit sources; };
-        } else { });
+        } else { })
+        // (if system == "x86_64-linux" then
+          # OpenChamber（server CLI + 桌面版）；上游 bunDeps 哈希需重烤，见该文件注释
+          import ./packages/openchamber.nix { inherit inputs system; }
+        else { });
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [

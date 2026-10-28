@@ -14,7 +14,7 @@
 
 let
   inherit (sources.rea) version src;
-  npmDepsHash = "sha256-eVR13/QlwI7zbgDa9Wo/AcKmwvRwsKY2QJZoCfiQrwA=";
+  npmDepsHash = "sha256-zr08BPp/S9CuVaRpD8LbDd07Ea+Hq7O0jyUTcQWjj/A=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "rea-agents";

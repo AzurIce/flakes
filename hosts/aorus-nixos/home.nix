@@ -72,6 +72,9 @@ in
       blender
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.photocraft
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
+      # OpenChamber 桌面版（Electron，server 内嵌在主进程里）；
+      # 服务模式见 modules/openchamber.nix，两者二选一，避免抢 3000 端口
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.openchamber-desktop
       chromium
       mpv
       gh

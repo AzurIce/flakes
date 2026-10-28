@@ -1,5 +1,10 @@
 inputs@{ pkgs, utils, ... }:
 
+let
+  wayshot = inputs.wayshot.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./wayshot-rotated-outputs.patch ];
+  });
+in
 {
   imports = [
     inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
@@ -43,7 +48,7 @@ inputs@{ pkgs, utils, ... }:
     wl-clipboard
     # inputs.hyprsession.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.wayshot.packages.${pkgs.stdenv.hostPlatform.system}.default
+    wayshot
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.clipvault
     # 桌面 shell（bar/launcher/通知/控制中心），替代 ashell
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default

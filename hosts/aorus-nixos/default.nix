@@ -21,6 +21,9 @@ nixpkgs.lib.nixosSystem {
     # ComfyUI（MiniMax H3 本地推理）
     inputs.comfyui-nix.nixosModules.default
     ../../modules/comfyui.nix
+    # OpenChamber（OpenCode Web UI，服务模式）
+    inputs.openchamber.nixosModules.default
+    ../../modules/openchamber.nix
     # impermanence.nixosModules.impermanence
     home-manager.nixosModules.home-manager
     {

@@ -1,0 +1,70 @@
+--- a/libwayshot/src/output.rs
++++ b/libwayshot/src/output.rs
+@@ -120,7 +120,14 @@
+ 
+ impl OutputInfo {
+     pub(crate) fn scale(&self) -> f64 {
+-        self.physical_size.height as f64 / self.logical_region.inner.size.height as f64
++        let physical_height = match self.transform {
++            wl_output::Transform::_90
++            | wl_output::Transform::_270
++            | wl_output::Transform::Flipped90
++            | wl_output::Transform::Flipped270 => self.physical_size.width,
++            _ => self.physical_size.height,
++        };
++        physical_height as f64 / self.logical_region.inner.size.height as f64
+     }
+ 
+     /// return the physical_size
+--- a/libwayshot/src/lib.rs
++++ b/libwayshot/src/lib.rs
+@@ -1341,7 +1341,9 @@
+                     layer_event_queue.blocking_dispatch(&mut state)?;
+                 }
+ 
+-                surface.set_buffer_transform(output_info.transform);
++                surface.set_buffer_transform(
++                    frame_guard.transform.unwrap_or(output_info.transform),
++                );
+                 // surface.set_buffer_scale(output_info.scale());
+                 surface.attach(Some(&frame_guard.buffer), 0, 0);
+ 
+--- a/libwayshot/src/tests/output.rs
++++ b/libwayshot/src/tests/output.rs
+@@ -407,3 +407,36 @@
+     assert!(std::ptr::eq(wl_ref, &output_info.wl_output));
+     mem::forget(output_info);
+ }
++
++#[test]
++fn rotated_outputs_keep_their_fractional_scale() {
++    use wayland_client::protocol::wl_output::Transform;
++
++    for transform in [
++        Transform::_90,
++        Transform::_270,
++        Transform::Flipped90,
++        Transform::Flipped270,
++    ] {
++        let mut output = make_output_info(
++            "HDMI-A-2",
++            "Rotated 1440p display",
++            Size {
++                width: 2560,
++                height: 1440,
++            },
++            LogicalRegion {
++                inner: Region {
++                    position: Position { x: -1152, y: -200 },
++                    size: Size {
++                        width: 1152,
++                        height: 2048,
++                    },
++                },
++            },
++        );
++        output.transform = transform;
++        assert_eq!(output.scale(), 1.25, "{transform:?}");
++        mem::forget(output);
++    }
++}
