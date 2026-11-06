@@ -82,6 +82,13 @@ in
   xdg.configFile = utils.linkDotfiles [
     "opencode"
     "rua"
+    # OpenChamber（OpenCode 的 Web UI，见 packages/openchamber.nix）的配置/数据根目录。
+    # 必须是「目录」链接：上游写 preferences.json/settings.json 用 tmp + rename
+    # 原子替换（settings-runtime.js 的 writeJsonFileAtomic），单文件软链会被 rename
+    # 直接换成普通文件。仓库里只跟踪 preferences.json（profile 作用域的偏好，跨机
+    # 同步），其余由 .dotfiles/openchamber/.gitignore 通配排除——settings.json 含
+    # desktopUiPassword / desktopLocalClientToken，还有 chats/、sqlite、语音模型。
+    "openchamber"
   ];
   xdg.desktopEntries = lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
     zcode = {
