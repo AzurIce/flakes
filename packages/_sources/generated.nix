@@ -8,18 +8,18 @@
 {
   chatgpt-aarch64-linux = {
     pname = "chatgpt-aarch64-linux";
-    version = "26.1021.22027";
+    version = "26.1029.61003";
     src = fetchurl {
-      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1021.22027_arm64.deb";
-      sha256 = "sha256-aN4exEBmhx5Bd7ocp5Pr7muiODl/E8eU5FsUlBwSYfs=";
+      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1029.61003_arm64.deb";
+      sha256 = "sha256-Rxmt+zP+aOe+zbgWnOpZRaKX67fjqplm3nwqlFJCvCs=";
     };
   };
   chatgpt-x86_64-linux = {
     pname = "chatgpt-x86_64-linux";
-    version = "26.1021.22027";
+    version = "26.1029.61003";
     src = fetchurl {
-      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1021.22027_amd64.deb";
-      sha256 = "sha256-6wgxxzTxVPk/jrzw4X0RjaDep9wXN9xhoecURDdb8ZA=";
+      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1029.61003_amd64.deb";
+      sha256 = "sha256-86+K/sXSXCKOtvTb2c/eD+p8peS0Kv8BRaHe0nPQGy0=";
     };
   };
   clipvault-aarch64-linux = {
@@ -40,98 +40,98 @@
   };
   dsh = {
     pname = "dsh";
-    version = "0.2.1-rc.4";
+    version = "0.2.2-rc.1";
     src = fetchurl {
-      url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.2.1-rc.4.tgz";
-      sha256 = "sha256-H93q0008lDt6Tu0dYU4U+hmSWANFXijFFBZFyvSwLRM=";
+      url = "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.2.2-rc.1.tgz";
+      sha256 = "sha256-rSGWiu0DN6MmuFNQeiOzDqy77E1nqwfztv3mm3WxnNY=";
     };
   };
   kimi-code-desktop-x86_64-linux = {
     pname = "kimi-code-desktop-x86_64-linux";
-    version = "1.1.4";
+    version = "1.3.1";
     src = fetchurl {
       url = "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage";
-      sha256 = "sha256-D005MlQ/aOoxLqE79zMawz3/NmS/yW9O1F4vuQF73n4=";
+      sha256 = "sha256-YKXmiT8PLFerIo18ccYICTcyamXViGyQfaYM/T6BFY0=";
     };
   };
   opencode-aarch64-darwin = {
     pname = "opencode-aarch64-darwin";
-    version = "1.19.4";
+    version = "1.19.5";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-darwin-arm64.zip";
-      sha256 = "sha256-xACi+MirfplHin9N0aRmtXvzOIjlINhcVXgKVGTEtok=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.5/opencode-darwin-arm64.zip";
+      sha256 = "sha256-wcnmJSEZIZLvTD7RNVraIUQFW922FoIhfpl7A8VSA8E=";
     };
   };
   opencode-aarch64-linux = {
     pname = "opencode-aarch64-linux";
-    version = "1.19.4";
+    version = "1.19.5";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-linux-arm64.tar.gz";
-      sha256 = "sha256-hWgjDM2Efck+lbn2iUN5B30+AUoWtIBAdDVz53wj6F8=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.5/opencode-linux-arm64.tar.gz";
+      sha256 = "sha256-+uW+Ji1pO3xeVihWzEc+WedBdyk22wwGAKwNXtW9CIs=";
     };
   };
   opencode-x86_64-darwin = {
     pname = "opencode-x86_64-darwin";
-    version = "1.19.4";
+    version = "1.19.5";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-darwin-x64.zip";
-      sha256 = "sha256-Ej69cmCcT4264Ehc2sObmu3+tldrLu9k8ucxUrHegvQ=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.5/opencode-darwin-x64.zip";
+      sha256 = "sha256-sCEu+m2zRxhyJaF/o6McayYb9MnxWJopCwypAtcg0lA=";
     };
   };
   opencode-x86_64-linux = {
     pname = "opencode-x86_64-linux";
-    version = "1.19.4";
+    version = "1.19.5";
     src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-linux-x64.tar.gz";
-      sha256 = "sha256-hJvWs9lZodLvIA7RY0pRx5pFyiNqomZl113r1pSAXM4=";
+      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.5/opencode-linux-x64.tar.gz";
+      sha256 = "sha256-WIMQozb6O53zaz8CJbJvZ51FPvqtDPPWbDZR7z7BZHo=";
     };
   };
   photocraft-aarch64-linux = {
     pname = "photocraft-aarch64-linux";
-    version = "0.16.0";
+    version = "0.20.2";
     src = fetchurl {
-      url = "https://github.com/storytold/photocraft/releases/download/v0.16.0/photocraft-0.16.0-linux-aarch64.tar.gz";
-      sha256 = "sha256-m5mDdqSHamIIQvBFb3lpWxR5UNbxc5MO5NXadRMD4Qs=";
+      url = "https://github.com/storytold/photocraft/releases/download/v0.20.2/photocraft-0.20.2-linux-aarch64.tar.gz";
+      sha256 = "sha256-ocN2HRMtnsFiaR1Q8G7ZhHO83ArtfBcaCX35rc/DgHI=";
     };
   };
   photocraft-x86_64-linux = {
     pname = "photocraft-x86_64-linux";
-    version = "0.16.0";
+    version = "0.20.2";
     src = fetchurl {
-      url = "https://github.com/storytold/photocraft/releases/download/v0.16.0/photocraft-0.16.0-linux-x86_64.tar.gz";
-      sha256 = "sha256-fBfzYz6/favydiji0mN9kYx8KlsWO4uQNHp4rN32Ngg=";
+      url = "https://github.com/storytold/photocraft/releases/download/v0.20.2/photocraft-0.20.2-linux-x86_64.tar.gz";
+      sha256 = "sha256-CeAT1o2DE+sLHNbyRhL1tf0NmT//46fBLOzf5c0TGkY=";
     };
   };
   pi-aarch64-darwin = {
     pname = "pi-aarch64-darwin";
-    version = "1.4.0";
+    version = "1.5.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.4.0/pi-darwin-arm64.tar.gz";
-      sha256 = "sha256-edmXnXaipa23wo4n6bRGKZKMzQ3J+7aucheGC9Xovl0=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.5.0/pi-darwin-arm64.tar.gz";
+      sha256 = "sha256-qb8NgtWNKn0zf0rkFxtfyev/5CUJUnqDE2TEtlrfLN8=";
     };
   };
   pi-aarch64-linux = {
     pname = "pi-aarch64-linux";
-    version = "1.4.0";
+    version = "1.5.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.4.0/pi-linux-arm64.tar.gz";
-      sha256 = "sha256-+lgpx++D/+rrugFXFcgwYiD4myqooAFU77upjdVEAVY=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.5.0/pi-linux-arm64.tar.gz";
+      sha256 = "sha256-XVcRtIYAdWRzaC6GNgsCaxGr91keXREutBHU2iwQDZo=";
     };
   };
   pi-x86_64-darwin = {
     pname = "pi-x86_64-darwin";
-    version = "1.4.0";
+    version = "1.5.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.4.0/pi-darwin-x64.tar.gz";
-      sha256 = "sha256-G978nhB0wd5Fjqny5D5gE85JzQUyYAmz3hRANwNlheI=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.5.0/pi-darwin-x64.tar.gz";
+      sha256 = "sha256-9BsmzZoXVKviWeBaQh+zOwCTZ3nLB4PIk6Y4nRvS7g0=";
     };
   };
   pi-x86_64-linux = {
     pname = "pi-x86_64-linux";
-    version = "1.4.0";
+    version = "1.5.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.4.0/pi-linux-x64.tar.gz";
-      sha256 = "sha256-8uTkMpYDIj0DJgzbi9UDPb3B9zuliriTnbLlZUbhFdI=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.5.0/pi-linux-x64.tar.gz";
+      sha256 = "sha256-34cLoONEy3szWNjY8ZOXuLjSJahml4RzataKXCFp1Ts=";
     };
   };
   rea = {
@@ -176,18 +176,18 @@
   };
   step-code-aarch64-linux = {
     pname = "step-code-aarch64-linux";
-    version = "0.1.6";
+    version = "0.1.7";
     src = fetchurl {
-      url = "https://static-openapi.stepfun.com/stepcode/0.1.6/step-0.1.6-linux-arm64.tar.gz";
-      sha256 = "sha256-YTj14Pk1+y7Jcp87T0T6K/UaPYl6TtMMPYIzJFfS720=";
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.7/step-0.1.7-linux-arm64.tar.gz";
+      sha256 = "sha256-KX3PuBNpHPwnKqBcKvKJjtyAUGHoMAyPC3oo2IcUmA0=";
     };
   };
   step-code-x86_64-linux = {
     pname = "step-code-x86_64-linux";
-    version = "0.1.6";
+    version = "0.1.7";
     src = fetchurl {
-      url = "https://static-openapi.stepfun.com/stepcode/0.1.6/step-0.1.6-linux-x64.tar.gz";
-      sha256 = "sha256-MBCp8bQ6GQ1qh4f8bJoC/UJXeT1d0+RU6ZUGF6tuVHQ=";
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.7/step-0.1.7-linux-x64.tar.gz";
+      sha256 = "sha256-5HAwq+aK9t7tQYbbG01z7Yu6UnnBGeLtwv5EULBFN/Q=";
     };
   };
 }
