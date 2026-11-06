@@ -16,19 +16,6 @@
      }
  
      /// return the physical_size
---- a/libwayshot/src/lib.rs
-+++ b/libwayshot/src/lib.rs
-@@ -1341,7 +1341,9 @@
-                     layer_event_queue.blocking_dispatch(&mut state)?;
-                 }
- 
--                surface.set_buffer_transform(output_info.transform);
-+                surface.set_buffer_transform(
-+                    frame_guard.transform.unwrap_or(output_info.transform),
-+                );
-                 // surface.set_buffer_scale(output_info.scale());
-                 surface.attach(Some(&frame_guard.buffer), 0, 0);
- 
 --- a/libwayshot/src/tests/output.rs
 +++ b/libwayshot/src/tests/output.rs
 @@ -407,3 +407,36 @@
