@@ -29,6 +29,11 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -150,6 +155,14 @@
       );
 
       nixosConfigurations.azurblade = import ./hosts/azurblade (
+        host-inputs
+        // {
+          system = "x86_64-linux";
+          mac = false;
+        }
+      );
+
+      nixosConfigurations.tencent = import ./hosts/tencent (
         host-inputs
         // {
           system = "x86_64-linux";
