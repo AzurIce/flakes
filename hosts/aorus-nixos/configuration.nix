@@ -20,6 +20,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "aorus-nixos"; # Define your hostname.
+  # Keep Xwayland connection paths during long-running desktop sessions.
+  # Only exclude socket entries from age-based cleanup; retain boot cleanup.
+  systemd.tmpfiles.rules = [
+    "x /tmp/.X11-unix/X* - - - -"
+  ];
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
@@ -113,7 +118,6 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
   users.users = {
@@ -125,6 +129,7 @@
       extraGroups = [
         "wheel"
         "uinput" # Sunshine 虚拟手柄、鼠标和键盘
+        "adbusers"
       ];
       packages = with pkgs; [
         # firefox
@@ -136,6 +141,7 @@
           commandLineArgs = "--enable-unsafe-webgpu --enable-dawn-features=disable_adapter_blocklist";
         })
         # wlx-overlay-s
+        android-tools
         gamescope
         python3 # for ai simple use
       ];
@@ -286,6 +292,9 @@
   # Open ports in the firewall.
   # CharaForge 本地角色扮演应用（手机经局域网访问）
   networking.firewall.allowedTCPPorts = [ 3000 ];
+  # 局域网网卡全端口放行（手机访问 notist 等本地服务）
+  # 注意：enp9s0 同时是默认路由出口，公网 IPv6 入站也会一并放行
+  networking.firewall.trustedInterfaces = [ "enp9s0" ];
   # Palworld dedicated server: 8211 游戏端口(直接 IP 加入只需这个;27015 为社区列表查询端口,需要时再加)
   networking.firewall.allowedUDPPorts = [ 8211 ];
   # Or disable the firewall altogether.
