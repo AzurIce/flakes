@@ -142,6 +142,7 @@
         })
         # wlx-overlay-s
         android-tools
+        pulseaudio
         gamescope
         python3 # for ai simple use
       ];
@@ -299,6 +300,10 @@
   networking.firewall.allowedUDPPorts = [ 8211 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
