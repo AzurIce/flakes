@@ -1,0 +1,543 @@
+Subject: [PATCH] Cancel socket I/O and handle TCP EOF during connection teardown
+
+Base: alvr-org/ALVR e8ca92b15d7c93765f828ca245f26de678c7f154
+Related: https://github.com/alvr-org/ALVR/issues/3190
+
+Do not force Disconnecting back to Disconnected while old workers still exist.
+Handle EOF and fragmented prefixes without spinning, interrupt blocking I/O
+before joining workers, and release state locks before acquiring sender locks.
+The shared socket changes and client teardown also apply to Android builds.
+
+diff --git a/alvr/client_core/src/connection.rs b/alvr/client_core/src/connection.rs
+--- a/alvr/client_core/src/connection.rs
++++ b/alvr/client_core/src/connection.rs
+@@ -264,6 +264,8 @@ fn connection_pipeline(
+ 
+     info!("Connected to server");
+ 
++    let shutdown_handle = alvr_sockets::ConnectionShutdown::new(&control_sender, &stream_socket)?;
++
+     let mut video_receiver =
+         stream_socket.subscribe_to_stream::<VideoPacketHeader>(VIDEO, MAX_UNREAD_PACKETS);
+     let mut game_audio_receiver = stream_socket.subscribe_to_stream(AUDIO, MAX_UNREAD_PACKETS);
+@@ -566,6 +568,12 @@ fn connection_pipeline(
+ 
+     *connection_state_lock = ConnectionState::Disconnecting;
+ 
++    // Let streaming workers observe the new state before waiting for their sender locks.
++    drop(connection_state_lock);
++
++    // Interrupt socket I/O before acquiring sender locks or joining streaming workers.
++    shutdown_handle.shutdown();
++
+     *ctx.control_sender.lock() = None;
+     *ctx.tracking_sender.lock() = None;
+     *ctx.statistics_sender.lock() = None;
+@@ -575,9 +583,6 @@ fn connection_pipeline(
+         .lock()
+         .push_back(ClientCoreEvent::StreamingStopped);
+ 
+-    // Remove lock to allow threads to properly exit:
+-    drop(connection_state_lock);
+-
+     dbg_connection!("connection_pipeline: Destroying streams");
+ 
+     video_receive_thread.join().ok();
+diff --git a/alvr/server_core/src/connection.rs b/alvr/server_core/src/connection.rs
+--- a/alvr/server_core/src/connection.rs
++++ b/alvr/server_core/src/connection.rs
+@@ -907,6 +907,7 @@ fn connection_pipeline(
+ 
+     dbg_connection!("connection_pipeline: Handshake successful, spawning threads");
+ 
++    let shutdown_handle = socket.shutdown_handle()?;
+     let disconnect_notif = Arc::new(Condvar::new());
+ 
+     *ctx.statistics_manager.write() = Some(StatisticsManager::new(
+@@ -1467,12 +1468,6 @@ fn connection_pipeline(
+     alvr_common::wait_rwlock(&disconnect_notif, &mut session_manager_lock);
+     dbg_connection!("connection_pipeline: Begin connection shutdown");
+ 
+-    // This requests shutdown from threads
+-    *ctx.video_channel_sender.lock() = None;
+-    *ctx.haptics_sender.lock() = None;
+-
+-    *ctx.video_recording_file.lock() = None;
+-
+     session_manager_lock.update_client_connections(
+         client_hostname,
+         ClientConnectionsAction::SetConnectionState(ConnectionState::Disconnecting),
+@@ -1482,6 +1477,19 @@ fn connection_pipeline(
+         .settings()
+         .connection
+         .enable_on_disconnect_script;
++
++    // Producers can hold a sender lock while reading SESSION_MANAGER. Release the session
++    // write lock before acquiring those locks, and let workers observe Disconnecting.
++    drop(session_manager_lock);
++
++    // Cancel I/O without acquiring a sender lock before waiting for workers to finish.
++    // A sleeping wired client may otherwise leave a TCP send or receive blocked indefinitely.
++    shutdown_handle.shutdown();
++
++    *ctx.video_channel_sender.lock() = None;
++    *ctx.haptics_sender.lock() = None;
++    *ctx.video_recording_file.lock() = None;
++
+     if enable_on_disconnect_script {
+         let on_disconnect_script = FILESYSTEM_LAYOUT
+             .get()
+@@ -1499,9 +1507,6 @@ fn connection_pipeline(
+         }
+     }
+ 
+-    // Allow threads to shutdown correctly
+-    drop(session_manager_lock);
+-
+     // Ensure shutdown of threads
+     dbg_connection!("connection_pipeline: Shutdown threads");
+     video_send_thread.join().ok();
+diff --git a/alvr/sockets/src/control_socket.rs b/alvr/sockets/src/control_socket.rs
+--- a/alvr/sockets/src/control_socket.rs
++++ b/alvr/sockets/src/control_socket.rs
+@@ -107,30 +107,37 @@ fn framed_recv<R: DeserializeOwned>(
+ ) -> ConResult<R> {
+     let deadline = Instant::now() + timeout;
+ 
+-    let recv_cursor_ref = if let Some(cursor) = recv_cursor {
+-        cursor
+-    } else {
+-        let mut payload_size_bytes = [0; FRAMED_PREFIX_LENGTH];
+-
+-        loop {
+-            let count = socket.peek(&mut payload_size_bytes).handle_try_again()?;
+-            if count == FRAMED_PREFIX_LENGTH {
+-                break;
+-            } else if Instant::now() > deadline {
+-                return alvr_common::try_again();
+-            }
++    let recv_cursor_ref = recv_cursor.get_or_insert_with(|| {
++        buffer.resize(FRAMED_PREFIX_LENGTH, 0);
++        0
++    });
++
++    while *recv_cursor_ref < FRAMED_PREFIX_LENGTH {
++        let count = socket
++            .read(&mut buffer[*recv_cursor_ref..FRAMED_PREFIX_LENGTH])
++            .handle_try_again()?;
++        if count == 0 {
++            con_bail!("Control socket closed while receiving packet prefix");
+         }
++        *recv_cursor_ref += count;
++        if *recv_cursor_ref < FRAMED_PREFIX_LENGTH && Instant::now() > deadline {
++            return alvr_common::try_again();
++        }
++    }
+ 
+-        let size = FRAMED_PREFIX_LENGTH + u32::from_le_bytes(payload_size_bytes) as usize;
+-        buffer.resize(size, 0);
+-
+-        recv_cursor.insert(0)
+-    };
++    if buffer.len() == FRAMED_PREFIX_LENGTH {
++        let payload_size = u32::from_le_bytes(buffer[..FRAMED_PREFIX_LENGTH].try_into().unwrap());
++        buffer.resize(FRAMED_PREFIX_LENGTH + payload_size as usize, 0);
++    }
+ 
+-    loop {
+-        *recv_cursor_ref += socket
++    while *recv_cursor_ref < buffer.len() {
++        let count = socket
+             .read(&mut buffer[*recv_cursor_ref..])
+             .handle_try_again()?;
++        if count == 0 {
++            con_bail!("Control socket closed while receiving packet payload");
++        }
++        *recv_cursor_ref += count;
+ 
+         if *recv_cursor_ref == buffer.len() {
+             break;
+@@ -238,3 +245,50 @@ impl ProtoControlSocket {
+         ))
+     }
+ }
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use alvr_common::ConnectionError;
++    use std::{net::Shutdown, sync::mpsc, thread};
++
++    fn assert_eof(bytes: &[u8]) {
++        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
++        let mut peer = TcpStream::connect(listener.local_addr().unwrap()).unwrap();
++        let (mut socket, _) = listener.accept().unwrap();
++        socket
++            .set_read_timeout(Some(Duration::from_millis(100)))
++            .unwrap();
++        peer.write_all(bytes).unwrap();
++        peer.shutdown(Shutdown::Write).unwrap();
++        let (tx, rx) = mpsc::channel();
++        thread::spawn(move || {
++            tx.send(framed_recv::<u32>(
++                &mut socket,
++                &mut vec![],
++                &mut None,
++                Duration::from_millis(100),
++            ))
++            .unwrap();
++        });
++        assert!(matches!(
++            rx.recv_timeout(Duration::from_secs(2)).unwrap(),
++            Err(ConnectionError::Other(_))
++        ));
++    }
++
++    #[test]
++    fn eof_before_prefix() {
++        assert_eof(&[]);
++    }
++
++    #[test]
++    fn eof_during_prefix() {
++        assert_eof(&[4, 0]);
++    }
++
++    #[test]
++    fn eof_during_payload() {
++        assert_eof(&[4, 0, 0, 0, 1]);
++    }
++}
+diff --git a/alvr/sockets/src/lib.rs b/alvr/sockets/src/lib.rs
+--- a/alvr/sockets/src/lib.rs
++++ b/alvr/sockets/src/lib.rs
+@@ -8,7 +8,7 @@ use serde::{Serialize, de::DeserializeOwned};
+ use socket2::Socket;
+ use std::{
+     marker::PhantomData,
+-    net::{IpAddr, Ipv4Addr, TcpListener},
++    net::{IpAddr, Ipv4Addr, Shutdown, TcpListener, TcpStream},
+     time::Duration,
+ };
+ 
+@@ -153,7 +153,36 @@ pub struct SocketConnection {
+     stream_socket: StreamSocket,
+ }
+ 
++// Independent of the send locks, so teardown can interrupt blocked I/O before joining threads.
++pub struct ConnectionShutdown {
++    control: TcpStream,
++    stream: Option<TcpStream>,
++}
++
++impl ConnectionShutdown {
++    pub fn new<T>(control: &ControlSocketSender<T>, stream: &StreamSocket) -> ConResult<Self> {
++        Ok(Self {
++            control: control.inner.try_clone().to_con()?,
++            stream: stream.shutdown_handle().to_con()?,
++        })
++    }
++
++    pub fn shutdown(&self) {
++        self.control.shutdown(Shutdown::Both).ok();
++        if let Some(stream) = &self.stream {
++            stream.shutdown(Shutdown::Both).ok();
++        }
++    }
++}
++
+ impl SocketConnection {
++    pub fn shutdown_handle(&self) -> ConResult<ConnectionShutdown> {
++        Ok(ConnectionShutdown {
++            control: self.control_socket.inner.try_clone().to_con()?,
++            stream: self.stream_socket.shutdown_handle().to_con()?,
++        })
++    }
++
+     // Note: the timeout resets after each internal operation
+     pub fn from_client_connection(
+         mut control_socket: ProtoControlSocket,
+diff --git a/alvr/sockets/src/stream_socket/mod.rs b/alvr/sockets/src/stream_socket/mod.rs
+--- a/alvr/sockets/src/stream_socket/mod.rs
++++ b/alvr/sockets/src/stream_socket/mod.rs
+@@ -30,7 +30,7 @@ use std::{
+     collections::HashMap,
+     marker::PhantomData,
+     mem,
+-    net::{IpAddr, TcpListener, UdpSocket},
++    net::{IpAddr, TcpListener, TcpStream, UdpSocket},
+     ops::{Deref, DerefMut},
+     sync::{Arc, mpsc},
+     time::Duration,
+@@ -57,6 +57,10 @@ struct StreamRecvQueues {
+ trait MultiplexedSocketReader {
+     fn payload_offset(&self) -> usize;
+ 
++    fn shutdown_handle(&self) -> Result<Option<TcpStream>> {
++        Ok(None)
++    }
++
+     fn recv(&mut self, stream_queues: &HashMap<u16, StreamRecvQueues>) -> ConResult;
+ }
+ 
+@@ -328,6 +332,10 @@ pub struct StreamSocket {
+ }
+ 
+ impl StreamSocket {
++    pub(crate) fn shutdown_handle(&self) -> Result<Option<TcpStream>> {
++        self.receive_socket.shutdown_handle()
++    }
++
+     pub fn request_stream<T>(&self, stream_id: u16) -> StreamSender<T> {
+         StreamSender {
+             inner: Arc::clone(&self.send_socket),
+diff --git a/alvr/sockets/src/stream_socket/tcp.rs b/alvr/sockets/src/stream_socket/tcp.rs
+--- a/alvr/sockets/src/stream_socket/tcp.rs
++++ b/alvr/sockets/src/stream_socket/tcp.rs
+@@ -119,6 +119,8 @@ struct InProgressPacket {
+ 
+ pub struct MultiplexedTcpReader {
+     inner: Socket,
++    prefix: [u8; PACKET_PREFIX_SIZE],
++    prefix_cursor: usize,
+     in_progress_packet: Option<InProgressPacket>,
+     used_buffers_poll_timeout: Duration,
+ }
+@@ -128,24 +130,30 @@ impl MultiplexedSocketReader for MultiplexedTcpReader {
+         PACKET_PREFIX_SIZE
+     }
+ 
++    fn shutdown_handle(&self) -> Result<Option<TcpStream>> {
++        Ok(Some(self.inner.try_clone()?.into()))
++    }
++
+     fn recv(&mut self, stream_queues: &HashMap<u16, StreamRecvQueues>) -> ConResult {
+         let in_progress_packet = if let Some(packet) = &mut self.in_progress_packet {
+             packet
+         } else {
+-            let mut prefix_bytes = [0u8; PACKET_PREFIX_SIZE];
+-
+-            loop {
++            if self.prefix_cursor < PACKET_PREFIX_SIZE {
++                let prefix_bytes = &mut self.prefix[self.prefix_cursor..];
+                 let count = self
+                     .inner
+-                    .peek(unsafe {
+-                        &mut *(&mut prefix_bytes as *mut [u8] as *mut [MaybeUninit<u8>])
+-                    })
++                    .recv(unsafe { &mut *(prefix_bytes as *mut [u8] as *mut [MaybeUninit<u8>]) })
+                     .handle_try_again()?;
+-                if count == PACKET_PREFIX_SIZE {
+-                    break;
++                if count == 0 {
++                    con_bail!("Stream socket closed while receiving packet prefix");
++                }
++                self.prefix_cursor += count;
++                if self.prefix_cursor < PACKET_PREFIX_SIZE {
++                    return alvr_common::try_again();
+                 }
+             }
+ 
++            let prefix_bytes = &self.prefix;
+             let stream_id = u16::from_le_bytes(prefix_bytes[0..2].try_into().unwrap());
+             let packet_index = u32::from_le_bytes(prefix_bytes[2..6].try_into().unwrap());
+             let payload_size = u32::from_le_bytes(prefix_bytes[6..10].try_into().unwrap()) as usize;
+@@ -164,21 +172,34 @@ impl MultiplexedSocketReader for MultiplexedTcpReader {
+ 
+             buffer.clear();
+             buffer.reserve(PACKET_PREFIX_SIZE + payload_size);
++            // The prefix was consumed separately; retain the original buffer layout.
++            buffer.extend_from_slice(prefix_bytes);
++            self.prefix_cursor = 0;
+ 
+             self.in_progress_packet.insert(InProgressPacket {
+                 stream_id,
+                 packet_index,
+                 buffer,
+                 buffer_size: PACKET_PREFIX_SIZE + payload_size,
+-                cursor: 0,
++                cursor: PACKET_PREFIX_SIZE,
+             })
+         };
+ 
+         while in_progress_packet.cursor < in_progress_packet.buffer_size {
+-            let sub_buffer = &mut in_progress_packet.buffer.spare_capacity_mut()
+-                [in_progress_packet.cursor..in_progress_packet.buffer_size];
+-
+-            in_progress_packet.cursor += self.inner.recv(sub_buffer).handle_try_again()?;
++            let initialized_len = in_progress_packet.buffer.len();
++            let sub_buffer = &mut in_progress_packet.buffer.spare_capacity_mut()[in_progress_packet
++                .cursor
++                - initialized_len
++                ..in_progress_packet.buffer_size - initialized_len];
++
++            let count = self.inner.recv(sub_buffer).handle_try_again()?;
++            if count == 0 {
++                con_bail!("Stream socket closed while receiving packet payload");
++            }
++            in_progress_packet.cursor += count;
++            if in_progress_packet.cursor < in_progress_packet.buffer_size {
++                return alvr_common::try_again();
++            }
+         }
+ 
+         // All writing was done to uninit capacity, here we set the final buffer length
+@@ -219,9 +240,158 @@ pub fn split_multiplexed(
+ 
+     let reader = MultiplexedTcpReader {
+         inner: socket.into(),
++        prefix: [0; PACKET_PREFIX_SIZE],
++        prefix_cursor: 0,
+         in_progress_packet: None,
+         used_buffers_poll_timeout,
+     };
+ 
+     Ok((Box::new(writer), Box::new(reader)))
+ }
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use alvr_common::ConnectionError;
++    use std::{io::Write, net::Shutdown, sync::mpsc, thread};
++
++    fn pair() -> (TcpStream, MultiplexedTcpReader) {
++        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
++        let peer = TcpStream::connect(listener.local_addr().unwrap()).unwrap();
++        let (socket, _) = listener.accept().unwrap();
++        socket
++            .set_read_timeout(Some(Duration::from_millis(100)))
++            .unwrap();
++        (
++            peer,
++            MultiplexedTcpReader {
++                inner: socket.into(),
++                prefix: [0; PACKET_PREFIX_SIZE],
++                prefix_cursor: 0,
++                in_progress_packet: None,
++                used_buffers_poll_timeout: Duration::from_millis(100),
++            },
++        )
++    }
++
++    fn packet(payload: &[u8]) -> Vec<u8> {
++        let mut bytes = Vec::new();
++        bytes.extend_from_slice(&1u16.to_le_bytes());
++        bytes.extend_from_slice(&0u32.to_le_bytes());
++        bytes.extend_from_slice(&(payload.len() as u32).to_le_bytes());
++        bytes.extend_from_slice(payload);
++        bytes
++    }
++
++    fn assert_eof(bytes: &[u8]) {
++        let (mut peer, mut reader) = pair();
++        peer.write_all(bytes).unwrap();
++        peer.shutdown(Shutdown::Write).unwrap();
++        let (tx, rx) = mpsc::channel();
++        thread::spawn(move || {
++            for _ in 0..8 {
++                match reader.recv(&HashMap::new()) {
++                    Err(ConnectionError::TryAgain(_)) => continue,
++                    result => {
++                        tx.send(result).unwrap();
++                        return;
++                    }
++                }
++            }
++        });
++        assert!(matches!(
++            rx.recv_timeout(Duration::from_secs(2)).unwrap(),
++            Err(ConnectionError::Other(_))
++        ));
++    }
++
++    #[test]
++    fn eof_before_prefix() {
++        assert_eof(&[]);
++    }
++
++    #[test]
++    fn eof_during_prefix() {
++        assert_eof(&packet(b"hello")[..3]);
++    }
++
++    #[test]
++    fn eof_during_payload() {
++        assert_eof(&packet(b"hello")[..PACKET_PREFIX_SIZE + 2]);
++    }
++
++    #[test]
++    fn fragmented_packet_survives_retries() {
++        let (mut peer, mut reader) = pair();
++        let bytes = packet(b"hello");
++        let (used_tx, used_rx) = mpsc::channel();
++        used_tx.send(Vec::new()).unwrap();
++        let (packet_tx, packet_rx) = mpsc::channel();
++        let queues = HashMap::from([(
++            1,
++            StreamRecvQueues {
++                used_buffer_sender: used_tx,
++                used_buffer_receiver: used_rx,
++                packet_queue: packet_tx,
++            },
++        )]);
++        peer.write_all(&bytes[..3]).unwrap();
++        assert!(matches!(
++            reader.recv(&queues),
++            Err(ConnectionError::TryAgain(_))
++        ));
++        peer.write_all(&bytes[3..PACKET_PREFIX_SIZE + 2]).unwrap();
++        assert!(matches!(
++            reader.recv(&queues),
++            Err(ConnectionError::TryAgain(_))
++        ));
++        // An idle peer must return control, keeping the partially received payload.
++        assert!(matches!(
++            reader.recv(&queues),
++            Err(ConnectionError::TryAgain(_))
++        ));
++        peer.write_all(&bytes[PACKET_PREFIX_SIZE + 2..]).unwrap();
++        assert!(reader.recv(&queues).is_ok());
++        assert_eq!(packet_rx.recv().unwrap().buffer, bytes);
++    }
++
++    #[test]
++    fn shutdown_interrupts_receive() {
++        let (_peer, mut reader) = pair();
++        reader.inner.set_read_timeout(None).unwrap();
++        let shutdown = reader.shutdown_handle().unwrap().unwrap();
++        let (tx, rx) = mpsc::channel();
++        thread::spawn(move || {
++            tx.send(reader.recv(&HashMap::new())).unwrap();
++        });
++        shutdown.shutdown(Shutdown::Both).unwrap();
++        assert!(matches!(
++            rx.recv_timeout(Duration::from_secs(2)).unwrap(),
++            Err(ConnectionError::Other(_))
++        ));
++    }
++
++    #[test]
++    fn shutdown_interrupts_send() {
++        let (_peer, reader) = pair();
++        reader.inner.set_send_buffer_size(4096).unwrap();
++        let shutdown = reader.shutdown_handle().unwrap().unwrap();
++        let mut writer = MultiplexedTcpWriter {
++            inner: reader.inner.try_clone().unwrap().into(),
++        };
++        let (started_tx, started_rx) = mpsc::channel();
++        let (tx, rx) = mpsc::channel();
++        thread::spawn(move || {
++            let mut buffer = vec![0; 8 * 1024 * 1024];
++            started_tx.send(()).unwrap();
++            tx.send(writer.send(1, 0, &mut buffer)).unwrap();
++        });
++        started_rx.recv_timeout(Duration::from_secs(2)).unwrap();
++        assert!(matches!(
++            rx.recv_timeout(Duration::from_millis(100)),
++            Err(mpsc::RecvTimeoutError::Timeout)
++        ));
++        shutdown.shutdown(Shutdown::Both).unwrap();
++        assert!(rx.recv_timeout(Duration::from_secs(2)).unwrap().is_err());
++    }
++}
