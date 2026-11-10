@@ -49,6 +49,7 @@
     extraGroups = [ "wheel" "docker" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPdDd1Nv4nuOU5jc1P+BTl+o78JkBGfDWTgKIRFsyc3j azurice@aorus-nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQxAwCoz5CKzzVqLSMl6xODRk+b/nEhnXZ+XJu5qkYv github-actions@icexiv-market"
     ];
   };
   # 没有给用户设密码，先靠 key 登录；sudo 免密方便种子机使用。
@@ -78,10 +79,49 @@
   virtualisation.docker.enable = true;
   services.caddy.enable = true;
   services.caddy.extraConfig = ''
+    # 静态站点由 GitHub Actions 构建后 rsync 到 /srv/market.icexiv.top/www。
+    (market_site) {
+      encode zstd gzip
+      root * /srv/market.icexiv.top/www
+
+      @immutable path /assets/* /items/*
+      header @immutable Cache-Control "public, max-age=31536000, immutable"
+      @html path / /index.html /render.html
+      header @html Cache-Control "public, max-age=0, must-revalidate"
+      header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy strict-origin-when-cross-origin
+      }
+
+      handle /items/* {
+        file_server
+      }
+      handle {
+        try_files {path} /index.html
+        file_server
+      }
+    }
+
+    # 域名入口：DNS 指向本机后自动申请证书，HTTP 自动跳转 HTTPS。
+    market.icexiv.top {
+      import market_site
+    }
+
+    # 备案/解析切换前可直接用 IP 验证。
+    http://82.156.196.54 {
+      import market_site
+    }
+
+    # 其它域名仍保留占位页。
     :80 {
       respond "tencent seed server" 200
     }
   '';
+
+  systemd.tmpfiles.rules = [
+    "d /srv/market.icexiv.top 0755 ${user} users -"
+    "d /srv/market.icexiv.top/www 0755 ${user} users -"
+  ];
 
   environment.systemPackages = with pkgs; [
     git
