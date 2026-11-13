@@ -31,7 +31,6 @@ inputs@{ pkgs, system, ... }:
       pandoc
       python3
       raycast
-      vscode
       cargo
       lua51Packages.luarocks
       lua51Packages.lua
