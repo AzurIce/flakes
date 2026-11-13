@@ -7,20 +7,23 @@ inputs@{
 
 {
   imports = [
-    ../../home/utils.nix
-    ../../home/programs/git.nix
-    ../../home/programs/alacritty.nix
-    ../../home/programs/helix.nix
-    ../../home/programs/zellij.nix
-    ../../home/programs/zsh.nix
-    ../../home/programs/rio.nix
-
-    ../../home/ai
+    ../../home
     ../../home/fonts.nix
+    ../../home/programs/zsh.nix
+    ../../home/ai
+
+    ../../home/programs/kitty.nix
+    ../../home/programs/yazi.nix
+    ../../home/programs/herdr.nix
+
+    ../../home/utils.nix
+    ../../home/programs/alacritty.nix
+    ../../home/programs/git.nix
+    ../../home/programs/helix.nix
+
     ../../modules/programs/nvim.nix
     ../../modules/programs/typora/home.nix
     #../../modules/programs/maa/home.nix
-    ../../modules/programs/kitty.nix
     ../../modules/programs/caddy.nix
     #../../modules/programs/rime.nix
     # ../../modules/programs/obs-studio/home.nix
@@ -31,7 +34,6 @@ inputs@{
     homeDirectory = "/Users/${user}";
     packages = with pkgs; [
       btop
-      # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.splitrail
     ];
   };

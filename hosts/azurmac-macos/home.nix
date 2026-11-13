@@ -71,6 +71,7 @@ in
       btop
       sketchybar
       eza
+      gh
       # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cc-switch
       # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.revelo
       # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.mlx-vlm

@@ -20,6 +20,7 @@ inputs@{ pkgs, system, ... }:
       fzf
       yazi
 
+      ghostty-bin
       ollama
       rust-analyzer
       nixd
@@ -196,7 +197,7 @@ inputs@{ pkgs, system, ... }:
       # "typora"
       #"todesk"
       "github"
-      "ghostty"
+      # "ghostty@tip"
       # "karabiner-elements"
       # "sfm"
     ];

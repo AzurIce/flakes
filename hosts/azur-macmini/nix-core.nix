@@ -23,7 +23,7 @@
   # services.nix-daemon.enable = true;
 
   # nix.package = pkgs.nix;
-  nix.package = pkgs.nixVersions.latest;
+  nix.package = pkgs.lixPackageSets.stable.lix;
   programs.nix-index.enable = true;
 
   nix.gc = {

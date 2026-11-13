@@ -4,6 +4,18 @@ nix-darwin.lib.darwinSystem {
   specialArgs = inputs;
   modules = [
     { nixpkgs.hostPlatform = inputs.system; }
+    {
+      nixpkgs.overlays = [
+        (final: prev: {
+          inherit (prev.lixPackageSets.stable)
+            nixpkgs-review
+            nix-eval-jobs
+            nix-fast-build
+            colmena
+            ;
+        })
+      ];
+    }
     ./nix-core.nix
     ./system.nix
     ./apps.nix
