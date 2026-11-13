@@ -7,7 +7,7 @@
 let
   caddyBase = pkgs.caddy.withPlugins {
     plugins = [ "github.com/caddy-dns/duckdns@v0.5.0" ];
-    hash = "sha256-1nx8y8vrE3MubRMqviM5mYqCK3d0SLkXI0Ts8eWBmdc=";
+    hash = "sha256-IJkUtJc9Gz9WnHyBmHXTjXI6K1wyHQoVRRP8l3A3na0=";
   };
   caddy = caddyBase.overrideAttrs (old: {
     src = old.src.overrideAttrs (source: {
