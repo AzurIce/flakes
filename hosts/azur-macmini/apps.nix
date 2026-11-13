@@ -183,6 +183,7 @@ inputs@{ pkgs, system, ... }:
     # `brew install`
     # TODO Feel free to add your favorite apps here.
     brews = [
+      "dnsmasq"
       "moltis-org/tap/moltis"
       # "sing-box"
     ];
