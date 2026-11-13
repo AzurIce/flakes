@@ -1,5 +1,5 @@
 # 保留 comfyui-nix 的 CUDA 包装与依赖，只更新本机需要的核心及配套版本。
-# 上游 nix/versions.nix 仍固定 0.37.0；FLUX 3 Image 需要更新后的核心。
+# H3-Image 等模型需要更新后的核心及配套前端。
 {
   upstream,
   system ? "x86_64-linux",

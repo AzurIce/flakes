@@ -9,8 +9,7 @@
 {
   services.openchamber = {
     enable = false;
-    # 用本 flake 重烤过 bunDeps 哈希的 server 包；上游默认包会 hash mismatch，
-    # 见 packages/openchamber.nix
+    # 与桌面版共用 packages/openchamber.nix 中的包定义。
     package = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.openchamber;
     # user = "azurice"; # 以本人身份跑，能直接看到我的项目 / SSH key / opencode 配置
   };
