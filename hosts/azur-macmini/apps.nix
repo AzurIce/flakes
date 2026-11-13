@@ -92,6 +92,8 @@ inputs@{ pkgs, system, ... }:
   ];
   services.openssh.enable = true;
 
+  services.tailscale.enable = true;
+
   launchd.user.agents.aria2 = {
     serviceConfig.ProgramArguments = [ "${pkgs.aria2}/bin/aria2c" ];
     serviceConfig.RunAtLoad = true;
