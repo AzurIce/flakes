@@ -38,6 +38,9 @@ inputs@{
     ];
   };
 
+  home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/flakes/.dotfiles/.claude";
+
   # home.file.".yabairc".text = ''
   #   # layout
   #   yabai -m config layout bsp

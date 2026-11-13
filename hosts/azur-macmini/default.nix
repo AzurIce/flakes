@@ -1,4 +1,10 @@
-inputs@{ user, sops-nix, home-manager, nix-darwin, ... }:
+inputs@{
+  user,
+  sops-nix,
+  home-manager,
+  nix-darwin,
+  ...
+}:
 
 nix-darwin.lib.darwinSystem {
   specialArgs = inputs;
@@ -22,7 +28,8 @@ nix-darwin.lib.darwinSystem {
     ./host-users.nix
     ../../modules/core.nix
     sops-nix.darwinModules.sops
-    home-manager.darwinModules.home-manager {
+    home-manager.darwinModules.home-manager
+    {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.backupFileExtension = "backup";
