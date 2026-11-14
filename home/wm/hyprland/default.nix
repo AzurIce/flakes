@@ -16,8 +16,8 @@ in
     enable = true;
     mimeApps = {
       enable = true;
-      # http/https 由 webapp.nix 的 webapp-router 接管（本机地址进 chromium app
-      # 窗口，外网地址再转回 vivaldi）；这里只保留文件/特殊 scheme 的默认值。
+      # http/https 由 webapp.nix 分流到普通 Chromium（本机/局域网）或 Vivaldi（外网）。
+      # 这里只保留文件/特殊 scheme 的默认值。
       defaultApplications = {
         "text/html" = "vivaldi-stable.desktop";
         "x-scheme-handler/about" = "vivaldi-stable.desktop";
