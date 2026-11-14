@@ -57,13 +57,14 @@ in
           rm -f $out/share/applications/qq.desktop
           substitute ${qq}/share/applications/qq.desktop \
             $out/share/applications/qq.desktop \
-            --replace-fail "${qq}/bin/qq" "$out/bin/qq"
+            --replace-fail "Exec=qq" "Exec=$out/bin/qq"
         '';
       })
       wechat
       wemeet
       wpsoffice-cn
 
+      (callPackage ../../packages/bambu-studio.nix { })
       mold
       zed-editor
       obsidian
@@ -75,6 +76,8 @@ in
       # OpenChamber 桌面版（Electron，server 内嵌在主进程里）；
       # 服务模式见 modules/openchamber.nix，两者二选一，避免抢 3000 端口
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.openchamber-desktop
+      # Lightning：原生 Qt6 Matrix 客户端，上游 flake 的包
+      inputs.lightning.packages.${pkgs.stdenv.hostPlatform.system}.lightning-matrix-client
       chromium
       mpv
       gh
