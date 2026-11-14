@@ -153,7 +153,9 @@ in
   # Wine（nixpkgs staging，wow64）：跑 FFXIV 用，比 XIVLauncher 托管的 wine-xiv 8.5 新得多
   # umu-launcher：Steam 之外跑 Windows 游戏/启动器（umu-run），前缀在 ~/Games/umu/<GAMEID>
   environment.systemPackages = [
-    pkgs.wineWow64Packages.staging
+    (pkgs.wineWow64Packages.staging.override {
+      gstreamerSupport = true;
+    })
     pkgs.umu-launcher
   ];
 
