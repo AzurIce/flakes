@@ -97,6 +97,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Matrix 客户端（Qt6 + matrix-rust-sdk，非 Electron）；上游自带 flake 与 HM 模块
+    lightning = {
+      url = "github:Mizerd/lightning";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
+
     # notist = {
     #   url = "github:AzurIce/notist";
     #   inputs.nixpkgs.follows = "nixpkgs";
