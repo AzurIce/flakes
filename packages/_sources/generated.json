@@ -83,11 +83,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-YKXmiT8PLFerIo18ccYICTcyamXViGyQfaYM/T6BFY0=",
+            "sha256": "sha256-WwyWDGh0pr0wGCpW4M5Nx+o3SG9lqcDp11DiXHdFbOM=",
             "type": "url",
             "url": "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage"
         },
-        "version": "1.3.1"
+        "version": "1.3.4"
     },
     "opencode-aarch64-darwin": {
         "cargoLock": null,
