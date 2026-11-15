@@ -211,10 +211,6 @@
             inherit lib sources;
             inherit (pkgs) stdenvNoCC unzip;
           };
-          clipvault = import ./packages/clipvault.nix {
-            inherit lib sources;
-            inherit (pkgs) stdenv autoPatchelfHook gcc;
-          };
           dsh = import ./packages/dsh.nix {
             inherit lib sources;
             inherit (pkgs) stdenv buildNpmPackage nodejs_24 python3 jq;
@@ -230,6 +226,10 @@
           };
         }
         // (if pkgs.stdenv.hostPlatform.isLinux then {
+          clipvault = import ./packages/clipvault.nix {
+            inherit lib sources;
+            inherit (pkgs) stdenv autoPatchelfHook gcc;
+          };
           photocraft = pkgs.callPackage ./packages/photocraft.nix { inherit sources; };
           zcode = import ./packages/zcode.nix {
             inherit lib;
