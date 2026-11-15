@@ -88,8 +88,11 @@
   ];
 
   services.yabai = {
+    enable = false;
+    enableScriptingAddition = false;
+  };
+  services.tailscale = {
     enable = true;
-    enableScriptingAddition = true;
   };
 
   # services.sketchybar = {
@@ -97,7 +100,7 @@
   # };
 
   services.skhd = {
-    enable = true;
+    enable = false;
     skhdConfig = ''
       alt - return : open -na ghostty
       alt - q : yabai -m window --close

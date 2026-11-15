@@ -31,6 +31,12 @@ in
     # inputs.paneru.homeModules.paneru
   ];
 
+  programs.omniwm.enable = true;
+  # Link the whole directory so GUI saves remain writable in the dotfiles checkout.
+  # Leave programs.omniwm.settings unset: OmniWM creates its complete defaults.
+  xdg.configFile."omniwm".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/omniwm";
+
   xdg.configFile."ghostty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/ghostty";
   # services.paneru = {
   #   enable = true;
