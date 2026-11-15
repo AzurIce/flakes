@@ -48,10 +48,10 @@
   };
   kimi-code-desktop-x86_64-linux = {
     pname = "kimi-code-desktop-x86_64-linux";
-    version = "1.3.1";
+    version = "1.3.4";
     src = fetchurl {
       url = "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage";
-      sha256 = "sha256-YKXmiT8PLFerIo18ccYICTcyamXViGyQfaYM/T6BFY0=";
+      sha256 = "sha256-WwyWDGh0pr0wGCpW4M5Nx+o3SG9lqcDp11DiXHdFbOM=";
     };
   };
   opencode-aarch64-darwin = {

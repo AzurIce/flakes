@@ -44,7 +44,7 @@ in
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_7_2;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_7_3;
 
   fileSystems = {
     "/boot" = {
@@ -169,6 +169,12 @@ in
           timestamp=$(date -u +%Y-%m-%d_%H-%M-%S.%N)
           archived_root="$mountpoint/old_roots/$timestamp"
           mv -T -- "$mountpoint/@root" "$archived_root"
+          # /tmp 随根子卷归档时不会自动释放；只保留可恢复的系统状态，
+          # 不保留临时构建目录。不跟随符号链接，也不跨越嵌套文件系统。
+          # 清理失败不阻止启动，归档仍由下面的保留策略管理。
+          if ! rm -rf --one-file-system -- "$archived_root/tmp"; then
+            echo "WARNING: failed to clean archived /tmp: $archived_root/tmp" >&2
+          fi
           # 保留策略按归档时间排序，不使用旧根目录最后被修改的时间。
           touch -- "$archived_root"
         fi

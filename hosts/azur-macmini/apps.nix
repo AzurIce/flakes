@@ -20,6 +20,7 @@ inputs@{ pkgs, system, ... }:
       fzf
       yazi
 
+      ghostty-bin
       ollama
       rust-analyzer
       nixd
@@ -30,7 +31,6 @@ inputs@{ pkgs, system, ... }:
       pandoc
       python3
       raycast
-      vscode
       cargo
       lua51Packages.luarocks
       lua51Packages.lua
@@ -91,6 +91,8 @@ inputs@{ pkgs, system, ... }:
     nushell
   ];
   services.openssh.enable = true;
+
+  services.tailscale.enable = true;
 
   launchd.user.agents.aria2 = {
     serviceConfig.ProgramArguments = [ "${pkgs.aria2}/bin/aria2c" ];
@@ -181,6 +183,7 @@ inputs@{ pkgs, system, ... }:
     # `brew install`
     # TODO Feel free to add your favorite apps here.
     brews = [
+      "dnsmasq"
       "moltis-org/tap/moltis"
       # "sing-box"
     ];
@@ -194,7 +197,7 @@ inputs@{ pkgs, system, ... }:
       # "typora"
       #"todesk"
       "github"
-      "ghostty"
+      # "ghostty@tip"
       # "karabiner-elements"
       # "sfm"
     ];

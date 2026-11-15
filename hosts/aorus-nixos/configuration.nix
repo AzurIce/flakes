@@ -43,6 +43,8 @@
   services.earlyoom.enable = true;
   # 全量 Magic SysRq：桌面冻死时 Alt+SysRq+F 手动杀最大进程，REISUB 安全重启
   boot.kernel.sysctl."kernel.sysrq" = 1;
+  # Allow per-process profiling without granting system-wide perf access.
+  boot.kernel.sysctl."kernel.perf_event_paranoid" = 1;
   services.openssh.enable = true;
   services.fail2ban.enable = true;
 
@@ -63,7 +65,12 @@
   #   ];
   # };
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
+  i18n= {
+    # defaultLocale = "en_US.UTF-8";
+    extraLocales = [
+      "zh_CN.UTF-8/UTF-8"
+    ];
+  };
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
@@ -174,6 +181,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
+    perf
     neovim
     helix
 
@@ -232,9 +240,6 @@
     fi
   '';
 
-  # On this host the SSH host keys live under /persist/etc/ssh only (no bind
-  # mount to /etc/ssh), so restrict sops-nix to the path that actually exists.
-  sops.age.sshKeyPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # Impermanence with sops-nix to may cause bad things to happen
   # see: https://github.com/nix-community/impermanence/issues/202
   # environment.persistence."/persistent" = {
@@ -305,6 +310,16 @@
     openFirewall = true;
   };
 
+  # 冷启动会重建根子卷；首次启用前先将现有状态迁移到此目录。
+  fileSystems."/var/lib/tailscale" = {
+    device = "/persist/var/lib/tailscale";
+    fsType = "none";
+    options = [ "bind" ];
+    depends = [ "/persist" ];
+  };
+  # 挂载失败时不允许退回临时根目录生成新的机器身份。
+  systemd.services.tailscaled.unitConfig.RequiresMountsFor = [ "/var/lib/tailscale" ];
+
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
@@ -328,5 +343,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
