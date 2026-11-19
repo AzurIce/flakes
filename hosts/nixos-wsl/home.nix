@@ -27,7 +27,6 @@
         email = "973562770@qq.com";
       };
       http.proxy = "http://127.0.0.1:7890";
-      https.proxy = "https://127.0.0.1:7890";
       safe.directory = "*";
       credential = {
         credentialStore = "cache";

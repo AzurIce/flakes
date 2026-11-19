@@ -63,8 +63,10 @@ in
       wechat
       wemeet
       wpsoffice-cn
+      kicad
 
       (callPackage ../../packages/bambu-studio.nix { })
+      (import inputs.nur-freegoxing { inherit pkgs; }).lceda-pro
       mold
       zed-editor
       obsidian

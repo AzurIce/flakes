@@ -19,7 +19,7 @@
     homeDirectory = "/home/${user}";
     stateVersion = "24.11";
   };
-  
+
   programs.direnv = {
     enable = true;
     enableBashIntegration = true; # see note on other shells below
@@ -28,7 +28,7 @@
 
   programs.bash.enable = true;
   programs.ssh.enable = true;
-  
+
   programs.home-manager.enable = true;
   manual.manpages.enable = false;
 }

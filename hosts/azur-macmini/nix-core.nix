@@ -1,4 +1,3 @@
-
 { pkgs, lib, ... }:
 
 {
@@ -11,7 +10,10 @@
     trusted-substituters = [
       "https://mirrors.ustc.edu.cn/nix-channels/store"
     ];
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   # Allow unfree packages

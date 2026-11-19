@@ -48,8 +48,8 @@ inputs@{
   # Enable the X11 windowing system.
   hardware.graphics.enable = true;
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
   # programs.niri.enable = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -59,7 +59,7 @@ inputs@{
   fonts = {
     packages = with pkgs; [
       jetbrains-mono
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       lxgw-wenkai
       wqy_microhei
       nerd-fonts.jetbrains-mono
@@ -119,7 +119,7 @@ inputs@{
     openFirewall = true;
   };
 
-  nixpkgs.config.permittedInsecurePackages = [];
+  nixpkgs.config.permittedInsecurePackages = [ ];
   programs.clash-verge = {
     # package = pkgs.clash-nyanpasu;
     package = pkgs.clash-verge-rev;

@@ -10,9 +10,9 @@ let
   };
   # 与 nightly 的 prepare-deps 一致，包括 Vulkan RGBx → CUDA 通道数修复。
   alvrFfmpeg = pkgs.ffmpeg_8.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ map
-      (name: alvrSource + "/alvr/xtask/patches/${name}")
-      [
+    patches =
+      (old.patches or [ ])
+      ++ map (name: alvrSource + "/alvr/xtask/patches/${name}") [
         "0001-lavu-hwcontext_vulkan-Fix-importing-RGBx-frames-to-C.patch"
         "0002-vaapi_encode-Force-enable-global-header.patch"
         "0003-vaapi_encode_h265-Set-vui_parameters_present_flag.patch"
@@ -31,87 +31,92 @@ let
     cargoHash = "sha256-Wj8FVh8X7biYf/Fnjz/9t7jRfG85j9W21Pae5RnXZVA=";
     patches = [ ../../patches/alvr-wired-reconnect.patch ];
     postPatch = ''
-      # SteamVR 内的驱动也会调用 ADB，不能依赖用户 shell 的 PATH。
-      substituteInPlace alvr/adb/src/commands.rs \
-        --replace-fail 'let exe_name = afs::exec_fname("adb").to_owned();' \
-          'let exe_name = "${pkgs.android-tools}/bin/adb".to_owned();'
-      # 多台 ADB 设备同时在线时，先确认安装了匹配的 ALVR 客户端，
-      # 再选择设备并建立转发，避免 NotePro 等非头显抢占串流端口。
-      substituteInPlace alvr/adb/src/lib.rs \
-        --replace-fail '.find(|s| !s.starts_with("127.0.0.1"))' \
-          '.find(|s| !s.starts_with("127.0.0.1") && get_process_name(&self.adb_path, s, client_type).is_some())'
-      # 纹理切换时先释放引用旧图像的编码器，再重建图像与帧对象。
-      substituteInPlace alvr/server_openvr/cpp/platform/linux/OvrDirectModeComponent.cpp \
-        --replace-fail '            enc.createImages(rendererCI);' \
-          '            enc.shutdown();
-            enc.createImages(rendererCI);'
-      # 构造函数抛异常不会调用派生类析构函数，需显式清理 CUDA 引用。
-      # 正常析构也先关闭 codec，确保它不再引用随后释放的帧资源。
-      substituteInPlace alvr/server_openvr/cpp/platform/linux/EncodePipelineNvEnc.cpp \
-        --replace-fail '    // The surface format has to follow the output image' \
-          '    try {
-    // The surface format has to follow the output image' \
-        --replace-fail '    hw_frame = av_frame_alloc();' \
-          '    hw_frame = av_frame_alloc();
-    if (!hw_frame) {
-        throw std::runtime_error("Failed to allocate CUDA frame");
-    }
-    } catch (...) {
-        avcodec_free_context(&encoder_ctx);
-        av_frame_free(&hw_frame);
-        av_buffer_unref(&hw_ctx);
-        throw;
-    }' \
-        --replace-fail 'alvr::EncodePipelineNvEnc::~EncodePipelineNvEnc() {' \
-          'alvr::EncodePipelineNvEnc::~EncodePipelineNvEnc() {
-    avcodec_free_context(&encoder_ctx);'
-      # 临时黑屏诊断：记录实际提交层及纹理；marker 可在运行中关闭 warp 做对照。
-      substituteInPlace alvr/server_openvr/cpp/platform/linux/OvrDirectModeComponent.cpp \
-        --replace-fail '    m_submitLayer = 0;' '
-    static unsigned long diagFrame = 0;
-    if ((diagFrame++ % 360) == 0) {
-        if (FILE* f = fopen("/tmp/alvr-directmode-diagnostic.log", "a")) {
-            fprintf(f, "frame=%lu layers=%d sync=%llu state=%d\n", diagFrame, m_submitLayer, (unsigned long long)syncTexture, (int)m_encoderState.load());
-            for (int l = 0; l < m_submitLayer; ++l) {
-                for (int e = 0; e < 2; ++e) {
-                    auto const& eye = m_submitLayers[l][e];
-                    auto it = m_handleMap.find(eye.hTexture);
-                    fprintf(f, " layer=%d eye=%d handle=%llu bounds=%g,%g,%g,%g", l, e, (unsigned long long)eye.hTexture, eye.bounds.uMin, eye.bounds.vMin, eye.bounds.uMax, eye.bounds.vMax);
-                    if (it != m_handleMap.end()) {
-                        auto const& r = *it->second.first;
-                        fprintf(f, " pid=%u size=%ux%u format=%u slot=%u", r.pid, r.textDesc.nWidth, r.textDesc.nHeight, r.textDesc.nFormat, it->second.second);
-                    }
-                    fprintf(f, "\n");
-                }
-            }
-            fclose(f);
-        }
-    }
-    m_submitLayer = 0;' \
-        --replace-fail 'if (enc.warpCapable()) {' \
-          'if (enc.warpCapable() && access("/tmp/alvr-disable-warp", F_OK) != 0) {' \
-        --replace-fail '            enc.present(job.leftIdx, job.rightIdx, stampTimestampNs, warpParams, job.waitFds);' '
-            static unsigned long diagEncoded = 0;
-            if ((diagEncoded++ % 360) == 0) {
-                if (FILE* f = fopen("/tmp/alvr-directmode-diagnostic.log", "a")) {
-                    fprintf(f, "encoded=%lu slots=%u,%u warp=%u timestamp=%llu -> %llu\n", diagEncoded, job.leftIdx, job.rightIdx, warpParams.enabled, (unsigned long long)job.targetTimestampNs, (unsigned long long)stampTimestampNs);
-                    fclose(f);
-                }
-            }
-            enc.present(job.leftIdx, job.rightIdx, stampTimestampNs, warpParams, job.waitFds);'
-      substituteInPlace alvr/common/src/version.rs \
-        --replace-fail 'Version::parse(env!("CARGO_PKG_VERSION"))' \
-          'Version::parse(concat!(env!("CARGO_PKG_VERSION"), "+nightly.2026.11.06"))'
-      # 使用 Nix 提供的依赖，避免 xtask 在构建时联网下载。
-      mkdir -p deps/linux/ffmpeg/alvr_build/lib deps/linux/vulkan-headers
-      ln -s ${pkgs.lib.getDev alvrFfmpeg}/include deps/linux/ffmpeg/alvr_build/include
-      ln -s ${pkgs.lib.getDev alvrFfmpeg}/lib/pkgconfig deps/linux/ffmpeg/alvr_build/lib/pkgconfig
-      ln -s ${pkgs.lib.getLib alvrFfmpeg}/lib/*.so* deps/linux/ffmpeg/alvr_build/lib/
-      ln -s ${pkgs.vulkan-headers}/include deps/linux/vulkan-headers/include
-      substituteInPlace alvr/server_openvr/build.rs \
-        --replace-fail '.statik(true)' '.statik(false)'
+        # SteamVR 内的驱动也会调用 ADB，不能依赖用户 shell 的 PATH。
+        substituteInPlace alvr/adb/src/commands.rs \
+          --replace-fail 'let exe_name = afs::exec_fname("adb").to_owned();' \
+            'let exe_name = "${pkgs.android-tools}/bin/adb".to_owned();'
+        # 多台 ADB 设备同时在线时，先确认安装了匹配的 ALVR 客户端，
+        # 再选择设备并建立转发，避免 NotePro 等非头显抢占串流端口。
+        substituteInPlace alvr/adb/src/lib.rs \
+          --replace-fail '.find(|s| !s.starts_with("127.0.0.1"))' \
+            '.find(|s| !s.starts_with("127.0.0.1") && get_process_name(&self.adb_path, s, client_type).is_some())'
+        # 纹理切换时先释放引用旧图像的编码器，再重建图像与帧对象。
+        substituteInPlace alvr/server_openvr/cpp/platform/linux/OvrDirectModeComponent.cpp \
+          --replace-fail '            enc.createImages(rendererCI);' \
+            '            enc.shutdown();
+              enc.createImages(rendererCI);'
+        # 构造函数抛异常不会调用派生类析构函数，需显式清理 CUDA 引用。
+        # 正常析构也先关闭 codec，确保它不再引用随后释放的帧资源。
+        substituteInPlace alvr/server_openvr/cpp/platform/linux/EncodePipelineNvEnc.cpp \
+          --replace-fail '    // The surface format has to follow the output image' \
+            '    try {
+      // The surface format has to follow the output image' \
+          --replace-fail '    hw_frame = av_frame_alloc();' \
+            '    hw_frame = av_frame_alloc();
+      if (!hw_frame) {
+          throw std::runtime_error("Failed to allocate CUDA frame");
+      }
+      } catch (...) {
+          avcodec_free_context(&encoder_ctx);
+          av_frame_free(&hw_frame);
+          av_buffer_unref(&hw_ctx);
+          throw;
+      }' \
+          --replace-fail 'alvr::EncodePipelineNvEnc::~EncodePipelineNvEnc() {' \
+            'alvr::EncodePipelineNvEnc::~EncodePipelineNvEnc() {
+      avcodec_free_context(&encoder_ctx);'
+        # 临时黑屏诊断：记录实际提交层及纹理；marker 可在运行中关闭 warp 做对照。
+        substituteInPlace alvr/server_openvr/cpp/platform/linux/OvrDirectModeComponent.cpp \
+          --replace-fail '    m_submitLayer = 0;' '
+      static unsigned long diagFrame = 0;
+      if ((diagFrame++ % 360) == 0) {
+          if (FILE* f = fopen("/tmp/alvr-directmode-diagnostic.log", "a")) {
+              fprintf(f, "frame=%lu layers=%d sync=%llu state=%d\n", diagFrame, m_submitLayer, (unsigned long long)syncTexture, (int)m_encoderState.load());
+              for (int l = 0; l < m_submitLayer; ++l) {
+                  for (int e = 0; e < 2; ++e) {
+                      auto const& eye = m_submitLayers[l][e];
+                      auto it = m_handleMap.find(eye.hTexture);
+                      fprintf(f, " layer=%d eye=%d handle=%llu bounds=%g,%g,%g,%g", l, e, (unsigned long long)eye.hTexture, eye.bounds.uMin, eye.bounds.vMin, eye.bounds.uMax, eye.bounds.vMax);
+                      if (it != m_handleMap.end()) {
+                          auto const& r = *it->second.first;
+                          fprintf(f, " pid=%u size=%ux%u format=%u slot=%u", r.pid, r.textDesc.nWidth, r.textDesc.nHeight, r.textDesc.nFormat, it->second.second);
+                      }
+                      fprintf(f, "\n");
+                  }
+              }
+              fclose(f);
+          }
+      }
+      m_submitLayer = 0;' \
+          --replace-fail 'if (enc.warpCapable()) {' \
+            'if (enc.warpCapable() && access("/tmp/alvr-disable-warp", F_OK) != 0) {' \
+          --replace-fail '            enc.present(job.leftIdx, job.rightIdx, stampTimestampNs, warpParams, job.waitFds);' '
+              static unsigned long diagEncoded = 0;
+              if ((diagEncoded++ % 360) == 0) {
+                  if (FILE* f = fopen("/tmp/alvr-directmode-diagnostic.log", "a")) {
+                      fprintf(f, "encoded=%lu slots=%u,%u warp=%u timestamp=%llu -> %llu\n", diagEncoded, job.leftIdx, job.rightIdx, warpParams.enabled, (unsigned long long)job.targetTimestampNs, (unsigned long long)stampTimestampNs);
+                      fclose(f);
+                  }
+              }
+              enc.present(job.leftIdx, job.rightIdx, stampTimestampNs, warpParams, job.waitFds);'
+        substituteInPlace alvr/common/src/version.rs \
+          --replace-fail 'Version::parse(env!("CARGO_PKG_VERSION"))' \
+            'Version::parse(concat!(env!("CARGO_PKG_VERSION"), "+nightly.2026.11.06"))'
+        # 使用 Nix 提供的依赖，避免 xtask 在构建时联网下载。
+        mkdir -p deps/linux/ffmpeg/alvr_build/lib deps/linux/vulkan-headers
+        ln -s ${pkgs.lib.getDev alvrFfmpeg}/include deps/linux/ffmpeg/alvr_build/include
+        ln -s ${pkgs.lib.getDev alvrFfmpeg}/lib/pkgconfig deps/linux/ffmpeg/alvr_build/lib/pkgconfig
+        ln -s ${pkgs.lib.getLib alvrFfmpeg}/lib/*.so* deps/linux/ffmpeg/alvr_build/lib/
+        ln -s ${pkgs.vulkan-headers}/include deps/linux/vulkan-headers/include
+        substituteInPlace alvr/server_openvr/build.rs \
+          --replace-fail '.statik(true)' '.statik(false)'
     '';
-    cargoBuildFlags = [ "-p" "alvr_dashboard" "-p" "alvr_server_openvr" ];
+    cargoBuildFlags = [
+      "-p"
+      "alvr_dashboard"
+      "-p"
+      "alvr_server_openvr"
+    ];
     # 直接安装 Cargo 产物；新 xtask 的目录布局已不同于 20.14.1。
     postBuild = "";
     postInstall = ''
@@ -157,6 +162,19 @@ in
       gstreamerSupport = true;
     })
     pkgs.umu-launcher
+
+    # Paper_Tracker 面捕/眼追：官方安装器 + FHS 运行器（packages/papertracker.nix）。
+    # 首次运行 `papertracker-install` 完成安装，之后用 `papertracker` 或桌面项启动。
+    (import ../../packages/papertracker.nix {
+      inherit (pkgs)
+        buildFHSEnv
+        fetchurl
+        runCommandLocal
+        symlinkJoin
+        writeShellScript
+        makeDesktopItem
+        ;
+    })
   ];
 
   # ntsync：内核 6.14+ 的同步原语，wine 10+ 原生支持（帧 pacing 比 esync/fsync 稳）
@@ -185,4 +203,9 @@ in
     enable = true;
     openFirewall = true;
   };
+
+  # 有线模式：面捕/眼追模块（VID 0425）需要 uaccess 才能被普通用户读取。
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0425", TAG+="uaccess"
+  '';
 }

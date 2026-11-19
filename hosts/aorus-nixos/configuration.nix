@@ -65,7 +65,7 @@
   #   ];
   # };
   # Select internationalisation properties.
-  i18n= {
+  i18n = {
     # defaultLocale = "en_US.UTF-8";
     extraLocales = [
       "zh_CN.UTF-8/UTF-8"
@@ -137,6 +137,7 @@
         "wheel"
         "uinput" # Sunshine 虚拟手柄、鼠标和键盘
         "adbusers"
+        "dialout"
       ];
       packages = with pkgs; [
         # firefox
@@ -176,6 +177,13 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="320a", MODE="0666"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="320b", MODE="0666"
   '';
+
+  # ST-Link / probe-rs / OpenOCD：USB 免 root 访问
+  services.udev.packages = with pkgs; [
+    openocd
+    probe-rs-tools
+    stlink
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

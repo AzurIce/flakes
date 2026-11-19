@@ -1,4 +1,10 @@
-{ config, lib, pkgs, user, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  user,
+  ...
+}:
 
 {
   # BIOS + GPT: disko 建一个 1M EF02 BIOS boot 分区和根分区。
@@ -22,7 +28,11 @@
 
   networking.hostName = "tencent";
   networking.useDHCP = true;
-  networking.firewall.allowedTCPPorts = [ 22 80 443 ];
+  networking.firewall.allowedTCPPorts = [
+    22
+    80
+    443
+  ];
 
   time.timeZone = "Asia/Shanghai";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -46,7 +56,10 @@
   users.users.${user} = {
     isNormalUser = true;
     hashedPasswordFile = config.sops.secrets.hashedPassword.path;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+    ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPdDd1Nv4nuOU5jc1P+BTl+o78JkBGfDWTgKIRFsyc3j azurice@aorus-nixos"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQxAwCoz5CKzzVqLSMl6xODRk+b/nEhnXZ+XJu5qkYv github-actions@icexiv-market"
@@ -56,7 +69,10 @@
   security.sudo.wheelNeedsPassword = false;
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     substituters = [
       "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
       "https://mirrors.ustc.edu.cn/nix-channels/store"

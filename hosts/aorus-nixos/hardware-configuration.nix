@@ -61,7 +61,10 @@ in
     "/nix" = {
       device = "/dev/disk/by-uuid/5a91da8f-7fb2-4e0d-96e1-ec651cc2882a";
       fsType = "btrfs";
-      options = [ "subvol=@nix" "compress=zstd" ];
+      options = [
+        "subvol=@nix"
+        "compress=zstd"
+      ];
     };
     "/home" = btrSubvolFs "@home" // {
       neededForBoot = true;
@@ -73,12 +76,18 @@ in
     "/home/azurice/Files" = {
       device = "/dev/disk/by-uuid/ccca6d60-ebf5-4023-8273-017d67efb4f4";
       fsType = "btrfs";
-      options = [ "subvol=@files" "compress=zstd" ];
+      options = [
+        "subvol=@files"
+        "compress=zstd"
+      ];
     };
     "/home/azurice/LinuxGames" = {
       device = "/dev/disk/by-uuid/ccca6d60-ebf5-4023-8273-017d67efb4f4";
       fsType = "btrfs";
-      options = [ "subvol=@games" "compress=zstd" ];
+      options = [
+        "subvol=@games"
+        "compress=zstd"
+      ];
     };
     # Windows 游戏盘 _Game_（nvme2n1p4，NTFS，UUID 464606A6460696B9），开机自动挂到 ~/Games。
     # 选项说明：uid/gid 让文件归 azurice:users；iocharset=utf8 解决中文文件名乱码；
@@ -122,10 +131,21 @@ in
     }
   ];
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/0c2655f5-5fa4-444b-943f-9ed858f4a82f"; } ];
-  # 休眠（swap 同上）：写入 initrd 内核参数 resume=，initrd 里 systemd-hibernate-resume
+  # 日常换页走 970 EVO（nvme，pri 100，快）；休眠镜像只写 resume= 指定的那一块 swap，
+  # 所以单独用 850 EVO 的 64G 分区（pri 10），镜像再大也不会挤掉日常换页空间。
+  swapDevices = [
+    {
+      device = "/dev/disk/by-uuid/0c2655f5-5fa4-444b-943f-9ed858f4a82f";
+      options = [ "pri=100" ];
+    }
+    {
+      device = "/dev/disk/by-uuid/e30534bc-ee22-4d4c-b29d-289582544652";
+      options = [ "pri=10" ];
+    }
+  ];
+  # 休眠：写入 initrd 内核参数 resume=，initrd 里 systemd-hibernate-resume
   # 会在挂载根文件系统之前恢复内存镜像，Wayland 会话原样回来
-  boot.resumeDevice = "/dev/disk/by-uuid/0c2655f5-5fa4-444b-943f-9ed858f4a82f";
+  boot.resumeDevice = "/dev/disk/by-uuid/e30534bc-ee22-4d4c-b29d-289582544652";
   # zramSwap.enable = true;
   boot.zswap.enable = true;
 
@@ -141,7 +161,10 @@ in
       # 必须排在 hibernate resume 之后：恢复成功时 initrd 被挂起的内核直接接管，
       # 本服务不会运行；若和 resume 并行先删了 @root，恢复中的内核会写坏文件系统。
       # 冷启动（无休眠镜像）时 resume 失败退出，本服务照常执行。
-      after = [ "initrd-root-device.target" "systemd-hibernate-resume.service" ];
+      after = [
+        "initrd-root-device.target"
+        "systemd-hibernate-resume.service"
+      ];
       requires = [ "initrd-root-device.target" ];
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";

@@ -1,13 +1,13 @@
 { pkgs, ... }:
 
-  ###################################################################################
-  #
-  #  macOS's System configuration
-  #
-  #  All the configuration options are documented here:
-  #    https://daiderd.com/nix-darwin/manual/index.html#sec-options
-  #
-  ###################################################################################
+###################################################################################
+#
+#  macOS's System configuration
+#
+#  All the configuration options are documented here:
+#    https://daiderd.com/nix-darwin/manual/index.html#sec-options
+#
+###################################################################################
 {
 
   system = {
@@ -29,7 +29,7 @@
         AppleShowAllExtensions = true;
         AppleShowAllFiles = true;
       };
-      
+
       # other macOS's defaults configuration.
       # ......
     };
