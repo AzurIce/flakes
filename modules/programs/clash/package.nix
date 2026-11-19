@@ -1,22 +1,21 @@
 {
-fetchurl
-, stdenv
-, lib
-, autoPatchelfHook
-, xorg
-, gtk3
-, pango
-, at-spi2-atk
-, nss
-, libdrm
-, alsa-lib
-, mesa
-, udev
-, libappindicator
-, imagemagick
-, makeDesktopItem
+  fetchurl,
+  stdenv,
+  lib,
+  autoPatchelfHook,
+  xorg,
+  gtk3,
+  pango,
+  at-spi2-atk,
+  nss,
+  libdrm,
+  alsa-lib,
+  mesa,
+  udev,
+  libappindicator,
+  imagemagick,
+  makeDesktopItem,
 }:
-
 
 let
   clash-for-windows = {
@@ -52,7 +51,8 @@ stdenv.mkDerivation rec {
     libdrm
     alsa-lib
     mesa
-  ] ++ (with xorg; [
+  ]
+  ++ (with xorg; [
     libXext
     libXcomposite
     libXrandr
@@ -86,10 +86,9 @@ stdenv.mkDerivation rec {
   # ${imagemagick}/bin/convert -resize "$size" "${icon}" "$icon_dir/$size/apps/clash-for-windows.png"
 
   meta = with lib; {
-    homepage = https://github.com/Fndroid/clash_for_windows_pkg;
+    homepage = "https://github.com/Fndroid/clash_for_windows_pkg";
     description = "A Windows/macOS/Linux GUI based on Clash and Electron";
     license = licenses.unfree;
     platforms = [ "x86_64-linux" ];
   };
 }
-

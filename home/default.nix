@@ -45,7 +45,6 @@
       };
     };
   };
-   
 
   # https://github.com/NixOS/nix/issues/6536#issuecomment-1254858889
   nix.extraOptions = ''

@@ -57,11 +57,14 @@ inputs@{ pkgs, ... }:
     </fontconfig>
   '';
 
-  home.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    sarasa-gothic
-  ] ++ [
-    (pkgs.callPackage ../packages/lxgw-bright.nix {})
-    (pkgs.callPackage ../packages/harmonyos-sans.nix {})
-  ];
+  home.packages =
+    with pkgs;
+    [
+      nerd-fonts.jetbrains-mono
+      sarasa-gothic
+    ]
+    ++ [
+      (pkgs.callPackage ../packages/lxgw-bright.nix { })
+      (pkgs.callPackage ../packages/harmonyos-sans.nix { })
+    ];
 }

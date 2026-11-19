@@ -71,7 +71,7 @@ inputs@{ pkgs, nixvim, ... }:
         mode = "t";
       }
     ];
-    
+
     plugins = {
       # Essentials
       web-devicons.enable = true;
@@ -87,10 +87,15 @@ inputs@{ pkgs, nixvim, ... }:
       neo-tree = {
         enable = true;
         settings = {
-          add_blank_line_at_top= true;
-          sources = [ "filesystem" "buffers" "git_status" "document_symbols" ];
+          add_blank_line_at_top = true;
+          sources = [
+            "filesystem"
+            "buffers"
+            "git_status"
+            "document_symbols"
+          ];
           filesystem = {
-            bind_to_cwd= false;
+            bind_to_cwd = false;
             follow_current_file.enabled = true;
             use_libuv_file_watcher = true;
           };
@@ -103,7 +108,9 @@ inputs@{ pkgs, nixvim, ... }:
               "<space>" = "none";
               "<cr>" = {
                 command = "toggle_node";
-                config = { nowait = true; };
+                config = {
+                  nowait = true;
+                };
               };
               "o" = "open";
             };
@@ -201,12 +208,9 @@ inputs@{ pkgs, nixvim, ... }:
           formatting.command = [ "nixfmt" ];
           nixpkgs.expr = "import <nixpkgs> { }";
           options = {
-            nixos.expr =
-              "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).nixosConfigurations.aorus-nixos.options";
-            nix-darwin.expr =
-              "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).darwinConfigurations.azurmac-macos.options";
-            home-manager.expr =
-              "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).nixosConfigurations.aorus-nixos.options.home-manager.users.type.getSubOptions []";
+            nixos.expr = "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).nixosConfigurations.aorus-nixos.options";
+            nix-darwin.expr = "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).darwinConfigurations.azurmac-macos.options";
+            home-manager.expr = "(builtins.getFlake (\"git+file://\" + builtins.toString ./.)).nixosConfigurations.aorus-nixos.options.home-manager.users.type.getSubOptions []";
           };
         };
       };

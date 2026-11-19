@@ -1,4 +1,9 @@
-inputs@{ pkgs, user, utils, ... }:
+inputs@{
+  pkgs,
+  user,
+  utils,
+  ...
+}:
 
 {
   i18n.inputMethod = {

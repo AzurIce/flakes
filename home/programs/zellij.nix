@@ -1,4 +1,9 @@
-inputs@{ pkgs, system, mac, ... }:
+inputs@{
+  pkgs,
+  system,
+  mac,
+  ...
+}:
 
 {
   programs.zellij = {

@@ -16,11 +16,13 @@ inputs@{ pkgs, lib, ... }:
     # （检查：nix flake metadata nixpkgs 或 grep 1e544d5f flake.lock），
     # 且 `nix build nixpkgs#python313Packages.nanoemoji` 不再报 hash mismatch，即可删掉下面这段。
     (final: prev: {
-      python313Packages = prev.python313Packages.overrideScope (pyFinal: pyPrev: {
-        nanoemoji = pyPrev.nanoemoji.overrideAttrs (old: {
-          src = old.src.override { hash = "sha256-FysyKC01XBnRiur5RR9fcsTxQqE8x0JJHSoe3q6JtKc="; };
-        });
-      });
+      python313Packages = prev.python313Packages.overrideScope (
+        pyFinal: pyPrev: {
+          nanoemoji = pyPrev.nanoemoji.overrideAttrs (old: {
+            src = old.src.override { hash = "sha256-FysyKC01XBnRiur5RR9fcsTxQqE8x0JJHSoe3q6JtKc="; };
+          });
+        }
+      );
     })
 
     # ⚠️ 上游 workaround，xcb-imdkit 修复合入后记得删掉 ⚠️

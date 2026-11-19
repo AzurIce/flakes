@@ -1,4 +1,9 @@
-inputs@{ pkgs, system, mac, ... }:
+inputs@{
+  pkgs,
+  system,
+  mac,
+  ...
+}:
 
 {
   programs.waybar = {
@@ -11,8 +16,18 @@ inputs@{ pkgs, system, mac, ... }:
         height = 30;
         spacing = 4;
 
-        modules-left = [ "wlr/workspaces" "niri/workspaces" "temperature" "cpu" "memory" "mpd" ];
-        modules-center = [ "wlr/window" "niri/window" ];
+        modules-left = [
+          "wlr/workspaces"
+          "niri/workspaces"
+          "temperature"
+          "cpu"
+          "memory"
+          "mpd"
+        ];
+        modules-center = [
+          "wlr/window"
+          "niri/window"
+        ];
         modules-right = [
           "pulseaudio"
           "backlight"
@@ -21,7 +36,6 @@ inputs@{ pkgs, system, mac, ... }:
           "clock"
           "tray"
         ];
-
 
         "niri/workspaces" = {
           format = "{value}";
@@ -48,23 +62,22 @@ inputs@{ pkgs, system, mac, ... }:
           format-alt = " {:%a %b %d, %G}";
         };
 
-
         cpu = {
-            format = "{usage}% ";
-            tooltip = false;
+          format = "{usage}% ";
+          tooltip = false;
         };
         memory = {
-            format = "{}% ";
+          format = "{}% ";
         };
 
         network = {
-            # "interface": "wlp2*", // (Optional) To force the use of this interface
-            format-wifi = "{essid} ({signalStrength}%) ";
-            format-ethernet = "{ipaddr}/{cidr} ";
-            tooltip-format = "{ifname} via {gwaddr}";
-            format-linked = "{ifname} (No IP)";
-            format-disconnected = "Disconnected ⚠";
-            format-alt = "{ifname}: {ipaddr}/{cidr}";
+          # "interface": "wlp2*", // (Optional) To force the use of this interface
+          format-wifi = "{essid} ({signalStrength}%) ";
+          format-ethernet = "{ipaddr}/{cidr} ";
+          tooltip-format = "{ifname} via {gwaddr}";
+          format-linked = "{ifname} (No IP)";
+          format-disconnected = "Disconnected ⚠";
+          format-alt = "{ifname}: {ipaddr}/{cidr}";
         };
       };
     };

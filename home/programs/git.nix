@@ -17,7 +17,9 @@ inputs@{
       http.proxy = "http://127.0.0.1:7890";
       https.proxy = "http://127.0.0.1:7890";
       safe.directory = "*";
-      credential.helper = lib.mkDefault (lib.mkIf (!mac) "${pkgs.git-credential-manager}/bin/git-credential-manager");
+      credential.helper = lib.mkDefault (
+        lib.mkIf (!mac) "${pkgs.git-credential-manager}/bin/git-credential-manager"
+      );
       credential.credentialStore = lib.mkDefault (lib.mkIf (!mac) "secretservice");
     };
 
