@@ -18,32 +18,37 @@
 # the libxcb prebuild), which the loader indirection otherwise needs. On darwin
 # the Mach-O is copied as-is, keeping its code signature intact.
 
-{ lib
-, stdenvNoCC
-, autoPatchelfHook
-, makeWrapper
-, ripgrep
-, fd
-, libxcb
-, sources
+{
+  lib,
+  stdenvNoCC,
+  autoPatchelfHook,
+  makeWrapper,
+  ripgrep,
+  fd,
+  libxcb,
+  sources,
 }:
 
 let
   version = sources.pi-x86_64-linux.version;
-  src = {
-    x86_64-linux = sources.pi-x86_64-linux.src;
-    aarch64-linux = sources.pi-aarch64-linux.src;
-    x86_64-darwin = sources.pi-x86_64-darwin.src;
-    aarch64-darwin = sources.pi-aarch64-darwin.src;
-  }.${stdenvNoCC.hostPlatform.system}
-    or (throw "pi: unsupported system ${stdenvNoCC.hostPlatform.system}");
+  src =
+    {
+      x86_64-linux = sources.pi-x86_64-linux.src;
+      aarch64-linux = sources.pi-aarch64-linux.src;
+      x86_64-darwin = sources.pi-x86_64-darwin.src;
+      aarch64-darwin = sources.pi-aarch64-darwin.src;
+    }
+    .${stdenvNoCC.hostPlatform.system}
+      or (throw "pi: unsupported system ${stdenvNoCC.hostPlatform.system}");
 in
 stdenvNoCC.mkDerivation {
   pname = "pi";
   inherit version src;
 
-  nativeBuildInputs = [ makeWrapper ]
-    ++ lib.optionals stdenvNoCC.hostPlatform.isLinux [ autoPatchelfHook ];
+  nativeBuildInputs = [
+    makeWrapper
+  ]
+  ++ lib.optionals stdenvNoCC.hostPlatform.isLinux [ autoPatchelfHook ];
 
   # native/linux/prebuilds/.../linux-platform-<arch>.node needs libxcb; the
   # bun-compiled ELF itself only needs libc (autoPatchelfHook maps that via
@@ -56,7 +61,12 @@ stdenvNoCC.mkDerivation {
     cp -r . $out/libexec/pi
     chmod +x $out/libexec/pi/pi
     makeWrapper $out/libexec/pi/pi $out/bin/pi \
-      --prefix PATH : ${lib.makeBinPath [ ripgrep fd ]} \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          ripgrep
+          fd
+        ]
+      } \
       --set-default PI_SKIP_VERSION_CHECK 1 \
       --set-default PI_TELEMETRY 0
     runHook postInstall

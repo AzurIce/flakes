@@ -1,3 +1,5 @@
+# ZCode Desktop（unfree AppImage）。版本与哈希不由 nvfetcher 维护：
+# 用 `just update-zcode` 抓最新版本、校验 latest.yml 的 sha512 后改写本文件。
 {
   lib,
   appimageTools,
@@ -6,10 +8,10 @@
 
 let
   pname = "zcode";
-  version = "3.14.4";
+  version = "3.18.2";
   src = fetchurl {
     url = "https://cdn-zcode.z.ai/zcode/electron/releases/${version}/linux-x64/ZCode-${version}-linux-x64.AppImage";
-    hash = "sha256-S0YxmHFy/ZdaofhfoNwfVawcdWsmvYqxjWhZLtk5EYI=";
+    hash = "sha256-9rL7OUE6fv4X470IbH0Gpq3KDf2gmaF5jqizUfC3B0k=";
   };
   contents = appimageTools.extract { inherit pname version src; };
 in

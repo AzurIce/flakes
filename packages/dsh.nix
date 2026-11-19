@@ -6,18 +6,19 @@
 # of @deepseek-ai/dsh; update with `just update` (version + src) and
 # `just update-dsh` (vendored lockfile + npmDepsHash).
 
-{ lib
-, stdenv
-, buildNpmPackage
-, nodejs_24
-, python3
-, jq
-, sources
+{
+  lib,
+  stdenv,
+  buildNpmPackage,
+  nodejs_24,
+  python3,
+  jq,
+  sources,
 }:
 
 let
   inherit (sources.dsh) version src;
-  npmDepsHash = "sha256-q6TgK4YtmCVERfLX6vcCq1BpaZfC1Gq+TmnHvAgCtRM=";
+  npmDepsHash = "sha256-0OP9fH0jyZhKx3GVljEEOuGBXv3NCRPFDOAGjTGGbeQ=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "deepseek-harness";
@@ -86,7 +87,12 @@ in
     description = "DeepSeek Harness (dsh) - open-source agent harness by DeepSeek AI";
     homepage = "https://github.com/deepseek-ai/deepseek-harness";
     license = lib.licenses.mit;
-    platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
     mainProgram = "dsh";
   };
 }

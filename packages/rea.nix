@@ -14,7 +14,7 @@
 
 let
   inherit (sources.rea) version src;
-  npmDepsHash = "sha256-aFeNvUbrV8GAAZdOmvZco29MIUm6OFkX+/eeYlvkRI0=";
+  npmDepsHash = "sha256-EbXPSoEbC8euNRJ6gcZT8gB+eH4J34FBz/JmuGiNVR0=";
 in
 (buildNpmPackage.override { nodejs = nodejs_24; }) {
   pname = "rea-agents";
@@ -34,6 +34,9 @@ in
     # binary; drop it (rea imports it lazily and tolerates its absence).
     ${jq}/bin/jq 'del(.optionalDependencies.frida)' package.json > package.json.new
     mv package.json.new package.json
+    # Published tarballs may ship an npm-shrinkwrap.json and node_modules; drop
+    # them so the vendored package-lock.json is the only lockfile.
+    rm -rf node_modules npm-shrinkwrap.json
     cp ${./rea-package-lock.json} package-lock.json
   '';
 

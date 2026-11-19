@@ -14,13 +14,15 @@ let
     aarch64-darwin = "aarch64-apple-darwin";
   };
   # Use the statically-linked musl builds on Linux so no patchelf is needed.
-  src = {
-    x86_64-linux = sources.splitrail-x86_64-linux.src;
-    aarch64-linux = sources.splitrail-aarch64-linux.src;
-    x86_64-darwin = sources.splitrail-x86_64-darwin.src;
-    aarch64-darwin = sources.splitrail-aarch64-darwin.src;
-  }.${stdenvNoCC.hostPlatform.system}
-    or (throw "splitrail: unsupported system ${stdenvNoCC.hostPlatform.system}");
+  src =
+    {
+      x86_64-linux = sources.splitrail-x86_64-linux.src;
+      aarch64-linux = sources.splitrail-aarch64-linux.src;
+      x86_64-darwin = sources.splitrail-x86_64-darwin.src;
+      aarch64-darwin = sources.splitrail-aarch64-darwin.src;
+    }
+    .${stdenvNoCC.hostPlatform.system}
+      or (throw "splitrail: unsupported system ${stdenvNoCC.hostPlatform.system}");
 in
 stdenvNoCC.mkDerivation {
   pname = "splitrail";

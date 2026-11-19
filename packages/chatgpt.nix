@@ -44,11 +44,13 @@
 
 let
   version = sources.chatgpt-x86_64-linux.version;
-  src = {
-    x86_64-linux = sources.chatgpt-x86_64-linux.src;
-    aarch64-linux = sources.chatgpt-aarch64-linux.src;
-  }.${stdenv.hostPlatform.system}
-    or (throw "chatgpt: unsupported system ${stdenv.hostPlatform.system}");
+  src =
+    {
+      x86_64-linux = sources.chatgpt-x86_64-linux.src;
+      aarch64-linux = sources.chatgpt-aarch64-linux.src;
+    }
+    .${stdenv.hostPlatform.system}
+      or (throw "chatgpt: unsupported system ${stdenv.hostPlatform.system}");
 in
 # The deb's postinst only registers OpenAI's apt repo for self-updates; here
 # updates come from nvfetcher, so it (and the apparmor profile) is dropped.

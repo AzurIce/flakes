@@ -2,6 +2,13 @@
 # Run `just update` to regenerate _sources/generated.nix, which the package
 # expressions import for version + src. Multi-platform binaries are one
 # source entry per release asset, all keyed off the same upstream tag.
+#
+# _sources/generated.{nix,json} are build artifacts: never edit them by hand,
+# a later `just update` overwrites the edit from nvfetcher's prefetch cache.
+# If a hash no longer matches upstream (e.g. a republished asset behind an
+# unversioned URL), run `just update-refetch`, which drops that cache first.
+#
+# zcode has no nvfetcher entry on purpose; see packages/update-zcode.sh.
 
 [photocraft-x86_64-linux]
 src.github = "storytold/photocraft"

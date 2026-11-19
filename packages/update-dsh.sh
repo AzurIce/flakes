@@ -14,11 +14,19 @@ need() { command -v "$1" >/dev/null 2>&1 || die "missing dependency: $1"; }
 for c in curl jq npm prefetch-npm-deps sed; do need "$c"; done
 
 ver=$(jq -r -e '.dsh.version' packages/_sources/generated.json)
-url="https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-${ver}.tgz"
 echo "dsh: $ver"
+
+# `just update` runs this on every bump of any package; skip the expensive lock
+# regeneration when the vendored lock already matches the pinned version.
+locked=$(jq -r '.packages[""].version // ""' packages/dsh-package-lock.json 2>/dev/null || true)
+if [ "$locked" = "$ver" ]; then
+  echo "dsh: lock up to date, skipping"
+  exit 0
+fi
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
+url="https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-${ver}.tgz"
 curl -sfL "$url" | tar -xz -C "$tmp"
 jq 'del(.devDependencies)' "$tmp/package/package.json" > "$tmp/package.json.new"
 mv "$tmp/package.json.new" "$tmp/package/package.json"

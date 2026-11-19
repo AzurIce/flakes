@@ -52,5 +52,7 @@ base.overrideAttrs (old: {
     test -s "$out/share/BambuStudio/web/device_page/dist/index.html"
   '';
 
-  passthru = (old.passthru or { }) // { inherit devicePage; };
+  passthru = (old.passthru or { }) // {
+    inherit devicePage;
+  };
 })

@@ -8,10 +8,13 @@
 
 let
   version = sources.clipvault-x86_64-linux.version;
-  src = {
-    x86_64-linux = sources.clipvault-x86_64-linux.src;
-    aarch64-linux = sources.clipvault-aarch64-linux.src;
-  }.${stdenv.hostPlatform.system} or (throw "clipvault: unsupported system ${stdenv.hostPlatform.system}");
+  src =
+    {
+      x86_64-linux = sources.clipvault-x86_64-linux.src;
+      aarch64-linux = sources.clipvault-aarch64-linux.src;
+    }
+    .${stdenv.hostPlatform.system}
+      or (throw "clipvault: unsupported system ${stdenv.hostPlatform.system}");
 in
 stdenv.mkDerivation {
   pname = "clipvault";
@@ -35,6 +38,9 @@ stdenv.mkDerivation {
     license = lib.licenses.agpl3Only;
     maintainers = [ ];
     mainProgram = "clipvault";
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   };
 }

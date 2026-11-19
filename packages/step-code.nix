@@ -18,10 +18,13 @@
 
 let
   inherit (sources.step-code-x86_64-linux) version;
-  src = {
-    x86_64-linux = sources.step-code-x86_64-linux.src;
-    aarch64-linux = sources.step-code-aarch64-linux.src;
-  }.${stdenv.hostPlatform.system} or (throw "step-code: unsupported system ${stdenv.hostPlatform.system}");
+  src =
+    {
+      x86_64-linux = sources.step-code-x86_64-linux.src;
+      aarch64-linux = sources.step-code-aarch64-linux.src;
+    }
+    .${stdenv.hostPlatform.system}
+      or (throw "step-code: unsupported system ${stdenv.hostPlatform.system}");
 
   # tools/fd is a glibc+libgcc dynamic ELF (tools/rg is static, `step` is left
   # alone — see below).
@@ -29,10 +32,12 @@ let
     glibc
     gcc.cc.lib
   ];
-  ldArch = {
-    x86_64-linux = "x86-64.so.2";
-    aarch64-linux = "aarch64.so.1";
-  }.${stdenv.hostPlatform.system};
+  ldArch =
+    {
+      x86_64-linux = "x86-64.so.2";
+      aarch64-linux = "aarch64.so.1";
+    }
+    .${stdenv.hostPlatform.system};
 in
 stdenv.mkDerivation {
   pname = "step-code";

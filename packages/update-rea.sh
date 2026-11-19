@@ -14,8 +14,19 @@ ver=$(jq -r -e '.rea.version' packages/_sources/generated.json)
 url=$(jq -r -e '.rea.src.url' packages/_sources/generated.json)
 echo "rea: $ver"
 
+# `just update` runs this on every bump of any package; skip the expensive lock
+# regeneration when the vendored lock already matches the pinned version.
+locked=$(jq -r '.packages[""].version // ""' packages/rea-package-lock.json 2>/dev/null || true)
+if [ "$locked" = "$ver" ]; then
+  echo "rea: lock up to date, skipping"
+  exit 0
+fi
+
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
+# Use an isolated npm cache so a stale/corrupt ~/.npm cache cannot poison the
+# resolution.
+export npm_config_cache="$tmp/npm-cache"
 curl --fail --silent --show-error --location --retry 3 "$url" | tar -xz -C "$tmp"
 jq -e --arg version "$ver" '.name == "rea-agents" and .version == $version' \
   "$tmp/package/package.json" >/dev/null || die "tarball manifest does not match nvfetcher"
@@ -25,6 +36,10 @@ mv "$tmp/package.json.new" "$tmp/package/package.json"
 # binary; drop it (rea imports it lazily and tolerates its absence).
 jq 'del(.optionalDependencies.frida)' "$tmp/package/package.json" > "$tmp/package.json.new"
 mv "$tmp/package.json.new" "$tmp/package/package.json"
+# Published tarballs may ship an npm-shrinkwrap.json and node_modules; npm then
+# refuses to write a fresh package-lock.json. Drop them so the lock is derived
+# from the (patched) manifest.
+rm -rf "$tmp/package/node_modules" "$tmp/package/npm-shrinkwrap.json"
 (cd "$tmp/package" && npm install --package-lock-only --ignore-scripts --no-audit --no-fund >/dev/null)
 
 deps_hash=$(prefetch-npm-deps "$tmp/package/package-lock.json" | tail -n1)
