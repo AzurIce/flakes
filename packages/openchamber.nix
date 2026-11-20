@@ -35,8 +35,22 @@ in
 {
   inherit opencodeCli;
   openchamber = upstream.packages.${system}.openchamber.override { inherit opencodeCli; };
-  openchamber-desktop = upstream.packages.${system}.openchamber-desktop.override {
-    inherit opencodeCli;
-    electron = pkgs."electron_${electronMajor}";
-  };
+  # 2.7.3 起桌面版不再往 resources/opencode-cli 里塞 CLI，只靠 launcher 的 PATH
+  # （gui.nix 的 runtimePath）找 opencode。但 server 启动时会拿 `$SHELL -lic` 的
+  # 环境覆盖并前置 HOME 的 PATH（env-runtime.ts 的 applyLoginShellEnvSnapshot），
+  # 于是 /etc/profiles/per-user/$USER/bin/opencode（本机 1.19.6）被选中，UI 卡在
+  # “需要 OpenCode v2”。探测优先级里 OPENCODE_BINARY 最高，这里显式钉死自建的
+  # 2.x，别再依赖 PATH 顺序（设置页里手动选路径仍会覆盖它）。
+  openchamber-desktop =
+    (upstream.packages.${system}.openchamber-desktop.override {
+      inherit opencodeCli;
+      electron = pkgs."electron_${electronMajor}";
+    }).overrideAttrs
+      (old: {
+        # 该包 dontFixup = true，postFixup 不跑，只能接着 installPhase 再包一层。
+        installPhase = (old.installPhase or "") + ''
+          wrapProgram "$out/bin/openchamber-desktop" \
+            --set OPENCODE_BINARY "${opencodeCli}/bin/opencode"
+        '';
+      });
 }
