@@ -8,18 +8,18 @@
 {
   chatgpt-aarch64-linux = {
     pname = "chatgpt-aarch64-linux";
-    version = "26.1111.71704";
+    version = "26.1117.31558";
     src = fetchurl {
-      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1111.71704_arm64.deb";
-      sha256 = "sha256-8FUN7h+ZEn01etdgrvc5xVfUm9Z3KNLxBdAKekeA90A=";
+      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1117.31558_arm64.deb";
+      sha256 = "sha256-gWcFAca314TvK5pisy2gMegaDqwPUOvZM9CplW177Hc=";
     };
   };
   chatgpt-x86_64-linux = {
     pname = "chatgpt-x86_64-linux";
-    version = "26.1111.71704";
+    version = "26.1117.31558";
     src = fetchurl {
-      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1111.71704_amd64.deb";
-      sha256 = "sha256-Ae73x3yDX34a+5K6HCkXikwZ1sZlc73TuGUg4qv4BqQ=";
+      url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1117.31558_amd64.deb";
+      sha256 = "sha256-bAcgYxT3i8G+URRFmeAdJ4CKUfeOXXjD3rHGgPcEPAM=";
     };
   };
   clipvault-aarch64-linux = {
@@ -48,7 +48,7 @@
   };
   kimi-code-desktop-x86_64-linux = {
     pname = "kimi-code-desktop-x86_64-linux";
-    version = "1.3.7";
+    version = "1.4.2";
     src = fetchurl {
       url = "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage";
       sha256 = "sha256-jzJctk0ggcSI1IfxtxkGLkywdIUkvOD+9aoZacnErcg=";
@@ -104,42 +104,42 @@
   };
   pi-aarch64-darwin = {
     pname = "pi-aarch64-darwin";
-    version = "1.5.2";
+    version = "1.6.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.5.2/pi-darwin-arm64.tar.gz";
-      sha256 = "sha256-VrXhlNSFztVVZnuLoydhV6gnLp7N6eAB5CivgJhb3Zs=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-darwin-arm64.tar.gz";
+      sha256 = "sha256-ZCkoe3rpjXJuxXeBXRT9aA58WH6J7MUVO0oUXcStujM=";
     };
   };
   pi-aarch64-linux = {
     pname = "pi-aarch64-linux";
-    version = "1.5.2";
+    version = "1.6.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.5.2/pi-linux-arm64.tar.gz";
-      sha256 = "sha256-QoBc1WFZUvy7/JxWsE+P64Q5UTSVLhaabNyNdnaXVmY=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-linux-arm64.tar.gz";
+      sha256 = "sha256-VARUe5c5vlltUK5xQsUlNYmejn3Tenus6b5ZPgNVtGg=";
     };
   };
   pi-x86_64-darwin = {
     pname = "pi-x86_64-darwin";
-    version = "1.5.2";
+    version = "1.6.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.5.2/pi-darwin-x64.tar.gz";
-      sha256 = "sha256-+ZegiGE1FKyX2ROu6nZCCU2E/m1GhU/35k4sEuU23FA=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-darwin-x64.tar.gz";
+      sha256 = "sha256-W2nNh8OwDnTM4tFJnfO3oexzYy8Rq/ZGltEQ8PTcQZI=";
     };
   };
   pi-x86_64-linux = {
     pname = "pi-x86_64-linux";
-    version = "1.5.2";
+    version = "1.6.0";
     src = fetchurl {
-      url = "https://github.com/earendil-works/pi/releases/download/v1.5.2/pi-linux-x64.tar.gz";
-      sha256 = "sha256-gRxvLJ56ruJStUBCUuVW+3E6ognB9/kkImqnfU73DLU=";
+      url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-linux-x64.tar.gz";
+      sha256 = "sha256-73fb5DebO960JaHhuGL6PJFcJVAA3+SWXJju6WpXZdE=";
     };
   };
   rea = {
     pname = "rea";
-    version = "6.9.0";
+    version = "6.10.1";
     src = fetchurl {
-      url = "https://registry.npmjs.org/rea-agents/-/rea-agents-6.9.0.tgz";
-      sha256 = "sha256-MiM4oVBeJVdwKhYBLn1Gq9tXKWQdmJOGYnYt+/t5Jio=";
+      url = "https://registry.npmjs.org/rea-agents/-/rea-agents-6.10.1.tgz";
+      sha256 = "sha256-6M8IyfqVTpmPyIaMI/qOX1GM25VTSI7CJ7MaO7aQMVA=";
     };
   };
   splitrail-aarch64-darwin = {
@@ -176,18 +176,18 @@
   };
   step-code-aarch64-linux = {
     pname = "step-code-aarch64-linux";
-    version = "0.1.7";
+    version = "0.1.8";
     src = fetchurl {
-      url = "https://static-openapi.stepfun.com/stepcode/0.1.7/step-0.1.7-linux-arm64.tar.gz";
-      sha256 = "sha256-KX3PuBNpHPwnKqBcKvKJjtyAUGHoMAyPC3oo2IcUmA0=";
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.8/step-0.1.8-linux-arm64.tar.gz";
+      sha256 = "sha256-YqIRXiEu9hNCEHmT+S5QsDhl0ylZcWWXOm0sjSLuj/A=";
     };
   };
   step-code-x86_64-linux = {
     pname = "step-code-x86_64-linux";
-    version = "0.1.7";
+    version = "0.1.8";
     src = fetchurl {
-      url = "https://static-openapi.stepfun.com/stepcode/0.1.7/step-0.1.7-linux-x64.tar.gz";
-      sha256 = "sha256-5HAwq+aK9t7tQYbbG01z7Yu6UnnBGeLtwv5EULBFN/Q=";
+      url = "https://static-openapi.stepfun.com/stepcode/0.1.8/step-0.1.8-linux-x64.tar.gz";
+      sha256 = "sha256-AG7ySAqbaHYsY/VoaWrzsAVY5W43ro9plds+bE05eLA=";
     };
   };
 }
