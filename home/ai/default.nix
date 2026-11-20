@@ -23,7 +23,7 @@ let
     MINIMAX_API_KEY = "minimaxKey";
     DEEPSEEK_API_KEY = "deepseekKey";
     OPENCODE_API_KEY = "opencodeGoKey";
-    OPENAI_API_KEY = "pokeKey";
+    # OPENAI_API_KEY = "pokeKey";
     ANTHROPIC_AUTH_TOKEN = "pokeKey";
     QQ_IMAP = "qqIMAP";
   };
