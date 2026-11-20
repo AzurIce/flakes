@@ -2,3 +2,5 @@
 result-bin
 result
 result-*
+# 从仓库目录里跑切片器（OrcaSlicer/BambuStudio）留下的输出
+result.json
