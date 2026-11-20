@@ -45,7 +45,12 @@ in
 
   programs.opencode = {
     enable = true;
-    package = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
+    # 全局 CLI 用 openchamber 上游 flake 编的 2.x（bun 从源码构建）：OpenChamber
+    # 2.7.x 只认 v2，两边的 code 共用 ~/.config/opencode 与 ~/.local/share/opencode，
+    # 同版本才能避免配置/数据分叉。nvfetcher 追不到 v2（GitHub 的 latest 仍是 1.x
+    # 线），所以直接复用 packages/openchamber.nix 的 opencodeCli，跟着 openchamber
+    # 的 tag 一起升。
+    package = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.opencodeCli;
   };
   home.packages =
     with pkgs;

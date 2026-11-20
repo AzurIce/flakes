@@ -236,15 +236,6 @@
               ;
           };
           rea = pkgs.callPackage ./packages/rea.nix { inherit sources; };
-          opencode = import ./packages/opencode.nix {
-            inherit lib sources;
-            inherit (pkgs)
-              stdenvNoCC
-              unzip
-              makeWrapper
-              glibc
-              ;
-          };
           pi = import ./packages/pi.nix {
             inherit lib sources;
             inherit (pkgs)

@@ -54,38 +54,6 @@
       sha256 = "sha256-jzJctk0ggcSI1IfxtxkGLkywdIUkvOD+9aoZacnErcg=";
     };
   };
-  opencode-aarch64-darwin = {
-    pname = "opencode-aarch64-darwin";
-    version = "1.19.6";
-    src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-darwin-arm64.zip";
-      sha256 = "sha256-wL4/NN3i/csxslEg8wPG7VtpuCjxbl4Pvs/yGogq3aE=";
-    };
-  };
-  opencode-aarch64-linux = {
-    pname = "opencode-aarch64-linux";
-    version = "1.19.6";
-    src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-linux-arm64.tar.gz";
-      sha256 = "sha256-W2jB9MXnW0E05mTMjzbWNNZCCNT8/lvPO0i6tpnC26w=";
-    };
-  };
-  opencode-x86_64-darwin = {
-    pname = "opencode-x86_64-darwin";
-    version = "1.19.6";
-    src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-darwin-x64.zip";
-      sha256 = "sha256-Oaq7EABQWfgPAHoRmjNAXc1GMlMAmT62y8yWHHJD3TE=";
-    };
-  };
-  opencode-x86_64-linux = {
-    pname = "opencode-x86_64-linux";
-    version = "1.19.6";
-    src = fetchurl {
-      url = "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-linux-x64.tar.gz";
-      sha256 = "sha256-R3NOCJaLMMwioL/7bZ/u7XatSqdDIToSEiBAOS0JoFc=";
-    };
-  };
   photocraft-aarch64-linux = {
     pname = "photocraft-aarch64-linux";
     version = "0.23.1";

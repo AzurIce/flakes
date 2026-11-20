@@ -89,66 +89,6 @@
         },
         "version": "1.4.2"
     },
-    "opencode-aarch64-darwin": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "opencode-aarch64-darwin",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "name": null,
-            "sha256": "sha256-wL4/NN3i/csxslEg8wPG7VtpuCjxbl4Pvs/yGogq3aE=",
-            "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-darwin-arm64.zip"
-        },
-        "version": "1.19.6"
-    },
-    "opencode-aarch64-linux": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "opencode-aarch64-linux",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "name": null,
-            "sha256": "sha256-W2jB9MXnW0E05mTMjzbWNNZCCNT8/lvPO0i6tpnC26w=",
-            "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-linux-arm64.tar.gz"
-        },
-        "version": "1.19.6"
-    },
-    "opencode-x86_64-darwin": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "opencode-x86_64-darwin",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "name": null,
-            "sha256": "sha256-Oaq7EABQWfgPAHoRmjNAXc1GMlMAmT62y8yWHHJD3TE=",
-            "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-darwin-x64.zip"
-        },
-        "version": "1.19.6"
-    },
-    "opencode-x86_64-linux": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "opencode-x86_64-linux",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "name": null,
-            "sha256": "sha256-R3NOCJaLMMwioL/7bZ/u7XatSqdDIToSEiBAOS0JoFc=",
-            "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-linux-x64.tar.gz"
-        },
-        "version": "1.19.6"
-    },
     "photocraft-aarch64-linux": {
         "cargoLock": null,
         "date": null,
