@@ -127,7 +127,7 @@
     # - nixpkgs：OpenCode 依赖的 FOD 哈希是对着它自己 lock 的 nixpkgs 算的，
     #   follow 到我们的 unstable 会 hash mismatch
     # 另外钉 tag：main 上出现过 flake pin 与 electron pin 漂移导致 eval 直接 throw，tag 是配套好的
-    openchamber.url = "github:openchamber/openchamber/v2.7.2";
+    openchamber.url = "github:openchamber/openchamber/v2.7.3";
   };
 
   outputs =
