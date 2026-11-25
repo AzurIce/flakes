@@ -43,6 +43,10 @@
         user = "user";
         port = 32222;
       };
+      blade = {
+        hostname = "192.168.2.55";
+        user = "xiaob";
+      };
     };
   };
 

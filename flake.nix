@@ -221,10 +221,6 @@
             inherit lib sources;
             inherit (pkgs) stdenvNoCC unzip;
           };
-          clipvault = import ./packages/clipvault.nix {
-            inherit lib sources;
-            inherit (pkgs) stdenv autoPatchelfHook gcc;
-          };
           dsh = import ./packages/dsh.nix {
             inherit lib sources;
             inherit (pkgs)
@@ -251,6 +247,10 @@
         // (
           if pkgs.stdenv.hostPlatform.isLinux then
             {
+              clipvault = import ./packages/clipvault.nix {
+                inherit lib sources;
+                inherit (pkgs) stdenv autoPatchelfHook gcc;
+              };
               photocraft = pkgs.callPackage ./packages/photocraft.nix { inherit sources; };
               zcode = import ./packages/zcode.nix {
                 inherit lib;
@@ -287,25 +287,6 @@
           papertracker = pkgs.callPackage ./packages/papertracker.nix { };
           # 上游只支持 x64 Linux；自带 build.sh，见 packages/raddbg.nix
           raddbg = pkgs.callPackage ./packages/raddbg.nix { inherit sources; };
-        };
-
-        formatter = pkgs.writeShellApplication {
-          name = "nix-fmt";
-          runtimeInputs = [
-            pkgs.nixfmt
-            pkgs.git
-          ];
-          text = ''
-            args=()
-            if [ -n "''${NIX_FMT_CHECK:-}" ]; then
-              args+=(--check)
-            fi
-            if [ "$#" -gt 0 ]; then
-              exec nixfmt "''${args[@]}" "$@"
-            fi
-            mapfile -t files < <(git ls-files -co --exclude-standard '*.nix')
-            exec nixfmt "''${args[@]}" "''${files[@]}"
-          '';
         };
 
         devShells.default = pkgs.mkShell {

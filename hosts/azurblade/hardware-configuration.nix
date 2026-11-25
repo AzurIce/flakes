@@ -78,47 +78,48 @@ in
 
   swapDevices = [ { device = "/dev/disk/by-uuid/556e864c-bb77-4863-8655-06fcb27e8886"; } ];
 
-  # btrfs 根子卷回滚：每次启动前把 @root 改名归档，再新建空的 @root，
-  # 并清理 30 天前的归档。systemd stage 1 下用服务替代已移除的
-  # boot.initrd.postDeviceCommands。
+  # systemd stage 1 不再支持 boot.initrd.postDeviceCommands，
+  # 把原来清空 @root 的脚本搬成 initrd 服务（与 aorus-nixos 同一做法）。
   boot.initrd.systemd = {
     extraBin = {
       btrfs = "${pkgs.btrfs-progs}/bin/btrfs";
       find = "${pkgs.findutils}/bin/find";
     };
-
-    services.rollback-btrfs-root = {
-      description = "Roll back the btrfs @root subvolume";
+    services.btrfs-root-reset = {
+      description = "Archive old BTRFS root subvolume and create a fresh one";
       wantedBy = [ "initrd.target" ];
       before = [ "sysroot.mount" ];
-      requires = [ "initrd-root-device.target" ];
       after = [ "initrd-root-device.target" ];
+      requires = [ "initrd-root-device.target" ];
       unitConfig.DefaultDependencies = "no";
       serviceConfig.Type = "oneshot";
       script = ''
-        mkdir /btrfs_tmp
-        mount /dev/disk/by-uuid/f0b77243-be47-40b8-a19b-6c07a606200f /btrfs_tmp
-        if [[ -e /btrfs_tmp/@root ]]; then
-            mkdir -p /btrfs_tmp/old_roots
-            timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/@root)" "+%Y-%m-%-d_%H:%M:%S")
-            mv /btrfs_tmp/@root "/btrfs_tmp/old_roots/$timestamp"
-            btrfs subvolume delete /btrfs_tmp/@root
+        set -euo pipefail
+        export LC_ALL=C
+        mountpoint=/btrfs_tmp
+        mkdir -p "$mountpoint"
+        mount -o subvolid=5 /dev/disk/by-uuid/${uuid} "$mountpoint"
+        trap 'umount "$mountpoint"' EXIT
+
+        mkdir -p "$mountpoint/old_roots"
+        if [[ -e "$mountpoint/@root" ]]; then
+          timestamp=$(date -u +%Y-%m-%d_%H-%M-%S)
+          mv -- "$mountpoint/@root" "$mountpoint/old_roots/$timestamp"
         fi
 
         delete_subvolume_recursively() {
-            IFS=$'\n'
-            for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-                delete_subvolume_recursively "/btrfs_tmp/$i"
-            done
-            btrfs subvolume delete "$1"
+          local subvol
+          while IFS= read -r subvol; do
+            delete_subvolume_recursively "$mountpoint/$subvol"
+          done < <(btrfs subvolume list -o "$1" | cut -f 9- -d ' ')
+          btrfs subvolume delete "$1"
         }
 
-        for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-            delete_subvolume_recursively "$i"
-        done
+        while IFS= read -r -d "" old_root; do
+          delete_subvolume_recursively "$old_root"
+        done < <(find "$mountpoint/old_roots" -mindepth 1 -maxdepth 1 -mtime +30 -print0)
 
-        btrfs subvolume create /btrfs_tmp/@root
-        umount /btrfs_tmp
+        btrfs subvolume create "$mountpoint/@root"
       '';
     };
   };
