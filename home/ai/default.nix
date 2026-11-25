@@ -26,6 +26,9 @@ let
     # OPENAI_API_KEY = "pokeKey";
     ANTHROPIC_AUTH_TOKEN = "pokeKey";
     QQ_IMAP = "qqIMAP";
+
+    APIYI_KEY = "apiyiKey";
+    APIYI_IMAGE_KEY = "apiyiImageKey";
   };
 
   # keys 之外的 key：本模块不 export，但需要 sops-nix 部署（给别处按路径直读）
@@ -58,6 +61,7 @@ in
       # vibe coding
       # gemini-cli
       antigravity-cli
+      antigravity-hub # Antigravity 桌面 app（非 IDE）
       claude-code
       codex
 
@@ -68,6 +72,7 @@ in
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.zcode
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.kimi-code-desktop
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.step-code
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.t3code
     ]
     ++ [
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.pi
@@ -110,20 +115,20 @@ in
 
   sops.secrets = lib.genAttrs (lib.unique (lib.attrValues keys ++ extraSecrets)) (_: { });
 
-  sops.templates."codex-auth.json" = {
-    path = "${config.home.homeDirectory}/.codex/auth.json";
-    content = builtins.toJSON {
-      OPENAI_API_KEY = config.sops.placeholder.pokeKey;
-    };
-  };
+  # sops.templates."codex-auth.json" = {
+  #   path = "${config.home.homeDirectory}/.codex/auth.json";
+  #   content = builtins.toJSON {
+  #     OPENAI_API_KEY = config.sops.placeholder.pokeKey;
+  #   };
+  # };
 
   programs.zsh.initContent = lib.mkMerge [
     (lib.concatStringsSep "\n" (
       lib.mapAttrsToList (var: key: ''export ${var}="$(cat ${secret key})"'') keys
       ++ [
         "export OPENCODE_ENABLE_EXA=1"
-        ''export OPENAI_BASE_URL="https://www.poke2api.com"''
-        ''export ANTHROPIC_BASE_URL="https://www.poke2api.com"''
+        # ''export OPENAI_BASE_URL="https://www.poke2api.com"''
+        # ''export ANTHROPIC_BASE_URL="https://www.poke2api.com"''
         "export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1"
         "export CLAUDE_CODE_ATTRIBUTION_HEADER=0"
         "export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1"
