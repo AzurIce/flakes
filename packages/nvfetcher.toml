@@ -76,6 +76,13 @@ src.github = "earendil-works/pi"
 src.prefix = "v"
 fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-darwin-x64.tar.gz"
 
+# RAD Debugger, straight from the upstream tag (release assets are Windows-only,
+# so the source tarball is what we build).
+[raddbg]
+src.github = "EpicGames/raddebugger"
+src.prefix = "v"
+fetch.url = "https://github.com/EpicGames/raddebugger/archive/refs/tags/v$ver.tar.gz"
+
 # No dedicated npm source in nvfetcher; scrape the alpha dist-tag from the
 # registry instead (latest lags the preview channel; switch the regex back to
 # "latest" to re-track stable).
@@ -123,3 +130,18 @@ fetch.url = "https://static-openapi.stepfun.com/stepcode/$ver/step-$ver-linux-ar
 src.webpage = "https://www.kimi.com/code/docs/en/kimi-code-desktop/changelog.html"
 src.regex = 'tabindex="-1">(\d+\.\d+\.\d+) \('
 fetch.url = "https://code.kimi.com/kimi-code/desktop/download/KimiCode-linux-x86_64.AppImage"
+
+# T3 Code's Linux desktop build is an Electron .deb (there are AppImages too,
+# but the deb is the cleaner autoPatchelf target). The release page also has
+# `-nightly.*` and prerelease tags; src.github resolves releases/latest, which
+# skips them. The CLI tarball on the same release is a separate product and is
+# not packaged here.
+[t3code-x86_64-linux]
+src.github = "pingdotgg/t3code"
+src.prefix = "v"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-amd64.deb"
+
+[t3code-aarch64-linux]
+src.github = "pingdotgg/t3code"
+src.prefix = "v"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-arm64.deb"

@@ -270,6 +270,7 @@
                   ;
               };
               chatgpt = pkgs.callPackage ./packages/chatgpt.nix { inherit sources; };
+              t3code = pkgs.callPackage ./packages/t3code.nix { inherit sources; };
             }
           else
             { }
@@ -284,6 +285,8 @@
         // pkgs.lib.optionalAttrs (system == "x86_64-linux") {
           # 官方安装器 + FHS 运行器，见 packages/papertracker.nix
           papertracker = pkgs.callPackage ./packages/papertracker.nix { };
+          # 上游只支持 x64 Linux；自带 build.sh，见 packages/raddbg.nix
+          raddbg = pkgs.callPackage ./packages/raddbg.nix { inherit sources; };
         };
 
         formatter = pkgs.writeShellApplication {

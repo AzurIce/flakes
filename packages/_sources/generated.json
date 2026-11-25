@@ -179,6 +179,21 @@
         },
         "version": "1.6.0"
     },
+    "raddbg": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "raddbg",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-qeFkbQTECMka4TErWETnnnaEn5YJECFQH2yqO0lohDQ=",
+            "type": "url",
+            "url": "https://github.com/EpicGames/raddebugger/archive/refs/tags/v0.9.29-alpha.tar.gz"
+        },
+        "version": "0.9.29-alpha"
+    },
     "rea": {
         "cargoLock": null,
         "date": null,
@@ -283,5 +298,35 @@
             "url": "https://static-openapi.stepfun.com/stepcode/0.1.8/step-0.1.8-linux-x64.tar.gz"
         },
         "version": "0.1.8"
+    },
+    "t3code-aarch64-linux": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "t3code-aarch64-linux",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-PKGk5Uh5Tjn6EQJ9OfXmo1EBVMSb13F1axdEodWoBOA=",
+            "type": "url",
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.12/T3-Code-0.1.12-arm64.deb"
+        },
+        "version": "0.1.12"
+    },
+    "t3code-x86_64-linux": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "t3code-x86_64-linux",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-wco+ZW4SuhA3dRPpu+IKURJUDNqWAeIccLhbp8U/Gyk=",
+            "type": "url",
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.12/T3-Code-0.1.12-amd64.deb"
+        },
+        "version": "0.1.12"
     }
 }

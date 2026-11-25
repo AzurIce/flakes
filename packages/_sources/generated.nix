@@ -102,6 +102,14 @@
       sha256 = "sha256-73fb5DebO960JaHhuGL6PJFcJVAA3+SWXJju6WpXZdE=";
     };
   };
+  raddbg = {
+    pname = "raddbg";
+    version = "0.9.29-alpha";
+    src = fetchurl {
+      url = "https://github.com/EpicGames/raddebugger/archive/refs/tags/v0.9.29-alpha.tar.gz";
+      sha256 = "sha256-qeFkbQTECMka4TErWETnnnaEn5YJECFQH2yqO0lohDQ=";
+    };
+  };
   rea = {
     pname = "rea";
     version = "6.10.1";
@@ -156,6 +164,22 @@
     src = fetchurl {
       url = "https://static-openapi.stepfun.com/stepcode/0.1.8/step-0.1.8-linux-x64.tar.gz";
       sha256 = "sha256-AG7ySAqbaHYsY/VoaWrzsAVY5W43ro9plds+bE05eLA=";
+    };
+  };
+  t3code-aarch64-linux = {
+    pname = "t3code-aarch64-linux";
+    version = "0.1.12";
+    src = fetchurl {
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.12/T3-Code-0.1.12-arm64.deb";
+      sha256 = "sha256-PKGk5Uh5Tjn6EQJ9OfXmo1EBVMSb13F1axdEodWoBOA=";
+    };
+  };
+  t3code-x86_64-linux = {
+    pname = "t3code-x86_64-linux";
+    version = "0.1.12";
+    src = fetchurl {
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.12/T3-Code-0.1.12-amd64.deb";
+      sha256 = "sha256-wco+ZW4SuhA3dRPpu+IKURJUDNqWAeIccLhbp8U/Gyk=";
     };
   };
 }
